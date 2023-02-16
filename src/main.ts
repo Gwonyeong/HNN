@@ -22,14 +22,13 @@ class Application {
   constructor(private server: NestExpressApplication) {
     this.server = server;
 
-    if (!process.env.SECRET_KEY) this.logger.error('Set "SECRET" env');
     this.DEV_MODE = process.env.NODE_ENV === 'production' ? false : true;
     this.PORT = process.env.PORT || '5000';
     this.corsOriginList = process.env.CORS_ORIGIN_LIST
       ? process.env.CORS_ORIGIN_LIST.split(',').map((origin) => origin.trim())
       : ['*'];
-    this.ADMIN_USER = process.env.ADMIN_USER || 'gwon';
-    this.ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '0121';
+    this.ADMIN_USER = process.env.ADMIN_USER || 'admin';
+    this.ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'pass';
   }
 
   private setUpBasicAuth() {
