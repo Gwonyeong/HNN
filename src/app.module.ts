@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
+import { MongooseModule } from '@nestjs/mongoose';
 
 class Config {
   static setENV() {
@@ -35,10 +36,14 @@ class Config {
       synchronize: true,
     });
   }
+
+  static setMongo() {
+    return MongooseModule.forRoot(process.env.MONGO_URI);
+  }
 }
 
 @Module({
-  imports: [Config.setENV(), Config.setMySQL(), UsersModule],
+  imports: [Config.setENV(), Config.setMySQL(), Config.setMongo(), UsersModule],
   controllers: [AppController],
   providers: [AppService],
 })
