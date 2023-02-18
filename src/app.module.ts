@@ -3,8 +3,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './users/users.module';
-import { User } from './users/entities/user.entity';
+
 import { MongooseModule } from '@nestjs/mongoose';
 
 class Config {
@@ -32,7 +31,7 @@ class Config {
       username: process.env.MYSQL_USERNAME,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      entities: [User],
+      entities: [],
       synchronize: true,
     });
   }
@@ -43,7 +42,7 @@ class Config {
 }
 
 @Module({
-  imports: [Config.setENV(), Config.setMySQL(), Config.setMongo(), UsersModule],
+  imports: [Config.setENV(), Config.setMySQL(), Config.setMongo()],
   controllers: [AppController],
   providers: [AppService],
 })

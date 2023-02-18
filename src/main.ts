@@ -10,7 +10,6 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as expressBasicAuth from 'express-basic-auth';
 import * as passport from 'passport';
 import * as cookieParser from 'cookie-parser';
-import * as expressSession from 'express-session';
 
 class Application {
   private logger = new Logger(Application.name);
@@ -60,7 +59,6 @@ class Application {
   }
 
   private async setUpGlobalMiddleware() {
-    this.server.use(expressSession);
     this.server.enableCors({
       origin: this.corsOriginList,
       credentials: true,
