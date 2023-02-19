@@ -5,6 +5,8 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 
 import { MongooseModule } from '@nestjs/mongoose';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 class Config {
   static setENV() {
@@ -42,7 +44,7 @@ class Config {
 }
 
 @Module({
-  imports: [Config.setENV(), Config.setMySQL(), Config.setMongo()],
+  imports: [Config.setENV(), Config.setMySQL(), Config.setMongo(), UsersModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
