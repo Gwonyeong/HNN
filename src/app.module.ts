@@ -44,7 +44,13 @@ class Config {
 }
 
 @Module({
-  imports: [Config.setENV(), Config.setMySQL(), Config.setMongo(), UsersModule, AuthModule],
+  imports: [
+    Config.setENV(),
+    Config.setMySQL(),
+    Config.setMongo(),
+    UsersModule,
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
