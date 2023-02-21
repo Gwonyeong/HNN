@@ -27,6 +27,9 @@ export class AuthController {
   ) {}
 
   @Post()
+  async signup(@Body() createAuthDto: CreateAuthDto) {}
+
+  @Post()
   async login(@Body() createAuthDto: CreateAuthDto) {
     console.log(createAuthDto);
     return {
