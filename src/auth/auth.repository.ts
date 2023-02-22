@@ -11,6 +11,6 @@ export class AuthRepository {
   ) {}
 
   async create(createAuthDto: CreateAuthDto) {
-    return this.authRepository.create(createAuthDto);
+    return this.authRepository.save({ ...createAuthDto });
   }
 }

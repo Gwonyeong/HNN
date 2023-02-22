@@ -10,24 +10,37 @@ import {
   UseGuards,
   Req,
   ExecutionContext,
+  Res,
+  HttpStatus,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
-import { AuthGuard } from '@nestjs/passport';
 import { JwtService } from '@nestjs/jwt';
 import { Authorization } from 'src/common/decorator/Authorization.decorator';
 import { AdminAuthGuard } from 'src/common/guard/isAdmin.guard';
+import { Auth } from './entities/auth.entity';
+import { ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { Response } from 'express';
+import { HttpService } from '@nestjs/axios';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private jwtService: JwtService,
+    private httpService: HttpService,
   ) {}
 
-  @Post()
-  async signup(@Body() createAuthDto: CreateAuthDto) {}
+  @Post('/signup')
+  @ApiCreatedResponse({
+    description: 'The user has been successfully created.',
+    type: Auth,
+  })
+  @ApiBadRequestResponse({ description: 'The email address is already taken.' })
+  async signup(@Body() createAuthDto: CreateAuthDto, @Res() res: Response) {
+    this.authService.signUp(createAuthDto);
+    res.status(HttpStatus.CREATED).json({ msg: '회원가입 성공!' });
+  }
 
   @Post()
   async login(@Body() createAuthDto: CreateAuthDto) {

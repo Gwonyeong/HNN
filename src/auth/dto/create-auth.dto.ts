@@ -8,7 +8,9 @@ import {
   IsNumber,
   IsString,
   Max,
+  MaxLength,
   Min,
+  MinLength,
 } from 'class-validator';
 
 export class CreateAuthDto {
@@ -27,16 +29,16 @@ export class CreateAuthDto {
   })
   @IsString()
   @IsNotEmpty()
-  @Min(6)
-  @Max(20)
+  @MinLength(6, { message: '비밀번호를 확인해주세요.' })
+  @MaxLength(20, { message: '비밀번호를 확인해주세요.' })
   password: string;
 
   @ApiProperty({ example: 'nickname', description: 'The nickname of the user' })
   @IsString()
   @IsNotEmpty()
-  @Min(2)
-  @Max(12)
   @IsAlphanumeric()
+  @MinLength(2, { message: '닉네임을 확인해주세요.' })
+  @MaxLength(12, { message: '닉네임을 확인해주세요.' })
   nickname: string;
 
   @ApiProperty({
@@ -61,5 +63,5 @@ export class CreateAuthDto {
     ISTJ: 'ISTJ',
     ISTP: 'ISTP',
   })
-  MBTI: Enumerator;
+  MBTI: string;
 }

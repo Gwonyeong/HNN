@@ -7,6 +7,8 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { Auth } from './auth/entities/auth.entity';
+import { KakaoController } from './kakao/kakao.controller';
 
 class Config {
   static setENV() {
@@ -33,7 +35,7 @@ class Config {
       username: process.env.MYSQL_USERNAME,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      entities: [],
+      entities: [Auth],
       synchronize: true,
     });
   }
@@ -51,7 +53,7 @@ class Config {
     UsersModule,
     AuthModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, KakaoController],
   providers: [AppService],
 })
 export class AppModule {}

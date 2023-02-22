@@ -5,7 +5,7 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Auth } from './entities/auth.entity';
-import { bcrypt } from 'bcryptjs';
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class AuthService {
   constructor(
@@ -18,7 +18,8 @@ export class AuthService {
 
     // Generate salt and hash the password
     const salt = process.env.BCRYPT_SALT;
-    const hashedPassword = await bcrypt.hash(password, salt);
+    console.log(salt);
+    const hashedPassword = await bcrypt.hash(password, parseInt(salt));
 
     // Create the user entity with the hashed password
     const user = this.authRepository.create({
