@@ -13,4 +13,8 @@ export class AuthRepository {
   async create(createAuthDto: CreateAuthDto) {
     return this.authRepository.save({ ...createAuthDto });
   }
+
+  async findByEmail(email: string) {
+    return await this.authRepository.findOne({ where: { email } });
+  }
 }

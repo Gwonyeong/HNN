@@ -9,7 +9,6 @@ import {
   Delete,
   UseGuards,
   Req,
-  ExecutionContext,
   Res,
   HttpStatus,
 } from '@nestjs/common';
@@ -21,14 +20,15 @@ import { AdminAuthGuard } from 'src/common/guard/isAdmin.guard';
 import { Auth } from './entities/auth.entity';
 import { ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { Response } from 'express';
-import { HttpService } from '@nestjs/axios';
+import { KakaoAuthGuard } from './kakao/kakao.guard';
+import { GoogleAuthGuard } from './google/kakao.guard';
+import { NaverAuthGuard } from './naver/naver.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private jwtService: JwtService,
-    private httpService: HttpService,
   ) {}
 
   @Post('/signup')
@@ -51,6 +51,47 @@ export class AuthController {
         { secret: process.env.SECRET_KEY },
       ),
     };
+  }
+
+  @Get('login/kakao')
+  @UseGuards(KakaoAuthGuard)
+  async kakaoLogin(@Req() req) {
+    return req.user;
+  }
+
+  @Get('kakao/callback')
+  @UseGuards(KakaoAuthGuard)
+  async kakaoCallback(@Req() req) {
+    console.log(req.user);
+    return;
+  }
+
+  @Get('login/google')
+  @UseGuards(GoogleAuthGuard)
+  async googleLogin(@Req() req) {
+    return req.user;
+  }
+
+  @Get('google/callback')
+  @UseGuards(GoogleAuthGuard)
+  async googleCallback(@Req() req) {
+    console.log(req.user);
+
+    return req.user;
+  }
+
+  @Get('login/naver')
+  @UseGuards(NaverAuthGuard)
+  async naverLogin(@Req() req) {
+    return req.user;
+  }
+
+  @Get('naver/callback')
+  @UseGuards(NaverAuthGuard)
+  async naverCallback(@Req() req) {
+    console.log(req.user);
+
+    return req.user;
   }
 
   @Get()

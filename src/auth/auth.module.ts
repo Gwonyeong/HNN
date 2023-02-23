@@ -7,6 +7,9 @@ import { JwtStrategy } from './jwt/jwt.strategy';
 import { AuthRepository } from './auth.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Auth } from './entities/auth.entity';
+import { KakaoStrategy } from './kakao/kakao.strategy';
+import { GoogleStrategy } from './google/google.strategy';
+import { NaverStrategy } from './naver/naver.strategy';
 
 @Module({
   imports: [
@@ -18,6 +21,13 @@ import { Auth } from './entities/auth.entity';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, AuthRepository, JwtStrategy],
+  providers: [
+    AuthService,
+    AuthRepository,
+    JwtStrategy,
+    KakaoStrategy,
+    GoogleStrategy,
+    NaverStrategy,
+  ],
 })
 export class AuthModule {}
