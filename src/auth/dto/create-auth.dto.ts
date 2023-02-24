@@ -28,18 +28,16 @@ export class CreateAuthDto {
     description: 'The password of the user',
   })
   @IsString()
-  @IsNotEmpty()
   @MinLength(6, { message: '비밀번호를 확인해주세요.' })
   @MaxLength(20, { message: '비밀번호를 확인해주세요.' })
-  password: string;
+  password?: string;
 
   @ApiProperty({ example: 'nickname', description: 'The nickname of the user' })
   @IsString()
-  @IsNotEmpty()
   @IsAlphanumeric()
   @MinLength(2, { message: '닉네임을 확인해주세요.' })
   @MaxLength(12, { message: '닉네임을 확인해주세요.' })
-  nickname: string;
+  nickname?: string;
 
   @ApiProperty({
     example: 'ISTJ',
@@ -63,5 +61,5 @@ export class CreateAuthDto {
     ISTJ: 'ISTJ',
     ISTP: 'ISTP',
   })
-  MBTI: string;
+  MBTI?: string;
 }

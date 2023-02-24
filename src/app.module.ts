@@ -8,6 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { Auth } from './auth/entities/auth.entity';
+import { PostsController } from './posts/posts.controller';
 
 class Config {
   static setENV() {
@@ -52,7 +53,7 @@ class Config {
     UsersModule,
     AuthModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, PostsController],
   providers: [AppService],
 })
 export class AppModule {}

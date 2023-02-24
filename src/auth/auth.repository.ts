@@ -11,10 +11,11 @@ export class AuthRepository {
   ) {}
 
   async create(createAuthDto: CreateAuthDto) {
-    return this.authRepository.save({ ...createAuthDto });
+    console.log(createAuthDto);
+    return await this.authRepository.save({ ...createAuthDto });
   }
 
-  async findByEmail(email: string) {
+  async findByEmail(email: string): Promise<Auth> {
     return await this.authRepository.findOne({ where: { email } });
   }
 }

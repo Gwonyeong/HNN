@@ -18,7 +18,6 @@ export class AuthService {
 
     // Generate salt and hash the password
     const salt = process.env.BCRYPT_SALT;
-    console.log(salt);
     const hashedPassword = await bcrypt.hash(password, parseInt(salt));
 
     // Create the user entity with the hashed password
@@ -30,6 +29,7 @@ export class AuthService {
     });
     return user;
   }
+
   @UseGuards(AuthGuard('jwt'))
   async login(user: CreateAuthDto) {
     const payload = { email: user.email, password: user.password };

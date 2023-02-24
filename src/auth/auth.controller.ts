@@ -33,10 +33,13 @@ export class AuthController {
 
   @Post('/signup')
   @ApiCreatedResponse({
-    description: 'The user has been successfully created.',
+    description: '회원가입을 위한 api',
     type: Auth,
   })
-  @ApiBadRequestResponse({ description: 'The email address is already taken.' })
+  @ApiBadRequestResponse({
+    status: 401,
+    description: '',
+  })
   async signup(@Body() createAuthDto: CreateAuthDto, @Res() res: Response) {
     this.authService.signUp(createAuthDto);
     res.status(HttpStatus.CREATED).json({ msg: '회원가입 성공!' });
@@ -53,18 +56,20 @@ export class AuthController {
     };
   }
 
-  @Get('login/kakao')
-  @UseGuards(KakaoAuthGuard)
-  async kakaoLogin(@Req() req) {
-    return req.user;
-  }
+  // @Get('login/kakao')
+  // @UseGuards(KakaoAuthGuard)
+  // async kakaoLogin() {
+  //   return;
+  // }
 
-  @Get('kakao/callback')
-  @UseGuards(KakaoAuthGuard)
-  async kakaoCallback(@Req() req) {
-    console.log(req.user);
-    return;
-  }
+  // @Get('kakao/callback')
+  // @UseGuards(KakaoAuthGuard)
+  // async kakaoCallback(@Req() req, @Res() res: Response) {
+  //   res.redirect(
+  //     process.env.REDIRECT_URI + `?accessToken=${req.user.auth_token}`,
+  //   );
+  //   return;
+  // }
 
   @Get('login/google')
   @UseGuards(GoogleAuthGuard)
@@ -74,10 +79,12 @@ export class AuthController {
 
   @Get('google/callback')
   @UseGuards(GoogleAuthGuard)
-  async googleCallback(@Req() req) {
+  async googleCallback(@Req() req, @Res() res: Response) {
     console.log(req.user);
-
-    return req.user;
+    res.redirect(
+      process.env.REDIRECT_URI + `?accessToken=${req.user.authToken}`,
+    );
+    return;
   }
 
   @Get('login/naver')
@@ -88,10 +95,11 @@ export class AuthController {
 
   @Get('naver/callback')
   @UseGuards(NaverAuthGuard)
-  async naverCallback(@Req() req) {
-    console.log(req.user);
-
-    return req.user;
+  async naverCallback(@Req() req, @Res() res: Response) {
+    res.redirect(
+      process.env.REDIRECT_URI + `?accessToken=${req.user.authToken}`,
+    );
+    return;
   }
 
   @Get()
