@@ -2,14 +2,15 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-naver';
+import { AuthService } from '../auth.service';
 
 @Injectable()
 export class NaverStrategy extends PassportStrategy(Strategy, 'naver') {
-  constructor() {
+  constructor(private authService: AuthService) {
     super({
       clientID: process.env.NAVER_CLIENT_ID,
       clientSecret: process.env.NAVER_CLIENT_SECRET_KEY,
-      callbackURL: 'http://localhost:3000/auth/naver/callback',
+      callbackURL: process.env.SERVER_URI + '/auth/naver/callback',
     });
   }
 
@@ -19,7 +20,9 @@ export class NaverStrategy extends PassportStrategy(Strategy, 'naver') {
     profile: any,
     done: Function,
   ) {
-    console.log(profile._json);
-    done(null, profile._json);
+    const { email, profile_image } = profile._json;
+
+    const authToken = await this.authService.socialLogin(email, profile_image);
+    done(null, authToken);
   }
 }

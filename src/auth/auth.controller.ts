@@ -11,6 +11,7 @@ import {
   Req,
   Res,
   HttpStatus,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
@@ -18,11 +19,20 @@ import { JwtService } from '@nestjs/jwt';
 import { Authorization } from 'src/common/decorator/Authorization.decorator';
 import { AdminAuthGuard } from 'src/common/guard/isAdmin.guard';
 import { Auth } from './entities/auth.entity';
-import { ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Response } from 'express';
-import { KakaoAuthGuard } from './kakao/kakao.guard';
 import { GoogleAuthGuard } from './google/kakao.guard';
 import { NaverAuthGuard } from './naver/naver.guard';
+import { responseAppTokenDTO } from './dto/response.dto';
+import { ResponseInterceptor } from 'src/common/interceptor/response.interceptor';
 
 @Controller('auth')
 export class AuthController {
@@ -32,17 +42,23 @@ export class AuthController {
   ) {}
 
   @Post('/signup')
-  @ApiCreatedResponse({
-    description: '회원가입을 위한 api',
-    type: Auth,
+  @ApiTags('Auth')
+  @ApiOperation({ summary: '회원가입' })
+  @ApiBearerAuth('JWT')
+  @ApiOkResponse({
+    description: '회원가입 성공',
+    type: responseAppTokenDTO,
   })
   @ApiBadRequestResponse({
     status: 401,
     description: '',
   })
-  async signup(@Body() createAuthDto: CreateAuthDto, @Res() res: Response) {
+  @UseInterceptors(ResponseInterceptor)
+  async signup(
+    @Body() createAuthDto: CreateAuthDto,
+  ): Promise<responseAppTokenDTO> {
     this.authService.signUp(createAuthDto);
-    res.status(HttpStatus.CREATED).json({ msg: '회원가입 성공!' });
+    return { appToken: '회원가입 성공!' };
   }
 
   @Post()
@@ -79,6 +95,10 @@ export class AuthController {
 
   @Get('google/callback')
   @UseGuards(GoogleAuthGuard)
+  @ApiResponse({
+    status: 302,
+    description: 'redirect auth/callback?accessToken=token',
+  })
   async googleCallback(@Req() req, @Res() res: Response) {
     console.log(req.user);
     res.redirect(
@@ -95,6 +115,10 @@ export class AuthController {
 
   @Get('naver/callback')
   @UseGuards(NaverAuthGuard)
+  @ApiResponse({
+    status: 302,
+    description: 'redirect auth/callback?accessToken=token',
+  })
   async naverCallback(@Req() req, @Res() res: Response) {
     res.redirect(
       process.env.REDIRECT_URI + `?accessToken=${req.user.authToken}`,

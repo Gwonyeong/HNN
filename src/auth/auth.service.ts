@@ -13,6 +13,24 @@ export class AuthService {
     private authRepository: AuthRepository,
   ) {}
 
+  async socialLogin(email: string, profile: string) {
+    const userData = await this.authRepository.findByEmail(email);
+    if (userData) {
+      const authToken = this.jwtService.sign(
+        { id: userData.id },
+        { secret: process.env.SECRET_KEY },
+      );
+      return authToken;
+    } else {
+      const authData = await this.authRepository.create({ email });
+      const authToken = this.jwtService.sign(
+        { id: authData.id },
+        { secret: process.env.SECRET_KEY },
+      );
+      return authToken;
+    }
+  }
+
   async signUp(createAuthDto: CreateAuthDto): Promise<Auth> {
     const { email, password, nickname, MBTI } = createAuthDto;
 

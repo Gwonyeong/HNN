@@ -1,15 +1,15 @@
-import { AuthRepository } from './../auth.repository';
 // google.strategy.ts
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback } from 'passport-google-oauth20';
+import { AuthService } from '../auth.service';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(
     private jwtService: JwtService,
-    private authRepository: AuthRepository,
+    private authService: AuthService,
   ) {
     super({
       clientID: process.env.GOOGLE_CLIENT_ID,
@@ -25,23 +25,12 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     profile: any,
     done: VerifyCallback,
   ): Promise<any> {
-    const { name, emails, photos } = profile;
-    const email: string = emails[0].value;
-    const userData = await this.authRepository.findByEmail(email);
-    if (userData) {
-      const authToken = this.jwtService.sign(
-        { id: userData.id },
-        { secret: process.env.SECRET_KEY },
-      );
-      done(null, { authToken });
-    } else {
-      const authData = await this.authRepository.create({ email });
-      const authToken = this.jwtService.sign(
-        { id: authData.id },
-        { secret: process.env.SECRET_KEY },
-      );
+    console.log(profile);
+    const { emails, photos } = profile;
+    const email = emails[0].value;
+    const profileImage = photos[0];
+    const authToken = await this.authService.socialLogin(email, profileImage);
 
-      done(null, { authToken });
-    }
+    done(null, { authToken });
   }
 }
