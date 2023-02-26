@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: dockerfile.dev
+    image: hnn:dev
+    ports:
+      - '3100:3100'
+    environment:
+      NODE_ENV: .dev.env
+
+    command: npm run start:dev
+
+  app-prod:
+    build:
+      context: ./
+      dockerfile: dockerfile.prod
+    image: hnn:prod
+
+    environment:
+      NODE_ENV: .prod.env
+    ports:
+      - '3000:3000'
+    command: npm run start:prod

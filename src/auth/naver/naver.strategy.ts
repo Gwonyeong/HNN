@@ -10,7 +10,7 @@ export class NaverStrategy extends PassportStrategy(Strategy, 'naver') {
     super({
       clientID: process.env.NAVER_CLIENT_ID,
       clientSecret: process.env.NAVER_CLIENT_SECRET_KEY,
-      callbackURL: process.env.SERVER_URI + '/auth/naver/callback',
+      callbackURL: process.env.BACK_SERVER_URI + '/auth/naver/callback',
     });
   }
 
@@ -20,9 +20,15 @@ export class NaverStrategy extends PassportStrategy(Strategy, 'naver') {
     profile: any,
     done: Function,
   ) {
-    const { email, profile_image } = profile._json;
+    console.log(profile._json);
+    const { email, profile_image, id } = profile._json;
 
-    const authToken = await this.authService.socialLogin(email, profile_image);
+    const authToken = await this.authService.socialLogin(
+      email,
+      profile_image,
+      id,
+      'naver',
+    );
     done(null, authToken);
   }
 }

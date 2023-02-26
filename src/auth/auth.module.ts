@@ -7,7 +7,6 @@ import { JwtStrategy } from './jwt/jwt.strategy';
 import { AuthRepository } from './auth.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Auth } from './entities/auth.entity';
-import { KakaoStrategy } from './kakao/kakao.strategy';
 import { GoogleStrategy } from './google/google.strategy';
 import { NaverStrategy } from './naver/naver.strategy';
 
@@ -25,7 +24,6 @@ import { NaverStrategy } from './naver/naver.strategy';
     AuthService,
     AuthRepository,
     JwtStrategy,
-    KakaoStrategy,
     GoogleStrategy,
     NaverStrategy,
   ],

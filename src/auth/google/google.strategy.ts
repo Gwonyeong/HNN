@@ -14,7 +14,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     super({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET_KEY,
-      callbackURL: process.env.SERVER_URI + '/auth/google/callback',
+      callbackURL: process.env.BACK_SERVER_URI + '/auth/google/callback',
       scope: ['email', 'profile'],
     });
   }
@@ -26,10 +26,15 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     done: VerifyCallback,
   ): Promise<any> {
     console.log(profile);
-    const { emails, photos } = profile;
+    const { emails, photos, id } = profile;
     const email = emails[0].value;
     const profileImage = photos[0];
-    const authToken = await this.authService.socialLogin(email, profileImage);
+    const authToken = await this.authService.socialLogin(
+      email,
+      profileImage,
+      id,
+      'google',
+    );
 
     done(null, { authToken });
   }

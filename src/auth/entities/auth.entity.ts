@@ -11,9 +11,6 @@ export class Auth {
   @Column({ type: 'varchar', length: 255, nullable: true })
   password: string;
 
-  @Column({ type: 'varchar', length: 32, nullable: true })
-  nickname;
-
-  @Column({ type: 'varchar', length: 5, nullable: true })
-  MBTI: string;
+  @Column({ type: 'varchar', length: 16, nullable: false, default: 'local' })
+  platform: string;
 }

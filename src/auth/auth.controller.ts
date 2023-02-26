@@ -16,9 +16,6 @@ import {
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { JwtService } from '@nestjs/jwt';
-import { Authorization } from 'src/common/decorator/Authorization.decorator';
-import { AdminAuthGuard } from 'src/common/guard/isAdmin.guard';
-import { Auth } from './entities/auth.entity';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -29,11 +26,12 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Response } from 'express';
-import { GoogleAuthGuard } from './google/kakao.guard';
+import { GoogleAuthGuard } from './google/google.guard';
 import { NaverAuthGuard } from './naver/naver.guard';
 import { responseAppTokenDTO } from './dto/response.dto';
 import { ResponseInterceptor } from 'src/common/interceptor/response.interceptor';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -42,9 +40,7 @@ export class AuthController {
   ) {}
 
   @Post('/signup')
-  @ApiTags('Auth')
   @ApiOperation({ summary: '회원가입' })
-  @ApiBearerAuth('JWT')
   @ApiOkResponse({
     description: '회원가입 성공',
     type: responseAppTokenDTO,
@@ -62,35 +58,22 @@ export class AuthController {
   }
 
   @Post()
-  async login(@Body() createAuthDto: CreateAuthDto) {
-    console.log(createAuthDto);
+  @ApiOperation({ summary: '로그인' })
+  async login(
+    @Body() createAuthDto: CreateAuthDto,
+  ): Promise<responseAppTokenDTO> {
     return {
-      access_token: this.jwtService.sign(
+      appToken: this.jwtService.sign(
         { userId: 1, role: 'common' },
         { secret: process.env.SECRET_KEY },
       ),
     };
   }
 
-  // @Get('login/kakao')
-  // @UseGuards(KakaoAuthGuard)
-  // async kakaoLogin() {
-  //   return;
-  // }
-
-  // @Get('kakao/callback')
-  // @UseGuards(KakaoAuthGuard)
-  // async kakaoCallback(@Req() req, @Res() res: Response) {
-  //   res.redirect(
-  //     process.env.REDIRECT_URI + `?accessToken=${req.user.auth_token}`,
-  //   );
-  //   return;
-  // }
-
   @Get('login/google')
   @UseGuards(GoogleAuthGuard)
-  async googleLogin(@Req() req) {
-    return req.user;
+  async googleLogin() {
+    return;
   }
 
   @Get('google/callback')
@@ -100,7 +83,6 @@ export class AuthController {
     description: 'redirect auth/callback?accessToken=token',
   })
   async googleCallback(@Req() req, @Res() res: Response) {
-    console.log(req.user);
     res.redirect(
       process.env.REDIRECT_URI + `?accessToken=${req.user.authToken}`,
     );
@@ -109,8 +91,8 @@ export class AuthController {
 
   @Get('login/naver')
   @UseGuards(NaverAuthGuard)
-  async naverLogin(@Req() req) {
-    return req.user;
+  async naverLogin() {
+    return;
   }
 
   @Get('naver/callback')
@@ -124,11 +106,5 @@ export class AuthController {
       process.env.REDIRECT_URI + `?accessToken=${req.user.authToken}`,
     );
     return;
-  }
-
-  @Get()
-  @UseGuards(JwtAuthGuard, AdminAuthGuard)
-  check(@Authorization() userId) {
-    return userId;
   }
 }
