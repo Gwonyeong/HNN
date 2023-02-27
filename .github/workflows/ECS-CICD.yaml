@@ -41,17 +41,17 @@ jobs:
 
       - name: Delete images
         run: |
-          IMAGES=$(aws ecr describe-images --repository-name $ECR_REPOSITORY --region ap-northeast-2 | gawk 'match($0, /imageDigest\": \"sha256:[a-f0-9]+\"/, ary) {print substr(ary[0], RSTART+14, RLENGTH-15)}')
+          IMAGES=$(aws ecr describe-images --repository-name ${{env.ECR_REPOSITORY}} --region ap-northeast-2 | gawk 'match($0, /imageDigest\": \"sha256:[a-f0-9]+\"/, ary) {print substr(ary[0], RSTART+14, RLENGTH-15)}')
           for image in $IMAGES; do
             echo "Deleting $image"
-            aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids imageDigest=$image --region ap-northeast-2
+            aws ecr batch-delete-image --repository-name ${{env.ECR_REPOSITORY}} --image-ids imageDigest=$image --region ap-northeast-2
           done
 
       - name: Build, tag, and push the image(node.js) to Amazon ECR
         id: build-image-node
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: $ECR_REPOSITORY
+          ECR_REPOSITORY: ${{env.ECR_REPOSITORY}}
           IMAGE_TAG: ${{ github.sha }}
           IMAGE_TAG_NODE: hnn-nest
 
@@ -61,4 +61,4 @@ jobs:
 
       - name: Update ECS service
         run: |
-          aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment
+          aws ecs update-service --cluster ${{env.ECS_CLUSTER}} --service ${{env.ECS_SERVICE}} --force-new-deployment
