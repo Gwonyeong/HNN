@@ -20,6 +20,7 @@ class Application {
   private ADMIN_PASSWORD: string;
 
   constructor(private server: NestExpressApplication) {
+    console.log(process.env.PORT);
     this.server = server;
 
     this.DEV_MODE = process.env.NODE_ENV === 'production' ? false : true;
