@@ -6,10 +6,10 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY .dev.env .
 
-ENV $(cat .dev.env | xargs)
 
 COPY . .
+
+ENV $(cat .dev.env | xargs)
 
 CMD [ "npm", "run", "start:dev" ]
