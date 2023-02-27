@@ -35,6 +35,8 @@ jobs:
 
       - name: create env
         run: |
+          touch .dev.env
+
           echo $DEV_ENV >> .dev.env
           echo $PROD_ENV >> .prod.env
 
