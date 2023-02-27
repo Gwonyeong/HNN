@@ -8,6 +8,8 @@ RUN npm install
 
 COPY .dev.env /app
 
+ENV $(cat .dev.env | xargs)
+
 COPY . .
 
 CMD [ "npm", "run", "start:dev" ]
