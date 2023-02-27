@@ -9,7 +9,7 @@ env:
   AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
   AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
   AWS_REGION: ap-northeast-2
-  ECR_REPOSITORY: 799886310010.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+  ECR_REPOSITORY: 799886310010.dkr.ecr.ap-northeast-2.amazonaws.com
   ECS_CLUSTER: ${{secrets.ECS_CLUSTER}}
   ECS_SERVICE: ${{secrets.ECS_SERVICE}}
   DEV_ENV: ${{secrets.DEV_ENV}}
