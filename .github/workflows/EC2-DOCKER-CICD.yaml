@@ -11,8 +11,6 @@ env:
   AWS_REGION: ap-northeast-2
   ECR_REGISTRY: ${{secrets.ECR_REGISTRY}}
   ECR_REPOSITORY: hnn
-  DEV_ENV: ${{secrets.DEV_ENV}}
-  PROD_ENV: ${{secrets.PROD_ENV}}
 
 jobs:
   deploy:
@@ -37,8 +35,7 @@ jobs:
         run: |
           touch .dev.env
 
-          echo $DEV_ENV >> .dev.env
-          echo $PROD_ENV >> .prod.env
+          echo ${{${{secrets.DEV_ENV}}}}>> .dev.env
 
       - name: Delete images
         run: |
