@@ -28,7 +28,7 @@ jobs:
         with:
           aws-access-key-id: $AWS_ACCESS_KEY_ID
           aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
-          aws-region: $AWS_REGION
+          aws-region: ap-northeast-2
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -41,10 +41,10 @@ jobs:
 
       - name: Delete images
         run: |
-          IMAGES=$(aws ecr describe-images --repository-name $ECR_REPOSITORY --region $AWS_REGION | gawk 'match($0, /imageDigest\": \"sha256:[a-f0-9]+\"/, ary) {print substr(ary[0], RSTART+14, RLENGTH-15)}')
+          IMAGES=$(aws ecr describe-images --repository-name $ECR_REPOSITORY --region ap-northeast-2 | gawk 'match($0, /imageDigest\": \"sha256:[a-f0-9]+\"/, ary) {print substr(ary[0], RSTART+14, RLENGTH-15)}')
           for image in $IMAGES; do
             echo "Deleting $image"
-            aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids imageDigest=$image --region $AWS_REGION
+            aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids imageDigest=$image --region ap-northeast-2
           done
 
       - name: Build, tag, and push the image(node.js) to Amazon ECR
