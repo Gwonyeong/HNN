@@ -6,7 +6,7 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY .dev.env /app
+COPY .dev.env .
 
 ENV $(cat .dev.env | xargs)
 
