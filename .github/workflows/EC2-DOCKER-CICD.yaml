@@ -77,7 +77,6 @@ jobs:
 
           script: |
             aws ecr get-login-password --region ap-northeast-2 | sudo docker login --username AWS --password-stdin ${{env.ECR_REGISTRY}}
-            sudo docker login
             sudo docker rm -f $(sudo docker ps -q -f "expose=3100")
             sudo docker rmi $(sudo docker images -q) 
             sudo docker pull ${{env.ECR_REGISTRY}}/hnn:dev
