@@ -11,8 +11,6 @@ env:
   AWS_REGION: ap-northeast-2
   ECR_REGISTRY: ${{secrets.ECR_REGISTRY}}
   ECR_REPOSITORY: hnn
-  ECS_CLUSTER: ${{secrets.ECS_CLUSTER}}
-  ECS_SERVICE: ${{secrets.ECS_SERVICE}}
   DEV_ENV: ${{secrets.DEV_ENV}}
   PROD_ENV: ${{secrets.PROD_ENV}}
 
@@ -56,10 +54,33 @@ jobs:
           IMAGE_TAG_NODE: hnn-nest
 
         run: |
-          aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 799886310010.dkr.ecr.ap-northeast-2.amazonaws.com
-          docker-compose build
-          docker-compose push
+          aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{env.ECR_REGISTRY}}
+          docker build -f dockerfile.dev -t ${{env.ECR_REGISTRY}}/hnn:dev
+          docker push ${{env.ECR_REGISTRY}}/hnn:dev
 
-      - name: Update ECS service
+      - name: Add Github Actions IP to Security group
         run: |
-          aws ecs update-service --cluster ${{env.ECS_CLUSTER}} --service ${{env.ECS_SERVICE}} --force-new-deployment
+          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+
+        with:
+          host: ${{ secrets.REMOTE_IP }}
+          username: ${{ secrets.SSH_ID }}
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+
+          script: |
+            aws ecr get-login-password --region ap-northeast-2 | sudo docker login --username AWS --password-stdin ${{env.ECR_REGISTRY}}
+            sudo docker login
+            sudo docker rm -f $(sudo docker ps -q -f "expose=3100")
+            sudo docker rmi $(sudo docker images -q) 
+            sudo docker pull ${{env.ECR_REGISTRY}}/hnn:dev
+
+
+            sudo docker run -d --restart unless-stopped -p 3100:3100 ${{env.ECR_REGISTRY}}/hnn:dev
+
+      - name: Remove Github Actions IP From Security Group
+        run: |
+          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
