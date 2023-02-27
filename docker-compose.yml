@@ -5,7 +5,7 @@ services:
     build:
       context: ./
       dockerfile: dockerfile.dev
-    image: hnn:dev
+    image: 799886310010.dkr.ecr.ap-northeast-2.amazonaws.com/hnn:dev
     ports:
       - '3100:3100'
     environment:
@@ -17,7 +17,7 @@ services:
     build:
       context: ./
       dockerfile: dockerfile.prod
-    image: hnn:prod
+    image: 799886310010.dkr.ecr.ap-northeast-2.amazonaws.com/hnn:prod
 
     environment:
       NODE_ENV: .prod.env
