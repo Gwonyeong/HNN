@@ -8,7 +8,5 @@ services:
     image: 799886310010.dkr.ecr.ap-northeast-2.amazonaws.com/hnn:dev
     ports:
       - '3100:3100'
-    environment:
-      NODE_ENV: .dev.env
 
     command: npm run start:dev
