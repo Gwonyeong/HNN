@@ -33,6 +33,7 @@ jobs:
 
       - name: create env
         run: |
+          echo "${{secrets.DEV_ENV}}" >> .dev.env
 
       - name: Build, tag, and push the image(node.js) to Amazon ECR
         id: build-image-node
@@ -42,7 +43,6 @@ jobs:
           IMAGE_TAG_NODE: hnn-nest
 
         run: |
-          echo "${{secrets.DEV_ENV}}" >> .dev.env
           ls -al
           aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{env.ECR_REGISTRY}}
           docker-compose build -f docker-compose.dev.yml
