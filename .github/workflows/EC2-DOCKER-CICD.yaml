@@ -45,8 +45,8 @@ jobs:
 
         run: |
           aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{env.ECR_REGISTRY}}
-          docker build -f dockerfile.dev -t ${{env.ECR_REGISTRY}}/hnn:dev .
-          docker push ${{env.ECR_REGISTRY}}/hnn:dev
+          docker-compose build -f docker-compose.dev.yml
+          docker-compose push -f docker-compose.dev.yml
 
       - name: Get Github Actions IP
         id: ip
