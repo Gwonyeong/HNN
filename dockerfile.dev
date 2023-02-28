@@ -6,6 +6,12 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . .
+RUN mkdir src
+
+COPY src src
+
+COPY .dev.env .
+
+COPY tsconfig.json .
 
 CMD [ "npm", "run", "start:dev" ]
