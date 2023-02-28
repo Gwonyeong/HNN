@@ -1,5 +1,6 @@
 FROM --platform=linux/amd64 node:latest AS development
 
+WORKDIR /app
 
 COPY package*.json ./
 
