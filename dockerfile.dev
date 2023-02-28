@@ -2,17 +2,10 @@ FROM --platform=linux/amd64 node:alpine AS development
 
 WORKDIR /app
 
-COPY .dev.env .
-
-RUN chown node:node .dev.env && \
-    chmod 600 .dev.env
-
 COPY package*.json ./
 
 RUN npm install
 
-
 COPY . .
-
 
 CMD [ "npm", "run", "start:dev" ]

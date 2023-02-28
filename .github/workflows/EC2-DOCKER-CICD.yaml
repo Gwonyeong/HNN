@@ -33,6 +33,7 @@ jobs:
 
       - name: create env
         run: |
+
           echo "${{secrets.DEV_ENV}}" >> .dev.env
 
       - name: Build, tag, and push the image(node.js) to Amazon ECR

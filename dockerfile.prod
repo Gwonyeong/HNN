@@ -6,6 +6,10 @@ COPY package*.json ./
 
 RUN npm install --only=production
 
-COPY . .
+COPY .dev.env /
+
+RUN mkdir src
+
+COPY src src
 
 CMD [ "npm", "run", "start:prod" ]
