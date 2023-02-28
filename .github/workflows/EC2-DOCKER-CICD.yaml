@@ -33,17 +33,8 @@ jobs:
 
       - name: create env
         run: |
-          touch .dev.env
 
           echo ${{secrets.DEV_ENV}}>> .dev.env
-
-      - name: Delete images
-        run: |
-          IMAGES=$(aws ecr describe-images --repository-name ${{env.ECR_REGISTRY}} --region ap-northeast-2 | gawk 'match($0, /imageDigest\": \"sha256:[a-f0-9]+\"/, ary) {print substr(ary[0], RSTART+14, RLENGTH-15)}')
-          for image in $IMAGES; do
-            echo "Deleting $image"
-            aws ecr batch-delete-image --repository-name ${{env.ECR_REGISTRY}} --image-ids imageDigest=$image --region ap-northeast-2
-          done
 
       - name: Build, tag, and push the image(node.js) to Amazon ECR
         id: build-image-node
