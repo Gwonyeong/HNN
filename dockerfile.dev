@@ -4,6 +4,9 @@ WORKDIR /app
 
 COPY .dev.env .
 
+RUN chown node:node .dev.env && \
+    chmod 600 .dev.env
+
 COPY package*.json ./
 
 RUN npm install
