@@ -42,7 +42,7 @@ jobs:
           IMAGE_TAG_NODE: hnn-nest
 
         run: |
-          echo ${{secrets.DEV_ENV}} >> .env
+          echo "${{secrets.DEV_ENV}}" >> .dev.env
           ls -al
           aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{env.ECR_REGISTRY}}
           docker-compose build -f docker-compose.dev.yml
