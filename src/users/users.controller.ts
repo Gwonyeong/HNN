@@ -14,9 +14,11 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { Request } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
+@ApiTags('02.Users(미완)')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
