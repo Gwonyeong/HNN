@@ -31,7 +31,7 @@ import { NaverAuthGuard } from './naver/naver.guard';
 import { responseAppTokenDTO } from './dto/responses/response.dto';
 import { ResponseInterceptor } from 'src/common/interceptor/response.interceptor';
 
-@ApiTags('Auth')
+@ApiTags('01.Auth')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -47,7 +47,7 @@ export class AuthController {
   })
   @ApiBadRequestResponse({
     status: 401,
-    description: '',
+    description: '이미 가입된 이메일입니다.',
   })
   @UseInterceptors(ResponseInterceptor)
   async signup(
@@ -61,6 +61,10 @@ export class AuthController {
 
   @Post()
   @ApiOperation({ summary: '로그인' })
+  @ApiOkResponse({ description: '로그인 성공', type: responseAppTokenDTO })
+  @ApiBadRequestResponse({
+    description: '이메일 혹은 비밀번호를 확인해주세요!',
+  })
   async login(
     @Body() createAuthDto: CreateAuthDto,
   ): Promise<responseAppTokenDTO> {
@@ -72,6 +76,9 @@ export class AuthController {
 
   @Get('login/google')
   @UseGuards(GoogleAuthGuard)
+  @ApiOperation({
+    description: '이 경로로 요청을 보내면 구글 로그인페이지로 이동합니다.',
+  })
   async googleLogin() {
     return;
   }
@@ -101,6 +108,9 @@ export class AuthController {
   @ApiResponse({
     status: 302,
     description: 'redirect auth/callback?accessToken=token',
+  })
+  @ApiOperation({
+    description: '이 경로로 요청을 보내면 네이버 로그인페이지로 이동합니다.',
   })
   async naverCallback(@Req() req, @Res() res: Response) {
     res.redirect(

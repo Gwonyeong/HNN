@@ -1,7 +1,6 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+
 import { ConfigModule } from '@nestjs/config';
 
 import { MongooseModule } from '@nestjs/mongoose';
@@ -51,10 +50,10 @@ class Config {
     Config.setENV(),
     Config.setMySQL(),
     Config.setMongo(),
-    UsersModule,
     AuthModule,
+    UsersModule,
   ],
-  controllers: [AppController, PostsController],
-  providers: [AppService],
+  controllers: [PostsController],
+  providers: [],
 })
 export class AppModule {}
