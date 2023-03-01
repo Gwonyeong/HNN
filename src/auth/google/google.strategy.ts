@@ -29,13 +29,13 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     const { emails, photos, id } = profile;
     const email = emails[0].value;
     const profileImage = photos[0];
-    const authToken = await this.authService.GroupLogin.socialLogin(
+    const { appToken } = await this.authService.GroupLogin.socialLogin(
       email,
       profileImage,
       id,
       'google',
     );
 
-    done(null, { authToken });
+    done(null, { appToken });
   }
 }
