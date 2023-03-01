@@ -85,7 +85,7 @@ export class AuthController {
   async googleCallback(@Req() req, @Res() res: Response) {
     res.redirect(
       process.env.FRONT_SERVER_URI +
-        `/auth/callback?accessToken=${req.user.authToken}`,
+        `/auth/callback?accessToken=${req.user.appToken}`,
     );
     return;
   }
@@ -105,7 +105,7 @@ export class AuthController {
   async naverCallback(@Req() req, @Res() res: Response) {
     res.redirect(
       process.env.FRONT_SERVER_URI +
-        `/auth/callback?accessToken=${req.user.authToken}`,
+        `/auth/callback?accessToken=${req.user.appToken}`,
     );
     return;
   }
