@@ -9,14 +9,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Auth } from '../entites/auth.entity';
 import { GoogleStrategy } from './google/google.strategy';
 import { NaverStrategy } from './naver/naver.strategy';
+import { UserRepository } from 'src/users/user.repository';
+import { UsersModule } from 'src/users/users.module';
+import { User } from 'src/entites/user.entity';
 
 @Module({
   imports: [
+    UsersModule,
     PassportModule,
-    TypeOrmModule.forFeature([Auth]),
+    TypeOrmModule.forFeature([Auth, User]),
     JwtModule.register({
       secret: process.env.SECRET_KEY,
-      signOptions: { expiresIn: '1h' },
     }),
   ],
   controllers: [AuthController],
@@ -26,6 +29,7 @@ import { NaverStrategy } from './naver/naver.strategy';
     JwtStrategy,
     GoogleStrategy,
     NaverStrategy,
+    UserRepository,
   ],
 })
 export class AuthModule {}

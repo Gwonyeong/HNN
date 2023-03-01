@@ -1,23 +1,30 @@
 import { AuthRepository } from './auth.repository';
 import { JwtService } from '@nestjs/jwt';
-import { Injectable, UnauthorizedException, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { Auth } from '../entites/auth.entity';
 import * as bcrypt from 'bcryptjs';
 import { responseAppTokenDTO } from './dto/responses/response.dto';
+import { UserRepository } from 'src/users/user.repository';
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     private authRepository: AuthRepository,
+    private userRepository: UserRepository,
   ) {}
 
   // jwt 관련
   public GroupJWT = {
-    createJwtToken: (userData: Auth) => {
-      const payload = { id: userData.id };
+    createJwtToken: (authData: Auth) => {
+      const payload = { id: authData.id, role: authData.role };
       return {
         appToken: this.jwtService.sign(payload, {
           secret: process.env.SECRET_KEY,
@@ -30,36 +37,42 @@ export class AuthService {
   public GroupLogin = {
     socialLogin: async (
       email: string,
-      profile: string,
+      profilePicture: string,
       socialLoginId: string,
       platform: string,
     ) => {
-      const userData = await this.authRepository.findByEmail(email);
-      if (userData) {
-        const { appToken } = this.GroupJWT.createJwtToken(userData);
+      const authData = await this.authRepository.findByEmail(email);
+      if (authData) {
+        const { appToken } = this.GroupJWT.createJwtToken(authData);
         return { appToken };
       } else {
-        const userData = await this.authRepository.create({
+        const authData = await this.authRepository.create({
           email,
           platform,
           socialLoginId,
         });
-        const { appToken } = this.GroupJWT.createJwtToken(userData);
+        await this.userRepository.createUser({
+          profilePicture,
+        });
+        this.authRepository.updateUserId();
+        const { appToken } = this.GroupJWT.createJwtToken(authData);
         return { appToken };
       }
     },
 
     login: async (createAuthDto: CreateAuthDto) => {
-      const userData = await this.authRepository.findByEmail(
+      const authData = await this.authRepository.findByEmail(
         createAuthDto.email,
       );
+
       if (
-        !userData ||
-        !(await bcrypt.compare(userData.password, createAuthDto.password))
+        !authData ||
+        !(await bcrypt.compare(authData.password, createAuthDto.password))
       ) {
         throw new UnauthorizedException('이메일 혹은 비밀번호를 확인해주세요!');
       }
-      const { appToken } = this.GroupJWT.createJwtToken(userData);
+
+      const { appToken } = this.GroupJWT.createJwtToken(authData);
 
       return { appToken };
     },
@@ -71,18 +84,23 @@ export class AuthService {
       createAuthDto: CreateAuthDto,
     ): Promise<responseAppTokenDTO> => {
       const { email, password } = createAuthDto;
+      const dupAuthData = await this.authRepository.findByEmail(email);
+      if (dupAuthData) {
+        throw new BadRequestException('이미 가입된 이메일입니다.');
+      }
 
       // Generate salt and hash the password
       const salt = process.env.BCRYPT_SALT;
       const hashedPassword = await bcrypt.hash(password, parseInt(salt));
 
       // Create the user entity with the hashed password
-      const userData = await this.authRepository.create({
+      const authData = await this.authRepository.create({
         email,
         password: hashedPassword,
         platform: 'local',
       });
-      const { appToken } = this.GroupJWT.createJwtToken(userData);
+      await this.userRepository.createUser({});
+      const { appToken } = this.GroupJWT.createJwtToken(authData);
 
       return { appToken };
     },

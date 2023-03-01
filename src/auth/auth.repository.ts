@@ -10,11 +10,13 @@ export class AuthRepository {
     @InjectRepository(Auth) private authRepository: Repository<Auth>,
   ) {}
 
+  async findByEmail(email: string): Promise<Auth> {
+    return await this.authRepository.findOne({ where: { email } });
+  }
+
   async create(createAuthDto: CreateAuthDto) {
     return await this.authRepository.save({ ...createAuthDto });
   }
 
-  async findByEmail(email: string): Promise<Auth> {
-    return await this.authRepository.findOne({ where: { email } });
-  }
+  updateUserId;
 }

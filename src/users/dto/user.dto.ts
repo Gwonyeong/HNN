@@ -1,7 +1,13 @@
-import { IsEnum, IsString, Length, Matches, Min } from 'class-validator';
-import { MBTI, gender } from 'src/entites/enum/enum';
-
-export class UpdateUserDto {
+import {
+  IsEnum,
+  IsNumber,
+  IsString,
+  Length,
+  Matches,
+  Min,
+} from 'class-validator';
+import { MBTI, gender } from 'src/entites/enum/user.enum';
+class UserDto {
   @IsString()
   @Length(2, 12, { message: '닉네임은 2글자이상 12자 이하여야합니다.' })
   @Matches(/^[a-zA-Z0-9]+$/, {
@@ -15,9 +21,24 @@ export class UpdateUserDto {
   })
   MBTI?: string;
 
-  @IsString()
   @IsEnum(gender, { message: '성별 형식이 올바르지 않습니다. => man or women' })
   gender?: string;
+
+  @IsNumber()
+  authId?: number;
 }
 
-export class UpdatePictureDto {}
+export class CreateUserDto extends UserDto {
+  constructor() {
+    super();
+  }
+  @IsString()
+  profilePicture?: string = 'default.png';
+}
+
+export class UpdateUserDto extends UserDto {}
+
+export class UpdateProfilePictureDto {
+  @IsString()
+  profilePicture: string;
+}

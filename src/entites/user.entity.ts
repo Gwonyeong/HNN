@@ -6,7 +6,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { MBTI, gender } from './enum/enum';
+import { MBTI, gender } from './enum/user.enum';
 
 @Entity()
 export class User {

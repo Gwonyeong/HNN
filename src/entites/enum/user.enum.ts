@@ -1,7 +1,7 @@
 export enum gender {
-  man = '남',
-  women = '여',
-  null = '미정',
+  man = 'man',
+  women = 'women',
+  null = 'null',
 }
 
 export enum MBTI {
