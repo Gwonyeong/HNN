@@ -87,7 +87,7 @@ export class AuthController {
   @UseGuards(GoogleAuthGuard)
   @ApiResponse({
     status: 302,
-    description: 'redirect auth/callback?accessToken=token',
+    description: `redirect ${process.env.FRONT_SERVER_URI} auth/callback?accessToken=token`,
   })
   async googleCallback(@Req() req, @Res() res: Response) {
     res.redirect(
@@ -98,6 +98,9 @@ export class AuthController {
   }
 
   @Get('login/naver')
+  @ApiOperation({
+    description: '이 경로로 요청을 보내면 네이버 로그인페이지로 이동합니다.',
+  })
   @UseGuards(NaverAuthGuard)
   async naverLogin() {
     return;
@@ -107,10 +110,10 @@ export class AuthController {
   @UseGuards(NaverAuthGuard)
   @ApiResponse({
     status: 302,
-    description: 'redirect auth/callback?accessToken=token',
-  })
-  @ApiOperation({
-    description: '이 경로로 요청을 보내면 네이버 로그인페이지로 이동합니다.',
+    description:
+      process.env.NODE_ENV == 'dev'
+        ? `redirect  http://localhost:3690/auth/callback?accessToken=token`
+        : ``,
   })
   async naverCallback(@Req() req, @Res() res: Response) {
     res.redirect(
