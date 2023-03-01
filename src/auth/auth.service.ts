@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { CreateAuthDto } from './dto/auth.dto';
 import { Auth } from '../entites/auth.entity';
-import * as bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcrypt';
 import { responseAppTokenDTO } from './dto/responses/response.dto';
 import { UserRepository } from 'src/users/user.repository';
 
@@ -65,7 +65,7 @@ export class AuthService {
 
       if (
         !authData ||
-        !(await bcrypt.compare(authData.password, createAuthDto.password))
+        !(await bcrypt.compare(createAuthDto.password, authData.password))
       ) {
         throw new UnauthorizedException('이메일 혹은 비밀번호를 확인해주세요!');
       }

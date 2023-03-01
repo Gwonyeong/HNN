@@ -87,7 +87,10 @@ export class AuthController {
   @UseGuards(GoogleAuthGuard)
   @ApiResponse({
     status: 302,
-    description: `redirect ${process.env.FRONT_SERVER_URI} auth/callback?accessToken=token`,
+    description:
+      process.env.NODE_ENV == 'dev'
+        ? `redirect  http://localhost:3690/auth/callback?accessToken=token`
+        : ``,
   })
   async googleCallback(@Req() req, @Res() res: Response) {
     res.redirect(

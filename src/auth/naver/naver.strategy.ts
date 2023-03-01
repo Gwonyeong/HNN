@@ -28,6 +28,6 @@ export class NaverStrategy extends PassportStrategy(Strategy, 'naver') {
       id,
       'naver',
     );
-    done(null, appToken);
+    done(null, { appToken });
   }
 }
