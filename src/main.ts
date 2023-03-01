@@ -64,7 +64,7 @@ class Application {
 
   private async setUpGlobalMiddleware() {
     this.server.enableCors({
-      origin: this.corsOriginList,
+      origin: true,
       credentials: true,
     });
     this.server.use(cookieParser());

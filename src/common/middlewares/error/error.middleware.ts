@@ -19,6 +19,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     }
     response.status(status).json({
       path: request.url,
+      success: false,
       message: exceptionResponse.getResponse(),
     });
   }
