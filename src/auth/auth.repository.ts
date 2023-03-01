@@ -1,7 +1,8 @@
+import { UpdateAuthDto } from './dto/update-auth.dto';
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Auth } from '../entites/auth.entity';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { CreateAuthDto } from './dto/auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -17,6 +18,4 @@ export class AuthRepository {
   async create(createAuthDto: CreateAuthDto) {
     return await this.authRepository.save({ ...createAuthDto });
   }
-
-  updateUserId;
 }

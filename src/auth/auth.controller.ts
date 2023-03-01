@@ -14,7 +14,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { CreateAuthDto } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import {
   ApiBadRequestResponse,
