@@ -76,7 +76,7 @@ export class AuthController {
     return;
   }
 
-  @Get('google/callback')
+  @Get('callback/google')
   @UseGuards(GoogleAuthGuard)
   @ApiResponse({
     status: 302,
@@ -84,7 +84,7 @@ export class AuthController {
   })
   async googleCallback(@Req() req, @Res() res: Response) {
     res.redirect(
-      process.env.REDIRECT_URI + `?accessToken=${req.user.authToken}`,
+      process.env.FRONT_SERVER_URI + `?accessToken=${req.user.authToken}`,
     );
     return;
   }
@@ -95,7 +95,7 @@ export class AuthController {
     return;
   }
 
-  @Get('naver/callback')
+  @Get('callback/naver')
   @UseGuards(NaverAuthGuard)
   @ApiResponse({
     status: 302,
@@ -103,7 +103,7 @@ export class AuthController {
   })
   async naverCallback(@Req() req, @Res() res: Response) {
     res.redirect(
-      process.env.REDIRECT_URI + `?accessToken=${req.user.authToken}`,
+      process.env.FRONT_SERVER_URI + `?accessToken=${req.user.authToken}`,
     );
     return;
   }

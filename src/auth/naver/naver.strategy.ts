@@ -20,7 +20,6 @@ export class NaverStrategy extends PassportStrategy(Strategy, 'naver') {
     profile: any,
     done: Function,
   ) {
-    console.log(profile._json);
     const { email, profile_image, id } = profile._json;
 
     const authToken = await this.authService.socialLogin(
