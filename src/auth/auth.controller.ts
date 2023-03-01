@@ -28,7 +28,7 @@ import {
 import { Response } from 'express';
 import { GoogleAuthGuard } from './google/google.guard';
 import { NaverAuthGuard } from './naver/naver.guard';
-import { responseAppTokenDTO } from './dto/response.dto';
+import { responseAppTokenDTO } from './dto/responses/response.dto';
 import { ResponseInterceptor } from 'src/common/interceptor/response.interceptor';
 
 @ApiTags('Auth')
@@ -53,8 +53,10 @@ export class AuthController {
   async signup(
     @Body() createAuthDto: CreateAuthDto,
   ): Promise<responseAppTokenDTO> {
-    this.authService.signUp(createAuthDto);
-    return { appToken: '회원가입 성공!' };
+    const { appToken } = await this.authService.GroupSignUp.signUp(
+      createAuthDto,
+    );
+    return { appToken };
   }
 
   @Post()
@@ -62,11 +64,9 @@ export class AuthController {
   async login(
     @Body() createAuthDto: CreateAuthDto,
   ): Promise<responseAppTokenDTO> {
+    const { appToken } = await this.authService.GroupLogin.login(createAuthDto);
     return {
-      appToken: this.jwtService.sign(
-        { userId: 1, role: 'common' },
-        { secret: process.env.SECRET_KEY },
-      ),
+      appToken,
     };
   }
 
@@ -84,7 +84,8 @@ export class AuthController {
   })
   async googleCallback(@Req() req, @Res() res: Response) {
     res.redirect(
-      process.env.FRONT_SERVER_URI + `?accessToken=${req.user.authToken}`,
+      process.env.FRONT_SERVER_URI +
+        `/auth/callback?accessToken=${req.user.authToken}`,
     );
     return;
   }
@@ -103,7 +104,8 @@ export class AuthController {
   })
   async naverCallback(@Req() req, @Res() res: Response) {
     res.redirect(
-      process.env.FRONT_SERVER_URI + `?accessToken=${req.user.authToken}`,
+      process.env.FRONT_SERVER_URI +
+        `/auth/callback?accessToken=${req.user.authToken}`,
     );
     return;
   }

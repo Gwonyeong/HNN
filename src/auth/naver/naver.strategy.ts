@@ -22,7 +22,7 @@ export class NaverStrategy extends PassportStrategy(Strategy, 'naver') {
   ) {
     const { email, profile_image, id } = profile._json;
 
-    const authToken = await this.authService.socialLogin(
+    const authToken = await this.authService.GroupLogin.socialLogin(
       email,
       profile_image,
       id,

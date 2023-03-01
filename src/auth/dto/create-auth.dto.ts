@@ -34,10 +34,10 @@ export class CreateAuthDto {
 
   @IsString()
   @IsNotEmpty()
-  platform: string;
+  platform?: string = 'local';
 
   @IsString()
-  socialLoginId?: string;
+  socialLoginId?: string = '';
 
   // @ApiProperty({ example: 'nickname', description: 'The nickname of the user' })
   // @IsString()

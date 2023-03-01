@@ -6,7 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { AuthRepository } from './auth.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Auth } from './entities/auth.entity';
+import { Auth } from '../entites/auth.entity';
 import { GoogleStrategy } from './google/google.strategy';
 import { NaverStrategy } from './naver/naver.strategy';
 

@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/entites/user.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Auth {
@@ -13,4 +20,8 @@ export class Auth {
 
   @Column({ type: 'varchar', length: 16, nullable: false, default: 'local' })
   platform: string;
+
+  @OneToOne(() => User, (user) => user.id, { cascade: true })
+  @JoinColumn()
+  user: User;
 }

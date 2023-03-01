@@ -12,9 +12,11 @@ export class ResponseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       map((data) => {
+        console.log(data);
         return {
           ...data,
-          addedData: 'This data is added by ResponseInterceptor',
+          success: true,
+          message: data?.msg,
         };
       }),
     );
