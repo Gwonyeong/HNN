@@ -1,4 +1,3 @@
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Auth } from '../entites/auth.entity';

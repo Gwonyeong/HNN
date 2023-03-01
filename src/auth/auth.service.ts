@@ -7,7 +7,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CreateAuthDto } from './dto/auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { Auth } from '../entites/auth.entity';
 import * as bcrypt from 'bcryptjs';
 import { responseAppTokenDTO } from './dto/responses/response.dto';
