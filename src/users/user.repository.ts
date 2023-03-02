@@ -31,4 +31,16 @@ export class UserRepository {
       .where('id = :id', { id: userId })
       .execute();
   }
+
+  async updateProfile(
+    userId: number,
+    profilePictureDto: UpdateProfilePictureDto,
+  ) {
+    await this.userRepository
+      .createQueryBuilder()
+      .update(User)
+      .set({ ...profilePictureDto })
+      .where('id = :id', { id: userId })
+      .execute();
+  }
 }

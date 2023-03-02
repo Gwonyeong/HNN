@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { Auth } from './entites/auth.entity';
 import { PostsController } from './posts/posts.controller';
 import { User } from './entites/user.entity';
+import { MulterModule } from '@nestjs/platform-express';
 
 class Config {
   static setENV() {

@@ -97,6 +97,7 @@ export class AuthService {
         password: hashedPassword,
         platform: 'local',
       });
+      //일단 user데이터 만들어두기
       await this.userRepository.createUser({});
       const { appToken } = this.GroupJWT.createJwtToken(authData);
 
