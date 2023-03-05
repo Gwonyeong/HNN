@@ -45,7 +45,7 @@ jobs:
 
         run: |
           ls -al
-          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/d5a3o9l1
+          ${{secrets.AWS_DOCKER_LOGIN_CONSOLE}}
           docker-compose  -f docker-compose.dev.yml build
           docker-compose  -f docker-compose.dev.yml push
 
@@ -67,7 +67,8 @@ jobs:
           port: 22
 
           script: |
-            aws ecr get-login-password --region ap-northeast-2 | sudo docker login --username AWS --password-stdin ${{env.ECR_REGISTRY}}
+            ${{secrets.AWS_DOCKER_LOGIN_CONSOLE}}
+
             sudo docker rm -f $(sudo docker ps -q -f "expose=3100")
             sudo docker rmi $(sudo docker images -q) 
             sudo docker pull ${{env.ECR_REGISTRY}}/hnn:dev
