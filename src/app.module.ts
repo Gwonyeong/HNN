@@ -10,6 +10,7 @@ import { Auth } from './entites/auth.entity';
 import { PostsController } from './posts/posts.controller';
 import { User } from './entites/user.entity';
 import { MulterModule } from '@nestjs/platform-express';
+import { MulterS3Service } from './common/util/aws';
 
 class Config {
   static setENV() {

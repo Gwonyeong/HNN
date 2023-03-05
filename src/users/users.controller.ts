@@ -1,3 +1,4 @@
+import { MulterS3Service } from './../common/util/aws';
 import { JwtAuthGuard } from './../auth/jwt/jwt.guard';
 import {
   Controller,
@@ -15,17 +16,17 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
-import { Request } from 'express';
 import { ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { multerOptions } from 'src/common/util/multer.option';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
 @ApiTags('02.Users(미완)')
 export class UsersController {
-  constructor(private readonly userService: UsersService) {}
+  constructor(
+    private readonly userService: UsersService,
+    private readonly multerS3Service: MulterS3Service,
+  ) {}
 
   // @Post('/profile')
   // async createUserProfile(@Req() req, @Body() createUserDto: CreateUserDto) {
@@ -40,8 +41,9 @@ export class UsersController {
   }
 
   @Patch('picture')
-  @UseInterceptors(FileInterceptor('avatar', multerOptions('avatars')))
+  @UseInterceptors(FileInterceptor('avatar'))
   async updateUserProfilePicture(@UploadedFile() avatar: Express.Multer.File) {
-    console.log(avatar);
+    this.multerS3Service.uploadImageToS3(avatar);
+    return avatar;
   }
 }
