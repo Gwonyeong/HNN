@@ -45,7 +45,7 @@ jobs:
 
         run: |
           ls -al
-          aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{env.ECR_REGISTRY}}
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/d5a3o9l1
           docker-compose  -f docker-compose.dev.yml build
           docker-compose  -f docker-compose.dev.yml push
 
