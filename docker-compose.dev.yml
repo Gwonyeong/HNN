@@ -5,7 +5,7 @@ services:
     build:
       context: ./
       dockerfile: dockerfile.dev
-    image: public.ecr.aws/d5a3o9l1/hnn:dev
+    image: public.ecr.aws/d5a3o9l1/hnn-test:dev
     ports:
       - '3100:3100'
 

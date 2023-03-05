@@ -71,7 +71,7 @@ jobs:
 
             sudo docker rm -f $(sudo docker ps -q -f "expose=3100")
             sudo docker rmi $(sudo docker images -q) 
-            sudo docker pull ${{env.ECR_REGISTRY}}/hnn:dev
+            sudo docker pull ${{env.ECR_REGISTRY}}/hnn-test:dev
 
 
             sudo docker run -d --restart unless-stopped -p 3100:3100 ${{env.ECR_REGISTRY}}/hnn:dev
