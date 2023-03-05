@@ -5,7 +5,7 @@ services:
     build:
       context: ./
       dockerfile: dockerfile.dev
-    image: 799886310010.dkr.ecr.ap-northeast-2.amazonaws.com/hnn:dev
+    image: public.ecr.aws/d5a3o9l1/hnn:dev
     ports:
       - '3100:3100'
 
