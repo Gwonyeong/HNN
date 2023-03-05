@@ -43,7 +43,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: '유저의 프로필 사진만 업데이트' })
-  @ApiResponse({ status: 201, description: '유저 프로필 사진 변경' })
+  @ApiResponse({ status: 201, description: '유저 프로필 사진 변경 성공' })
   @Patch('picture')
   @UseInterceptors(FileInterceptor('avatar'))
   async updateUserProfilePicture(
