@@ -14,6 +14,10 @@ export class UserRepository {
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
+  async findById(userId: number): Promise<User> {
+    return await this.userRepository.findOne({ where: { id: userId } });
+  }
+
   async createUser(createUserDto: CreateUserDto) {
     this.userRepository
       .createQueryBuilder()
@@ -32,7 +36,7 @@ export class UserRepository {
       .execute();
   }
 
-  async updateProfile(
+  async updateProfilePicture(
     userId: number,
     profilePictureDto: UpdateProfilePictureDto,
   ) {

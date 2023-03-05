@@ -12,16 +12,20 @@ export class MulterS3Service {
     });
   }
 
-  async uploadImageToS3(file: Express.Multer.File): Promise<string> {
+  async uploadImageToS3(
+    file: Express.Multer.File,
+    path: string,
+    nickname: string,
+  ): Promise<string> {
     const uploadParams = {
       Bucket: process.env.AWS_S3_BUCKET,
-      Key: `${Date.now()}_${file.originalname}`,
+      Key: `${path}${Date.now()}_${nickname}`,
       Body: file.buffer,
       ContentType: file.mimetype,
       ACL: 'public-read',
     };
 
     const result = await this.s3.upload(uploadParams).promise();
-    return result.Location;
+    return result.key;
   }
 }

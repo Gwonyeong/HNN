@@ -22,6 +22,6 @@ export class UsersService {
     userId: number,
     profilePictureDto: UpdateProfilePictureDto,
   ) {
-    this.userRepository;
+    this.userRepository.updateProfilePicture(userId, profilePictureDto);
   }
 }

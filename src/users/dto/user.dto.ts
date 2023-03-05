@@ -26,19 +26,20 @@ class UserDto {
 
   @IsNumber()
   authId?: number;
+
+  @IsString()
+  profilePicture?: string;
 }
 
 export class CreateUserDto extends UserDto {
-  constructor() {
-    super();
-  }
-  @IsString()
-  profilePicture?: string = 'default.png';
+  nickname?;
+  MBTI?;
+  gender?;
+  profilePicture?: string;
 }
 
 export class UpdateUserDto extends UserDto {}
 
 export class UpdateProfilePictureDto {
-  @IsString()
-  profilePicture: string;
+  profilePicture;
 }

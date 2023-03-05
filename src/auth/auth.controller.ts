@@ -12,6 +12,7 @@ import {
   Res,
   HttpStatus,
   UseInterceptors,
+  Header,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/auth.dto';
@@ -92,6 +93,7 @@ export class AuthController {
         ? `redirect  http://localhost:3690/auth/callback?accessToken=token`
         : ``,
   })
+  @Header('Access-Control-Allow-Origin', '*') // CORS 허용
   async googleCallback(@Req() req, @Res() res: Response) {
     res.redirect(
       process.env.FRONT_SERVER_URI +
@@ -118,6 +120,7 @@ export class AuthController {
         ? `redirect  http://localhost:3690/auth/callback?accessToken=token`
         : ``,
   })
+  @Header('Access-Control-Allow-Origin', '*') // CORS 허용
   async naverCallback(@Req() req, @Res() res: Response) {
     res.redirect(
       process.env.FRONT_SERVER_URI +

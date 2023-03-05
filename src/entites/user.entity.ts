@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { MBTI, gender } from './enum/user.enum';
+import { role } from './enum/auth.enum';
 
 @Entity()
 export class User {
@@ -29,6 +30,9 @@ export class User {
 
   @Column({ type: 'enum', enum: gender, default: gender.null })
   gender: string;
+
+  @Column({ type: 'enum', enum: role })
+  role: string;
 
   @OneToOne(() => Auth, (auth) => auth.id)
   @JoinColumn()

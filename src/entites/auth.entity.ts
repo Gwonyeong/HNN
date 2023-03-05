@@ -6,7 +6,6 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { role } from './enum/auth.enum';
 
 @Entity()
 export class Auth {
@@ -21,9 +20,6 @@ export class Auth {
 
   @Column({ type: 'varchar', length: 16, nullable: false, default: 'local' })
   platform: string;
-
-  @Column({ type: 'enum', enum: role })
-  role: string;
 
   @OneToOne(() => User, (user) => user.id, { cascade: true })
   @JoinColumn()

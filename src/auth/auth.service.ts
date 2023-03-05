@@ -23,7 +23,7 @@ export class AuthService {
   // jwt 관련
   public GroupJWT = {
     createJwtToken: (authData: Auth) => {
-      const payload = { id: authData.id, role: authData.role };
+      const payload = { id: authData.id };
       return {
         appToken: this.jwtService.sign(payload, {
           secret: process.env.SECRET_KEY,
