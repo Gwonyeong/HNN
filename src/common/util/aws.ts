@@ -13,6 +13,7 @@ export class MulterS3Service {
     path: string,
     nickname: string,
   ): Promise<string> {
+    console.log(process.memoryUsage());
     const uploadParams = {
       Bucket: process.env.AWS_S3_BUCKET,
       Key: `${path}${Date.now()}_${nickname}`,

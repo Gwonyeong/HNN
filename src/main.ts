@@ -11,6 +11,11 @@ import * as expressBasicAuth from 'express-basic-auth';
 import * as passport from 'passport';
 import * as cookieParser from 'cookie-parser';
 import { HttpExceptionFilter } from './common/middlewares/error/error.middleware';
+// import * as heapdump from 'heapdump';
+// 메모리 누수가 발생한 시점의 V8 엔진 힙 스냅샷을 저장합니다.
+// heapdump.writeSnapshot((err, filename) => {
+//   console.log(`Heap dump written to ${filename}`);
+// });
 
 class Application {
   private logger = new Logger(Application.name);

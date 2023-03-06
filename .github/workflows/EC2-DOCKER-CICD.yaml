@@ -82,7 +82,7 @@ jobs:
             sudo docker pull ${{env.ECR_REGISTRY}}/hnn:dev
 
 
-            sudo docker run -d --restart unless-stopped -p 3100:3100 ${{env.ECR_REGISTRY}}/hnn:dev
+            sudo docker run -d  -p 3100:3100 ${{env.ECR_REGISTRY}}/hnn:dev
 
       - name: Remove Github Actions IP From Security Group
         run: |

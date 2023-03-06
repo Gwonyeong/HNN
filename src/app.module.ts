@@ -30,6 +30,8 @@ class Config {
   }
 
   static setMySQL() {
+    console.log(process.memoryUsage());
+
     return TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.MYSQL_HOST,
