@@ -7,7 +7,6 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   Put,
   UseGuards,
   Req,
