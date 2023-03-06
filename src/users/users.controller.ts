@@ -50,11 +50,10 @@ export class UsersController {
     @Req() req,
     @UploadedFile() avatar: Express.Multer.File,
   ) {
-    const { userId, nickname } = req.user;
-    const fileSavePath = await this.multerS3Service.uploadImageToS3(
+    const { userId } = req.user;
+    const { fileSavePath } = await this.multerS3Service.uploadImageToS3(
       avatar,
       process.env.S3_AVATAR_PATH,
-      nickname,
     );
     this.userService.updateUserProfile(userId, {
       profilePicture: fileSavePath,
