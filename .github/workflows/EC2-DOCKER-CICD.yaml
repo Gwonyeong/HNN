@@ -36,6 +36,14 @@ jobs:
 
           echo "${{secrets.DEV_ENV}}" >> .dev.env
 
+      - name: Delete ECR images
+        run: |
+          for repo in $(aws ecr describe-repositories --query 'repositories[].repositoryName' --output text); do
+            for tag in $(aws ecr list-images --repository-name $repo --query 'imageIds[].imageTag' --output text); do
+              aws ecr batch-delete-image --repository-name $repo --image-ids imageTag=$tag;
+            done;
+          done;
+
       - name: Build, tag, and push the image(node.js) to Amazon ECR
         id: build-image-node
         env:
@@ -71,7 +79,7 @@ jobs:
 
             sudo docker rm -f $(sudo docker ps -q -f "expose=3100")
             sudo docker rmi $(sudo docker images -q) 
-            sudo docker pull ${{env.ECR_REGISTRY}}/hnn-test:dev
+            sudo docker pull ${{env.ECR_REGISTRY}}/hnn:dev
 
 
             sudo docker run -d --restart unless-stopped -p 3100:3100 ${{env.ECR_REGISTRY}}/hnn:dev
