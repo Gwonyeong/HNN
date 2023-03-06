@@ -24,8 +24,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 @ApiTags('02.Users')
 export class UsersController {
   constructor(
-    private readonly userService: UsersService,
-    private readonly multerS3Service: MulterS3Service,
+    private readonly userService: UsersService, // private readonly multerS3Service: MulterS3Service,
   ) {}
 
   // @Post('/profile')
@@ -42,23 +41,23 @@ export class UsersController {
     return await this.userService.updateUser(userId, updateUserDto);
   }
 
-  @ApiOperation({ summary: '유저의 프로필 사진만 업데이트' })
-  @ApiResponse({ status: 201, description: '유저 프로필 사진 변경 성공' })
-  @Patch('picture')
-  @UseInterceptors(FileInterceptor('avatar'))
-  async updateUserProfilePicture(
-    @Req() req,
-    @UploadedFile() avatar: Express.Multer.File,
-  ) {
-    const { userId, nickname } = req.user;
-    const fileSavePath = await this.multerS3Service.uploadImageToS3(
-      avatar,
-      process.env.S3_AVATAR_PATH,
-      nickname,
-    );
-    this.userService.updateUserProfile(userId, {
-      profilePicture: fileSavePath,
-    });
-    return { success: true };
-  }
+  // @ApiOperation({ summary: '유저의 프로필 사진만 업데이트' })
+  // @ApiResponse({ status: 201, description: '유저 프로필 사진 변경 성공' })
+  // @Patch('picture')
+  // @UseInterceptors(FileInterceptor('avatar'))
+  // async updateUserProfilePicture(
+  //   @Req() req,
+  //   @UploadedFile() avatar: Express.Multer.File,
+  // ) {
+  //   const { userId, nickname } = req.user;
+  //   const fileSavePath = await this.multerS3Service.uploadImageToS3(
+  //     avatar,
+  //     process.env.S3_AVATAR_PATH,
+  //     nickname,
+  //   );
+  //   this.userService.updateUserProfile(userId, {
+  //     profilePicture: fileSavePath,
+  //   });
+  //   return { success: true };
+  // }
 }
