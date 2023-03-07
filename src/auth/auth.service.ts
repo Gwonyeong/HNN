@@ -78,9 +78,7 @@ export class AuthService {
 
   // 회원가입 관련
   public GroupSignUp = {
-    signUp: async (
-      createAuthDto: CreateAuthDto,
-    ): Promise<responseAppTokenDTO> => {
+    signUp: async (createAuthDto: CreateAuthDto): Promise<{ appToken }> => {
       const { email, password } = createAuthDto;
       const dupAuthData = await this.authRepository.findByEmail(email);
       if (dupAuthData) {

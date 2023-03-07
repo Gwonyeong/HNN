@@ -15,8 +15,15 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/user.dto';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ResponseDTO } from 'src/common/dtos/response.dto';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
@@ -34,15 +41,36 @@ export class UsersController {
   // }
 
   @ApiOperation({ summary: '유저의 프로필 업데이트' })
-  @ApiResponse({ status: 201, description: '유저 정보 변경 성공' })
+  @ApiBody({ type: UpdateUserDto })
+  @ApiResponse({
+    status: 201,
+    description: '유저 정보 변경 성공',
+    type: ResponseDTO,
+  })
   @Put('/')
-  async updateUserProfile(@Req() req, @Body() updateUserDto: UpdateUserDto) {
+  async updateUserProfile(@Body() updateUserDto: UpdateUserDto, @Req() req) {
     const { userId } = req.user;
     return await this.userService.updateUser(userId, updateUserDto);
   }
 
   @ApiOperation({ summary: '유저의 프로필 사진만 업데이트' })
-  @ApiResponse({ status: 201, description: '유저 프로필 사진 변경 성공' })
+  @ApiBody({
+    description: 'avatar에 multi-formdata 이미지 파일을 넣어주세요.',
+    type: 'multipart/form-data',
+    schema: {
+      properties: {
+        avatar: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: '유저 프로필 사진 변경 성공',
+    type: ResponseDTO,
+  })
   @Patch('picture')
   @UseInterceptors(FileInterceptor('avatar'))
   async updateUserProfilePicture(

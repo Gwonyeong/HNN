@@ -57,7 +57,7 @@ export class AuthController {
     const { appToken } = await this.authService.GroupSignUp.signUp(
       createAuthDto,
     );
-    return { appToken };
+    return { data: { appToken } };
   }
 
   @Post()
@@ -71,7 +71,7 @@ export class AuthController {
   ): Promise<responseAppTokenDTO> {
     const { appToken } = await this.authService.GroupLogin.login(createAuthDto);
     return {
-      appToken,
+      data: { appToken },
     };
   }
 

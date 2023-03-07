@@ -1,10 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ResponseDTO } from 'src/common/dtos/response.dto';
 
-export class responseAppTokenDTO {
+export class responseAppTokenDTO extends ResponseDTO {
   @ApiProperty({
-    example: 'token',
     description: '액세스 토큰',
     required: true,
+    properties: {
+      appToken: {
+        type: 'string',
+      },
+    },
   })
-  appToken: string;
+  data: {
+    appToken: string;
+  };
 }

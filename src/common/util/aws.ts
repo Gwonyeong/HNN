@@ -28,7 +28,6 @@ export class MulterS3Service {
     const fileSavePath = `${path}${Date.now()}_${this.generateRandomString(
       10,
     )}`;
-    console.log(fileSavePath);
     const uploadParams = {
       Bucket: process.env.AWS_S3_BUCKET,
       Key: fileSavePath,
