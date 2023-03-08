@@ -4,8 +4,8 @@
 
 - [NestJS docs](https://docs.nestjs.com/)
 - [TypeORM docs](https://typeorm.biunav.com/en/)
-- [npm - multer(nestjs-multer-extended-s3)](https://www.npmjs.com/package/nestjs-multer-extended-s3)
 
+- [구현 방안](https://olive-barber-595.notion.site/5ef7010df1b84cabb312ea8738dff0da)
 
 ## 목표
 
