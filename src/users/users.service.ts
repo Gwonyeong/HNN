@@ -4,11 +4,16 @@ import {
   CreateUserDto,
   UpdateUserDto,
   UpdateProfilePictureDto,
+  FindUserDto,
 } from './dto/user.dto';
 
 @Injectable()
 export class UsersService {
   constructor(private userRepository: UserRepository) {}
+
+  async findUserByUserId(userId: number): Promise<FindUserDto> {
+    return await this.userRepository.findById(userId);
+  }
 
   async createUser(createUserDto: CreateUserDto) {
     return await this.userRepository.createUser(createUserDto);

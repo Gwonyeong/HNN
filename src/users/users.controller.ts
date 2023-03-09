@@ -40,6 +40,13 @@ export class UsersController {
   //   return await this.userService.createUser(userId, createUserDto);
   // }
 
+  @Get('/')
+  async findUserByUserId(@Req() req) {
+    const { userId } = req.user;
+    const userData = await this.userService.findUserByUserId(userId);
+    return userData;
+  }
+
   @ApiOperation({ summary: '유저의 프로필 업데이트' })
   @ApiBody({ type: UpdateUserDto })
   @ApiResponse({

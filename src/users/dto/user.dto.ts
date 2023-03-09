@@ -40,6 +40,14 @@ class UserDto {
   profilePicture?: string;
 }
 
+export class FindUserDto extends UserDto {
+  nickname?: string;
+  MBTI;
+  gender;
+  authId?: number;
+  profilePicture?: string;
+}
+
 export class CreateUserDto extends UserDto {
   nickname?;
   MBTI?;
