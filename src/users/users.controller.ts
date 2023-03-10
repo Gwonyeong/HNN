@@ -40,6 +40,7 @@ export class UsersController {
   //   return await this.userService.createUser(userId, createUserDto);
   // }
 
+  @ApiOperation({ summary: '유저 정보 가져오기' })
   @Get('/')
   async findUserByUserId(@Req() req) {
     const { userId } = req.user;
