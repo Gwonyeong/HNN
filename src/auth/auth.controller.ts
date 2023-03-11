@@ -40,7 +40,6 @@ export class AuthController {
     private jwtService: JwtService,
   ) {}
 
-  @Post('/signup')
   @ApiOperation({ summary: '회원가입' })
   @ApiOkResponse({
     description: '회원가입 성공',
@@ -51,7 +50,8 @@ export class AuthController {
     description: '이미 가입된 이메일입니다.',
   })
   @UseInterceptors(ResponseInterceptor)
-  async signup(
+  @Post('/signup')
+  async createUser(
     @Body() createAuthDto: CreateAuthDto,
   ): Promise<responseAppTokenDTO> {
     const { appToken } = await this.authService.GroupSignUp.signUp(
@@ -60,12 +60,12 @@ export class AuthController {
     return { data: { appToken } };
   }
 
-  @Post()
   @ApiOperation({ summary: '로그인' })
   @ApiOkResponse({ description: '로그인 성공', type: responseAppTokenDTO })
   @ApiBadRequestResponse({
     description: '이메일 혹은 비밀번호를 확인해주세요!',
   })
+  @Post()
   async login(
     @Body() createAuthDto: CreateAuthDto,
   ): Promise<responseAppTokenDTO> {
@@ -75,16 +75,15 @@ export class AuthController {
     };
   }
 
-  @Get('login/google')
   @UseGuards(GoogleAuthGuard)
   @ApiOperation({
     description: '이 경로로 요청을 보내면 구글 로그인페이지로 이동합니다.',
   })
+  @Get('login/google')
   async googleLogin() {
     return;
   }
 
-  @Get('callback/google')
   @UseGuards(GoogleAuthGuard)
   @ApiResponse({
     status: 302,
@@ -94,6 +93,7 @@ export class AuthController {
         : ``,
   })
   @Header('Access-Control-Allow-Origin', '*') // CORS 허용
+  @Get('callback/google')
   async googleCallback(@Req() req, @Res() res: Response) {
     res.redirect(
       process.env.FRONT_SERVER_URI +
@@ -102,16 +102,15 @@ export class AuthController {
     return;
   }
 
-  @Get('login/naver')
   @ApiOperation({
     description: '이 경로로 요청을 보내면 네이버 로그인페이지로 이동합니다.',
   })
   @UseGuards(NaverAuthGuard)
+  @Get('login/naver')
   async naverLogin() {
     return;
   }
 
-  @Get('callback/naver')
   @UseGuards(NaverAuthGuard)
   @ApiResponse({
     status: 302,
@@ -121,6 +120,7 @@ export class AuthController {
         : ``,
   })
   @Header('Access-Control-Allow-Origin', '*') // CORS 허용
+  @Get('callback/naver')
   async naverCallback(@Req() req, @Res() res: Response) {
     res.redirect(
       process.env.FRONT_SERVER_URI +

@@ -14,10 +14,11 @@ import {
   UploadedFile,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UpdateUserDto } from './dto/user.dto';
+import { UpdateUserDto, FindUserDto } from './dto/user.dto';
 import {
   ApiBody,
   ApiConsumes,
+  ApiOkResponse,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -41,8 +42,9 @@ export class UsersController {
   // }
 
   @ApiOperation({ summary: '유저 정보 가져오기' })
+  @ApiOkResponse({ type: FindUserDto })
   @Get('/')
-  async findUserByUserId(@Req() req) {
+  async findUserByUserId(@Req() req): Promise<FindUserDto> {
     const { userId } = req.user;
     const userData = await this.userService.findUserByUserId(userId);
     return userData;

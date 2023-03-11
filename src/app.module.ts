@@ -11,6 +11,7 @@ import { PostsController } from './posts/posts.controller';
 import { User } from './entites/user.entity';
 import { MulterModule } from '@nestjs/platform-express';
 import { MulterS3Service } from './common/util/aws';
+import { PostsModule } from './posts/posts.module';
 
 class Config {
   static setENV() {
@@ -54,8 +55,9 @@ class Config {
     Config.setMongo(),
     AuthModule,
     UsersModule,
+    PostsModule,
   ],
-  controllers: [PostsController],
+  controllers: [],
   providers: [],
 })
 export class AppModule {}
