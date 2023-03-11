@@ -12,6 +12,7 @@ import { User } from './entites/user.entity';
 import { MulterModule } from '@nestjs/platform-express';
 import { MulterS3Service } from './common/util/aws';
 import { PostsModule } from './posts/posts.module';
+import { Post } from './entites/post.entity';
 
 class Config {
   static setENV() {
@@ -38,7 +39,7 @@ class Config {
       username: process.env.MYSQL_USERNAME,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      entities: [Auth, User],
+      entities: [Auth, User, Post],
       synchronize: true,
     });
   }

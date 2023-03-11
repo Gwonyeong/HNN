@@ -17,6 +17,9 @@ import {
 
 class PostDto {
   @IsString()
+  youtubeUri: string;
+
+  @IsString()
   channelId?: string;
 
   @IsString()
@@ -44,6 +47,5 @@ export class CreatePostDto extends PostDto {
   description?;
   channelTitle?;
   publishedAt?;
-  tags?;
   channelThumbnail;
 }

@@ -18,6 +18,10 @@ export class ProcessUriService {
   public findDomain(uri: string) {
     const uriObj = parseUrl(uri);
     const query = this.youtubeSeperateQuery(uriObj.query);
-    return { query };
+    return {
+      youtubeUri: uriObj.fullDomain + `?v=` + query.v,
+      host: uriObj.host,
+      query,
+    };
   }
 }
