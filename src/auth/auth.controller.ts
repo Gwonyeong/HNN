@@ -15,7 +15,7 @@ import {
   Header,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/auth.dto';
+import { InsertAuthDto } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import {
   ApiBadRequestResponse,
@@ -52,7 +52,7 @@ export class AuthController {
   @UseInterceptors(ResponseInterceptor)
   @Post('/signup')
   async createUser(
-    @Body() createAuthDto: CreateAuthDto,
+    @Body() createAuthDto: InsertAuthDto,
   ): Promise<responseAppTokenDTO> {
     const { appToken } = await this.authService.GroupSignUp.signUp(
       createAuthDto,
@@ -67,7 +67,7 @@ export class AuthController {
   })
   @Post()
   async login(
-    @Body() createAuthDto: CreateAuthDto,
+    @Body() createAuthDto: InsertAuthDto,
   ): Promise<responseAppTokenDTO> {
     const { appToken } = await this.authService.GroupLogin.login(createAuthDto);
     return {

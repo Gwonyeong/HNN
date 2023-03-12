@@ -16,8 +16,10 @@ import {
 } from 'class-validator';
 
 class PostDto {
+  postId?: number;
+
   @IsString()
-  youtubeUri: string;
+  youtubeUri?: string;
 
   @IsString()
   channelId?: string;
@@ -41,11 +43,18 @@ class PostDto {
   channelThumbnail?: string;
 }
 
-export class CreatePostDto extends PostDto {
+export class InsertPostDto extends PostDto {
   channelId?;
-  title?;
+  title;
   description?;
   channelTitle?;
   publishedAt?;
   channelThumbnail;
+}
+
+export class SearchPostDto extends PostDto {
+  postId: number;
+  title: string;
+  description?: string;
+  tags?: string[];
 }

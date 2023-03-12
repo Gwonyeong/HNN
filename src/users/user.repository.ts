@@ -5,7 +5,7 @@ import {
 } from './dto/user.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/entites/user.entity';
+import { User } from 'src/database/entites/user.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -14,37 +14,39 @@ export class UserRepository {
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
-  async findById(userId: number): Promise<User> {
-    return await this.userRepository.findOne({ where: { id: userId } });
-  }
+  public Mysql = {
+    findById: async (userId: number): Promise<User> => {
+      return this.userRepository.findOne({ where: { id: userId } });
+    },
 
-  async createUser(createUserDto: CreateUserDto) {
-    this.userRepository
-      .createQueryBuilder()
-      .insert()
-      .into(User)
-      .values({ ...createUserDto })
-      .execute();
-  }
+    insertUser: async (createUserDto: CreateUserDto) => {
+      this.userRepository
+        .createQueryBuilder()
+        .insert()
+        .into(User)
+        .values({ ...createUserDto })
+        .execute();
+    },
 
-  async updateUser(userId: number, updateUserDto: UpdateUserDto) {
-    return await this.userRepository
-      .createQueryBuilder()
-      .update(User)
-      .set({ ...updateUserDto })
-      .where('id = :id', { id: userId })
-      .execute();
-  }
+    updateUser: async (userId: number, updateUserDto: UpdateUserDto) => {
+      return await this.userRepository
+        .createQueryBuilder()
+        .update(User)
+        .set({ ...updateUserDto })
+        .where('id = :id', { id: userId })
+        .execute();
+    },
 
-  async updateProfilePicture(
-    userId: number,
-    profilePictureDto: UpdateProfilePictureDto,
-  ) {
-    await this.userRepository
-      .createQueryBuilder()
-      .update(User)
-      .set({ ...profilePictureDto })
-      .where('id = :id', { id: userId })
-      .execute();
-  }
+    updateProfilePicture: async (
+      userId: number,
+      profilePictureDto: UpdateProfilePictureDto,
+    ) => {
+      await this.userRepository
+        .createQueryBuilder()
+        .update(User)
+        .set({ ...profilePictureDto })
+        .where('id = :id', { id: userId })
+        .execute();
+    },
+  };
 }

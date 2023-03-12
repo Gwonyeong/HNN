@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { UserRepository } from './user.repository';
-import { User } from 'src/entites/user.entity';
+import { User } from 'src/database/entites/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MulterS3Service } from 'src/common/util/aws';
 

@@ -8,7 +8,7 @@ import {
   Matches,
   Min,
 } from 'class-validator';
-import { MBTI, gender } from 'src/entites/enum/user.enum';
+import { MBTI, gender } from 'src/database/entites/enum/user.enum';
 class UserDto {
   @ApiProperty({ example: 'nickname' })
   @IsString()

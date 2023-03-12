@@ -9,7 +9,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
-import { CreatePostDto } from './dtos/posts.dto';
+import { InsertPostDto } from './dtos/posts.dto';
 import { ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { ResponseInterceptor } from 'src/common/interceptor/response.interceptor';
 
@@ -27,10 +27,19 @@ export class PostsController {
   @Post()
   async findYoutebeData(@Req() req, @Body() body: { uri: string }) {
     const { userId } = req.user;
-    const { youtubeData, tags } = await this.postsService.findYoutubeData(
+    const { youtubeData, tags } = await this.postsService.find.findYoutubeData(
       body.uri,
     );
-    await this.postsService.createPost(userId, youtubeData);
+    const createPostData = await this.postsService.insert.insertPost(
+      userId,
+      youtubeData,
+    );
+    this.postsService.insert.insertPostOfSearchData({
+      postId: createPostData.id,
+      title: youtubeData.title,
+      description: youtubeData.description,
+      tags,
+    });
     return;
   }
 }

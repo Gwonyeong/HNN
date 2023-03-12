@@ -6,13 +6,13 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-import { Auth } from './entites/auth.entity';
+import { Auth } from './database/entites/auth.entity';
 import { PostsController } from './posts/posts.controller';
-import { User } from './entites/user.entity';
+import { User } from './database/entites/user.entity';
 import { MulterModule } from '@nestjs/platform-express';
 import { MulterS3Service } from './common/util/aws';
 import { PostsModule } from './posts/posts.module';
-import { Post } from './entites/post.entity';
+import { Post } from './database/entites/post.entity';
 
 class Config {
   static setENV() {

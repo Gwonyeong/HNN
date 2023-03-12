@@ -43,7 +43,7 @@ class AuthDto {
   role?: string = 'common';
 }
 
-export class CreateAuthDto extends AuthDto {
+export class InsertAuthDto extends AuthDto {
   email;
   password?;
   platform;
