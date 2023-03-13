@@ -1,10 +1,10 @@
-version: "3"
+version: '3'
 
 services:
   app:
     build:
       context: ./
       dockerfile: dockerfile.dev
-    image: 799886310010.dkr.ecr.ap-northeast-2.amazonaws.com/hnn:dist
+    image: 799886310010.dkr.ecr.ap-northeast-2.amazonaws.com/hnn:dev
     ports:
-      - "3100:3100"
+      - '3100:3100'
