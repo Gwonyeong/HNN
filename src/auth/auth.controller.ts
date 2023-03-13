@@ -1,3 +1,4 @@
+import { HttpExceptionFilter } from 'src/common/middlewares/error/error.middleware';
 import { JwtAuthGuard } from './jwt/jwt.guard';
 import {
   Controller,
@@ -13,6 +14,7 @@ import {
   HttpStatus,
   UseInterceptors,
   Header,
+  UseFilters,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { InsertAuthDto } from './dto/auth.dto';
@@ -34,6 +36,7 @@ import { ResponseInterceptor } from 'src/common/interceptor/response.interceptor
 
 @ApiTags('01.Auth')
 @Controller('auth')
+@UseFilters(new HttpExceptionFilter())
 export class AuthController {
   constructor(
     private readonly authService: AuthService,

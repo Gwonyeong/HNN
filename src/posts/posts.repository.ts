@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseFilters } from '@nestjs/common';
 import { InsertPostDto } from './dtos/posts.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
@@ -10,8 +10,14 @@ import {
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Post } from 'src/database/entites/post.entity';
+import {
+  MongoExceptionFilter,
+  TypeOrmExceptionFilter,
+} from 'src/common/middlewares/error/error.middleware';
 
 @Injectable()
+@UseFilters(new TypeOrmExceptionFilter())
+@UseFilters(new MongoExceptionFilter())
 export class PostsRepository {
   constructor(
     @InjectRepository(Post) private postRepository: Repository<Post>,

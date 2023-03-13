@@ -3,12 +3,18 @@ import {
   UpdateProfilePictureDto,
   UpdateUserDto,
 } from './dto/user.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseFilters } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import {
+  MongoExceptionFilter,
+  TypeOrmExceptionFilter,
+} from 'src/common/middlewares/error/error.middleware';
 import { User } from 'src/database/entites/user.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
+@UseFilters(new TypeOrmExceptionFilter())
+@UseFilters(new MongoExceptionFilter())
 export class UserRepository {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,

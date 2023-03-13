@@ -52,7 +52,7 @@ jobs:
           IMAGE_TAG_NODE: hnn-nest
 
         run: |
-          ls -al
+          npm run build
           ${{secrets.AWS_DOCKER_LOGIN_CONSOLE}}
           docker-compose  -f docker-compose.dev.yml build
           docker-compose  -f docker-compose.dev.yml push

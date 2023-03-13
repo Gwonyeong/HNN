@@ -5,6 +5,7 @@ import {
   Get,
   Post,
   Req,
+  UseFilters,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -12,9 +13,11 @@ import { PostsService } from './posts.service';
 import { InsertPostDto } from './dtos/posts.dto';
 import { ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { ResponseInterceptor } from 'src/common/interceptor/response.interceptor';
+import { HttpExceptionFilter } from 'src/common/middlewares/error/error.middleware';
 
 @Controller('posts')
 @ApiTags('03.Posts')
+@UseFilters(new HttpExceptionFilter())
 @UseInterceptors(ResponseInterceptor)
 export class PostsController {
   constructor(private postsService: PostsService) {}

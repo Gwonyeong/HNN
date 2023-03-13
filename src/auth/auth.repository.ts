@@ -1,10 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseFilters } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Auth } from '../database/entites/auth.entity';
 import { InsertAuthDto } from './dto/auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
+import {
+  MongoExceptionFilter,
+  TypeOrmExceptionFilter,
+} from 'src/common/middlewares/error/error.middleware';
 
 @Injectable()
+@UseFilters(new TypeOrmExceptionFilter())
+@UseFilters(new MongoExceptionFilter())
 export class AuthRepository {
   constructor(
     @InjectRepository(Auth) private authRepository: Repository<Auth>,

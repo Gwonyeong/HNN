@@ -12,6 +12,10 @@ import {
   Req,
   UseInterceptors,
   UploadedFile,
+  UseFilters,
+  HttpException,
+  HttpStatus,
+  BadRequestException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto, FindUserDto } from './dto/user.dto';
@@ -25,10 +29,12 @@ import {
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ResponseDTO } from 'src/common/dtos/response.dto';
+import { HttpExceptionFilter } from 'src/common/middlewares/error/error.middleware';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
 @ApiTags('02.Users')
+@UseFilters(new HttpExceptionFilter())
 export class UsersController {
   constructor(
     private readonly userService: UsersService,

@@ -1,3 +1,4 @@
+import { HttpExceptionFilter } from 'src/common/middlewares/error/error.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 

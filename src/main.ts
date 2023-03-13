@@ -10,7 +10,10 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as expressBasicAuth from 'express-basic-auth';
 import * as passport from 'passport';
 import * as cookieParser from 'cookie-parser';
-import { HttpExceptionFilter } from './common/middlewares/error/error.middleware';
+import {
+  HttpExceptionFilter,
+  TypeOrmExceptionFilter,
+} from './common/middlewares/error/error.middleware';
 
 class Application {
   private logger = new Logger(Application.name);
@@ -75,6 +78,7 @@ class Application {
       }),
     );
     this.server.useGlobalFilters(new HttpExceptionFilter());
+    this.server.useGlobalFilters(new TypeOrmExceptionFilter());
 
     this.server.use(passport.initialize());
     // this.server.use(passport.session());
