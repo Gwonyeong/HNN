@@ -11,7 +11,15 @@ import {
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { InsertPostDto } from './dtos/posts.dto';
-import { ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiBody,
+  ApiHeader,
+  ApiOperation,
+  ApiProperty,
+  ApiTags,
+} from '@nestjs/swagger';
 import { ResponseInterceptor } from 'src/common/interceptor/response.interceptor';
 import { HttpExceptionFilter } from 'src/common/middlewares/error/error.middleware';
 
@@ -19,12 +27,28 @@ import { HttpExceptionFilter } from 'src/common/middlewares/error/error.middlewa
 @ApiTags('03.Posts')
 @UseFilters(new HttpExceptionFilter())
 @UseInterceptors(ResponseInterceptor)
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth('access-token')
 export class PostsController {
   constructor(private postsService: PostsService) {}
 
   @ApiOperation({
     description:
       '유튜브 uri를 넣으면 해당 uri를 분석해 제목, 설명 등을 db에 저장합니다.',
+  })
+  @ApiBody({
+    description: 'youtube uri',
+    schema: {
+      properties: {
+        uri: {
+          type: 'string',
+          example: 'https://www.youtube.com/watch?v=wcIf3huwFhc&t=4076s',
+        },
+      },
+    },
+  })
+  @ApiBadRequestResponse({
+    description: '유튜브 URI만 등록가능합니다.',
   })
   @UseGuards(JwtAuthGuard)
   @Post()

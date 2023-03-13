@@ -59,6 +59,15 @@ class Application {
             '흔들리는 음악속에서 네 MBTI가 느껴진거야, 기본적으로 모든 response에는 success : boolean 값을 함께 보냅니다!',
           )
           .setVersion('0.0.2')
+          .addBearerAuth(
+            {
+              type: 'http',
+              scheme: 'bearer',
+              name: 'JWT',
+              in: 'header',
+            },
+            'access-token',
+          )
           .build(),
       ),
     );

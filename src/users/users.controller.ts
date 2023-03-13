@@ -20,6 +20,7 @@ import {
 import { UsersService } from './users.service';
 import { UpdateUserDto, FindUserDto } from './dto/user.dto';
 import {
+  ApiBearerAuth,
   ApiBody,
   ApiConsumes,
   ApiOkResponse,
@@ -35,6 +36,7 @@ import { HttpExceptionFilter } from 'src/common/middlewares/error/error.middlewa
 @UseGuards(JwtAuthGuard)
 @ApiTags('02.Users')
 @UseFilters(new HttpExceptionFilter())
+@ApiBearerAuth('access-token')
 export class UsersController {
   constructor(
     private readonly userService: UsersService,
