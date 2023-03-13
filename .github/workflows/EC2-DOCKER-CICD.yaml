@@ -78,8 +78,8 @@ jobs:
           script: |
             ${{secrets.AWS_DOCKER_LOGIN_CONSOLE}}
 
-            sudo docker rmi $(sudo docker images -q) 
             sudo docker rm -f $(sudo docker ps -q -f "expose=3100")
+            sudo docker rmi $(sudo docker images -f "reference=${{env.ECR_REGISTRY}}/hnn:dev") 
             sudo docker pull ${{env.ECR_REGISTRY}}/hnn:dev
 
 
