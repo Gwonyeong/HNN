@@ -14,6 +14,7 @@ import {
   MongoExceptionFilter,
   TypeOrmExceptionFilter,
 } from 'src/common/middlewares/error/error.middleware';
+import { FindPostFilterDto } from './dtos/posts.findFilter.dto';
 
 @Injectable()
 @UseFilters(new TypeOrmExceptionFilter())
@@ -26,6 +27,25 @@ export class PostsRepository {
   ) {}
 
   public Mysql = {
+    findPost: async (findPostFilterDto: FindPostFilterDto) => {
+      return (
+        this.postRepository
+          .createQueryBuilder('post')
+          .select([
+            'post.id AS postId',
+            'post.youtubeUri AS youtubeUri',
+            'post.youtubeTitle AS youtubeTitle',
+            'post.description AS youtubeDescription',
+            'post.publishedAt AS publishedAt',
+            'user.id',
+          ])
+          .innerJoin('post.user', 'user')
+
+          // .getMany();
+          .getRawMany()
+      );
+    },
+
     insertPost: async (
       userId: number,
       youtubeData: InsertPostDto,

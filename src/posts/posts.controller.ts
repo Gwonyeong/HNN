@@ -4,6 +4,7 @@ import {
   Controller,
   Get,
   Post,
+  Query,
   Req,
   UseFilters,
   UseGuards,
@@ -22,6 +23,7 @@ import {
 } from '@nestjs/swagger';
 import { ResponseInterceptor } from 'src/common/interceptor/response.interceptor';
 import { HttpExceptionFilter } from 'src/common/middlewares/error/error.middleware';
+import { FindPostFilterDto } from './dtos/posts.findFilter.dto';
 
 @Controller('posts')
 @ApiTags('03.Posts')
@@ -31,6 +33,14 @@ import { HttpExceptionFilter } from 'src/common/middlewares/error/error.middlewa
 @ApiBearerAuth('access-token')
 export class PostsController {
   constructor(private postsService: PostsService) {}
+
+  @Get('/')
+  async findPostData(@Query() postFilterDto: FindPostFilterDto) {
+    const postListPageData = await this.postsService.find.findPostData(
+      postFilterDto,
+    );
+    return postListPageData;
+  }
 
   @ApiOperation({
     description:
@@ -51,8 +61,8 @@ export class PostsController {
     description: '유튜브 URI만 등록가능합니다.',
   })
   @UseGuards(JwtAuthGuard)
-  @Post()
-  async findYoutebeData(@Req() req, @Body() body: { uri: string }) {
+  @Post('/')
+  async createYoutebeData(@Req() req, @Body() body: { uri: string }) {
     const { userId } = req.user;
     const { youtubeData, tags } = await this.postsService.find.findYoutubeData(
       body.uri,

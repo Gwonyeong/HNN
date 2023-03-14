@@ -27,7 +27,10 @@ export class Post {
   channelId: string;
 
   @Column({ type: 'varchar', length: 256, nullable: false })
-  title: string;
+  youtubeTitle: string;
+
+  @Column({ type: 'varchar', length: 256, nullable: false })
+  postTitle: string;
 
   @Column({ type: 'varchar', length: 512, nullable: true })
   description: string;

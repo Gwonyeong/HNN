@@ -1,3 +1,4 @@
+import { FindPostFilterDto } from './dtos/posts.findFilter.dto';
 import { PostsRepository } from './posts.repository';
 import { BadRequestException, Injectable } from '@nestjs/common';
 
@@ -19,6 +20,10 @@ export class PostsService {
   });
 
   public find = {
+    findPostData: async (findPostFilterDto: FindPostFilterDto) => {
+      return this.postsRepository.Mysql.findPost(findPostFilterDto);
+    },
+
     findYoutubeData: async (uri: string) => {
       const { youtubeUri, host, query } =
         this.processUriService.findDomain(uri);
