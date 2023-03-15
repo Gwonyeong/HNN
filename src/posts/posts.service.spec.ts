@@ -1,18 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PostsService } from './posts.service';
+import { ProcessUriService } from 'src/common/services/processUri.service';
+import { PostsRepository } from './posts.repository';
 
 describe('PostsService', () => {
-  let service: PostsService;
-
+  let postsService: PostsService;
+  ProcessUriService;
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [PostsService],
-    }).compile();
-
-    service = module.get<PostsService>(PostsService);
+    postsService = new PostsService(new ProcessUriService(), PostsRepository);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('Should get several data in youtube api', () => {
+    expect(
+      service.find.findYoutubeData(
+        'https://www.youtube.com/watch?v=80L6WDXeqaU',
+      ),
+    ).toBeInstanceOf(Object);
   });
 });

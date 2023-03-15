@@ -25,12 +25,10 @@ export class MulterS3Service {
   };
 
   async uploadImageToS3(file: Express.Multer.File, path: string): Promise<any> {
-    const fileSavePath = `${path}${Date.now()}_${this.generateRandomString(
-      10,
-    )}`;
+    const fileSavePath = `${Date.now()}_${this.generateRandomString(10)}`;
     const uploadParams = {
       Bucket: process.env.AWS_S3_BUCKET,
-      Key: fileSavePath,
+      Key: path + fileSavePath,
       Body: file.buffer,
       ContentType: file.mimetype,
       ACL: 'public-read', // ACL 속성 추가

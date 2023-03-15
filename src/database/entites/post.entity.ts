@@ -23,6 +23,12 @@ export class Post {
   @Column({ type: 'varchar', length: 255, nullable: false })
   youtubeUri: string;
 
+  @Column({ type: 'varchar', length: 128, nullable: false })
+  youtubeVideoId: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: false })
+  youtubeVideoThumbnail: string;
+
   @Column({ type: 'varchar', length: 32, nullable: false })
   channelId: string;
 
@@ -33,7 +39,7 @@ export class Post {
   postTitle: string;
 
   @Column({ type: 'varchar', length: 512, nullable: true })
-  description: string;
+  description?: string;
 
   @Column({
     type: 'varchar',

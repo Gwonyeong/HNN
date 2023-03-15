@@ -5,7 +5,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {
   SearchPost,
   SearchPostDocument,
-  SearchPostSchema,
 } from 'src/database/schema/searchPosh.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -33,11 +32,22 @@ export class PostsRepository {
           .createQueryBuilder('post')
           .select([
             'post.id AS postId',
-            'post.youtubeUri AS youtubeUri',
-            'post.youtubeTitle AS youtubeTitle',
-            'post.description AS youtubeDescription',
-            'post.publishedAt AS publishedAt',
-            'user.id',
+            'post.youtubeUri AS postYoutubeUri',
+            'post.youtubeTitle AS postYoutubeTitle',
+            'post.description AS postYoutubeDescription',
+            'post.publishedAt AS postPublishedAt',
+            `post.youtubeVideoThumbnail AS postYoutubeVideoThumbnail`,
+            `post.postTitle AS postPostTitle`,
+            `post.youtubeVideoId AS postYoutubeVideoId`,
+
+            `user.id AS userId`,
+            `CASE WHEN LEFT(user.profilePicture, 4) = 'HTTP' 
+            THEN user.profilePicture 
+            ELSE CONCAT('${process.env.AWS_S3_CLOUDFRONT_DOMAIN}${process.env.S3_AVATAR_PATH}', user.profilePicture)
+            END AS userProfilePicture `,
+            `user.nickname AS userNickname`,
+            `user.MBTI AS userMBTI`,
+            `user.gender AS userGender`,
           ])
           .innerJoin('post.user', 'user')
 
@@ -48,11 +58,14 @@ export class PostsRepository {
 
     insertPost: async (
       userId: number,
+      postTitle: string,
       youtubeData: InsertPostDto,
     ): Promise<Post> => {
+      console.log(youtubeData);
       return await this.postRepository.save(
         this.postRepository.create({
           ...youtubeData,
+          postTitle,
           user: { id: userId },
         }),
       );

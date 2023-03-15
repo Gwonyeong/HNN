@@ -34,27 +34,28 @@ export class PostsService {
         part: ['snippet', 'contentDetails'],
         id: query.v,
       });
+      const youtubeItems = youtubeData.data.items[0];
+      const youtubeItemsSnippet = youtubeItems.snippet;
 
-      const youtubeItems = {
-        ...youtubeData.data.items[0].snippet,
-      };
       const youtubeChannelData = await this.youtube.channels.list({
         part: ['snippet'],
-        id: [youtubeItems.channelId],
+        id: [youtubeItemsSnippet.channelId],
       });
-
+      // console.log(youtubeItems);
       const result: InsertPostDto = {
+        youtubeVideoId: youtubeItems.id,
+        youtubeVideoThumnail: youtubeItemsSnippet.thumbnails.standard.url,
         youtubeUri,
-        channelId: youtubeItems.channelId,
-        title: youtubeItems.title,
-        description: youtubeItems.description,
-        channelTitle: youtubeItems.channelTitle,
-        publishedAt: youtubeItems.publishedAt,
+        channelId: youtubeItemsSnippet.channelId,
+        youtubeTitle: youtubeItemsSnippet.title,
+        description: youtubeItemsSnippet.description,
+        channelTitle: youtubeItemsSnippet.channelTitle,
+        publishedAt: youtubeItemsSnippet.publishedAt,
         channelThumbnail:
           youtubeChannelData.data.items[0].snippet.thumbnails.default.url,
       };
 
-      return { youtubeData: result, tags: youtubeItems.tags };
+      return { youtubeData: result, tags: youtubeItemsSnippet.tags };
     },
 
     findYoutubeChannelAuthorData: async (youtube_channel_id: string) => {},
@@ -63,9 +64,14 @@ export class PostsService {
   public insert = {
     insertPost: async (
       userId: number,
+      postTitle: string,
       youtubeData: InsertPostDto,
     ): Promise<Post> => {
-      return await this.postsRepository.Mysql.insertPost(userId, youtubeData);
+      return await this.postsRepository.Mysql.insertPost(
+        userId,
+        postTitle,
+        youtubeData,
+      );
     },
 
     insertPostOfSearchData: async (searchPostDto: SearchPostDto) => {

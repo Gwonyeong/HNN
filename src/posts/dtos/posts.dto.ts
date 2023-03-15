@@ -14,45 +14,53 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
+import { Post } from 'src/database/entites/post.entity';
 
-class PostDto {
+class PostDto extends Post {
   postId?: number;
 
-  @IsString()
-  youtubeUri?: string;
+  youtubeVideoId;
+
+  youtubeVideoThumnail;
 
   @IsString()
-  channelId?: string;
+  youtubeUri: string;
 
   @IsString()
-  title?: string;
+  channelId: string;
+
+  @IsString()
+  postTitle: string;
 
   @IsString()
   description?: string;
 
   @IsString()
-  channelTitle?: string;
+  channelTitle: string;
 
   @IsDate()
-  publishedAt?: Date;
+  publishedAt: Date;
 
   @IsArray()
   tags?: Array<string>;
 
   @IsString()
-  channelThumbnail?: string;
+  channelThumbnail: string;
 }
 
-export class InsertPostDto extends PostDto {
-  channelId?;
-  title;
+export class InsertPostDto {
+  youtubeVideoId;
+  youtubeVideoThumnail: string;
+  channelId;
+  youtubeUri;
+  youtubeTitle: string;
   description?;
-  channelTitle?;
-  publishedAt?;
+  channelTitle;
+  publishedAt;
   channelThumbnail;
 }
 
-export class SearchPostDto extends PostDto {
+export class SearchPostDto {
   postId: number;
   title: string;
   description?: string;

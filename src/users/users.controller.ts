@@ -34,7 +34,7 @@ import { HttpExceptionFilter } from 'src/common/middlewares/error/error.middlewa
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
-@ApiTags('02.Users')
+@ApiTags('02.Users(완)')
 @UseFilters(new HttpExceptionFilter())
 @ApiBearerAuth('access-token')
 export class UsersController {
@@ -49,7 +49,7 @@ export class UsersController {
   //   return await this.userService.createUser(userId, createUserDto);
   // }
 
-  @ApiOperation({ summary: '유저 정보 가져오기' })
+  @ApiOperation({ summary: '유저 정보 가져오기(완)' })
   @ApiOkResponse({ type: FindUserDto })
   @Get('/')
   async findUserByUserId(@Req() req): Promise<FindUserDto> {
@@ -58,7 +58,11 @@ export class UsersController {
     return userData;
   }
 
-  @ApiOperation({ summary: '유저의 프로필 업데이트' })
+  @ApiOperation({
+    summary: '유저의 프로필 업데이트(완)',
+    description:
+      '무조건 덮어씌우기 때문에 모든 변수가 유효한 값이여야 합니다. Ex : MBTI = null 이면 안됨.',
+  })
   @ApiBody({ type: UpdateUserDto })
   @ApiResponse({
     status: 201,
@@ -71,7 +75,7 @@ export class UsersController {
     return await this.userService.updateUser(userId, updateUserDto);
   }
 
-  @ApiOperation({ summary: '유저의 프로필 사진만 업데이트' })
+  @ApiOperation({ summary: '유저의 프로필 사진만 업데이트(완)' })
   @ApiBody({
     description: 'avatar에 multi-formdata 이미지 파일을 넣어주세요.',
     type: 'multipart/form-data',
