@@ -75,7 +75,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 22
 
-          script: |
+          run: |
             ${{secrets.AWS_DOCKER_LOGIN_CONSOLE}}
 
             CONTAINER_ID = $(sudo docker ps -q -f "expose=3100")
