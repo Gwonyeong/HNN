@@ -78,13 +78,13 @@ jobs:
           script: |
             ${{secrets.AWS_DOCKER_LOGIN_CONSOLE}}
 
-            CONTAINER_ID = $(sudo docker ps -q -f "expose=3100")
+            CONTAINER_ID=$(sudo docker ps -q -f "expose=3100")
             if [ ! -z "$CONTAINER_ID" ]
             then
               sudo docker rm -f $CONTAINER_ID
             fi
 
-            IMAGE_ID=$(sudo docker images -q)
+            IMAGE_ID=$(docker images -q)
             if [ ! -z "$IMAGE_ID" ]
             then
               sudo docker rmi $IMAGE_ID
