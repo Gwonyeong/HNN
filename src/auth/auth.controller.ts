@@ -37,6 +37,7 @@ import { ResponseInterceptor } from '@common/interceptor/response.interceptor';
 @ApiTags('01.Auth(완)')
 @Controller('auth')
 @UseFilters(new HttpExceptionFilter())
+@UseInterceptors(ResponseInterceptor)
 export class AuthController {
   constructor(
     private readonly authService: AuthService,

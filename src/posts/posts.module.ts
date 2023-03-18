@@ -1,6 +1,9 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';
-import { PostsController } from './posts.controller';
+import {
+  PostsController,
+  notLoggedInPostsController,
+} from './posts.controller';
 import { PostsService } from './posts.service';
 import { ProcessUriService } from '@common/services/processUri.service';
 import { PostsRepository } from './posts.repository';
@@ -18,7 +21,7 @@ import {
       { name: SearchPost.name, schema: SearchPostSchema },
     ]),
   ],
-  controllers: [PostsController],
+  controllers: [PostsController, notLoggedInPostsController],
   providers: [PostsService, PostsRepository, ProcessUriService],
 })
 export class PostsModule {}

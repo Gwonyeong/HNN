@@ -29,28 +29,13 @@ import { CreateRequestPostDto } from './dtos/posts.request.dto';
 import { ResponsePostDto } from './dtos/posts.response.dto';
 
 @Controller('posts')
-@ApiTags('03.Posts(구현중)')
+@ApiTags('03.LoggedInPosts(구현중)')
 @UseFilters(new HttpExceptionFilter())
 @UseInterceptors(ResponseInterceptor)
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('access-token')
 export class PostsController {
   constructor(private postsService: PostsService) {}
-
-  @ApiOperation({
-    summary: '리스트 페이지 (테스트 가능)',
-    description: '필터기능은 아직 구현하지 않았습니다.',
-  })
-  @ApiOkResponse({
-    type: ResponsePostDto,
-  })
-  @Get('/')
-  async findPostData(@Query() postFilterDto: FindPostFilterDto) {
-    const postListPageData = await this.postsService.find.findPostData(
-      postFilterDto,
-    );
-    return postListPageData;
-  }
 
   @ApiOperation({
     summary: '게시물 저장 (테스트 가능)',
@@ -85,5 +70,28 @@ export class PostsController {
       tags,
     });
     return { msg: '등록이 완료되었습니다.' };
+  }
+}
+
+@Controller('NotLoggedInposts')
+@ApiTags('04.Posts(구현중)')
+@UseFilters(new HttpExceptionFilter())
+@UseInterceptors(ResponseInterceptor)
+export class notLoggedInPostsController {
+  constructor(private postsService: PostsService) {}
+
+  @ApiOperation({
+    summary: '리스트 페이지 (테스트 가능)',
+    description: '필터기능은 아직 구현하지 않았습니다.',
+  })
+  @ApiOkResponse({
+    type: ResponsePostDto,
+  })
+  @Get('/')
+  async findPostData(@Query() postFilterDto: FindPostFilterDto) {
+    const postListPageData = await this.postsService.find.findPostData(
+      postFilterDto,
+    );
+    return postListPageData;
   }
 }
