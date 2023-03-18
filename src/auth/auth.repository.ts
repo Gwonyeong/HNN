@@ -6,7 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {
   MongoExceptionFilter,
   TypeOrmExceptionFilter,
-} from 'src/common/middlewares/error/error.middleware';
+} from '@common/middlewares/error/error.middleware';
 
 @Injectable()
 @UseFilters(new TypeOrmExceptionFilter())

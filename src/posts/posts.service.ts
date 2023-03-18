@@ -3,9 +3,9 @@ import { PostsRepository } from './posts.repository';
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { google } from 'googleapis';
-import { ProcessUriService } from 'src/common/services/processUri.service';
+import { ProcessUriService } from '@common/services/processUri.service';
 import { InsertPostDto, SearchPostDto } from './dtos/posts.dto';
-import { Post } from 'src/database/entites/post.entity';
+import { Post } from '@database/entites/post.entity';
 
 @Injectable()
 export class PostsService {
@@ -44,7 +44,7 @@ export class PostsService {
       // console.log(youtubeItems);
       const result: InsertPostDto = {
         youtubeVideoId: youtubeItems.id,
-        youtubeVideoThumnail: youtubeItemsSnippet.thumbnails.standard.url,
+        youtubeVideoThumbnail: youtubeItemsSnippet.thumbnails.standard.url,
         youtubeUri,
         channelId: youtubeItemsSnippet.channelId,
         youtubeTitle: youtubeItemsSnippet.title,
@@ -54,7 +54,6 @@ export class PostsService {
         channelThumbnail:
           youtubeChannelData.data.items[0].snippet.thumbnails.default.url,
       };
-
       return { youtubeData: result, tags: youtubeItemsSnippet.tags };
     },
 

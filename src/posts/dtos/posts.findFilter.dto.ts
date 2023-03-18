@@ -15,7 +15,7 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-import { MBTI } from 'src/database/entites/enum/user.enum';
+import { MBTI } from '@database/entites/enum/user.enum';
 
 enum order {
   id = 'recent',

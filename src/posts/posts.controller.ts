@@ -22,8 +22,8 @@ import {
   ApiProperty,
   ApiTags,
 } from '@nestjs/swagger';
-import { ResponseInterceptor } from 'src/common/interceptor/response.interceptor';
-import { HttpExceptionFilter } from 'src/common/middlewares/error/error.middleware';
+import { ResponseInterceptor } from '@common/interceptor/response.interceptor';
+import { HttpExceptionFilter } from '@common/middlewares/error/error.middleware';
 import { FindPostFilterDto } from './dtos/posts.findFilter.dto';
 import { CreateRequestPostDto } from './dtos/posts.request.dto';
 import { ResponsePostDto } from './dtos/posts.response.dto';

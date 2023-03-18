@@ -1,4 +1,4 @@
-const randPrefix = [
+export const randPrefix = [
   '똑똑한',
   '멋있는',
   '우아한',

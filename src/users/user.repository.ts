@@ -1,16 +1,13 @@
-import {
-  CreateUserDto,
-  UpdateProfilePictureDto,
-  UpdateUserDto,
-} from './dto/user.dto';
+import { CreateUserDto } from './dto/user.dto';
 import { Injectable, UseFilters } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   MongoExceptionFilter,
   TypeOrmExceptionFilter,
-} from 'src/common/middlewares/error/error.middleware';
-import { User } from 'src/database/entites/user.entity';
+} from '@common/middlewares/error/error.middleware';
+import { User } from '@database/entites/user.entity';
 import { Repository } from 'typeorm';
+import { UpdateProfilePictureDto, UpdateUserDto } from './dto/request.user.dto';
 
 @Injectable()
 @UseFilters(new TypeOrmExceptionFilter())

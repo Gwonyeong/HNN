@@ -1,4 +1,4 @@
-import { User } from 'src/database/entites/user.entity';
+import { User } from '@database/entites/user.entity';
 import {
   Column,
   Entity,

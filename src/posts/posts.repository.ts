@@ -5,14 +5,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {
   SearchPost,
   SearchPostDocument,
-} from 'src/database/schema/searchPosh.schema';
+} from '@database/schema/searchPosh.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Post } from 'src/database/entites/post.entity';
+import { Post } from '@database/entites/post.entity';
 import {
   MongoExceptionFilter,
   TypeOrmExceptionFilter,
-} from 'src/common/middlewares/error/error.middleware';
+} from '@common/middlewares/error/error.middleware';
 import { FindPostFilterDto } from './dtos/posts.findFilter.dto';
 
 @Injectable()
@@ -61,7 +61,6 @@ export class PostsRepository {
       postTitle: string,
       youtubeData: InsertPostDto,
     ): Promise<Post> => {
-      console.log(youtubeData);
       return await this.postRepository.save(
         this.postRepository.create({
           ...youtubeData,

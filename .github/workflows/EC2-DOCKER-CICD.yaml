@@ -78,12 +78,21 @@ jobs:
           script: |
             ${{secrets.AWS_DOCKER_LOGIN_CONSOLE}}
 
-            sudo docker rm -f $(sudo docker ps -q -f "expose=3100")
-            sudo docker rmi -f $(sudo docker images -f "reference=${{env.ECR_REGISTRY}}/hnn:dev") 
+            CONTAINER_ID = $(sudo docker ps -q -f "expose=3100")
+            if [ ! -z "$CONTAINER_ID" ]
+            then
+              sudo docker rm -f $CONTAINER_ID
+            fi
+
+            IMAGE_ID=$(sudo docker images -q)
+            if [ ! -z "$IMAGE_ID" ]
+            then
+              sudo docker rmi $IMAGE_ID
+            fi
             sudo docker pull ${{env.ECR_REGISTRY}}/hnn:dev
 
 
-            sudo docker run -d --restart unless-stopped  -p 3100:3100 ${{env.ECR_REGISTRY}}/hnn:dev
+            sudo docker run -d --restart unless-stopped -p 3100:3100 ${{se.ECR_REGISTRY}}/hnn:dev
 
       - name: Remove Github Actions IP From Security Group
         run: |

@@ -1,4 +1,4 @@
-import { HttpExceptionFilter } from 'src/common/middlewares/error/error.middleware';
+import { HttpExceptionFilter } from '@common/middlewares/error/error.middleware';
 import { JwtAuthGuard } from './jwt/jwt.guard';
 import {
   Controller,
@@ -32,7 +32,7 @@ import { Response } from 'express';
 import { GoogleAuthGuard } from './google/google.guard';
 import { NaverAuthGuard } from './naver/naver.guard';
 import { responseAppTokenDTO } from './dto/responses/response.dto';
-import { ResponseInterceptor } from 'src/common/interceptor/response.interceptor';
+import { ResponseInterceptor } from '@common/interceptor/response.interceptor';
 
 @ApiTags('01.Auth(완)')
 @Controller('auth')

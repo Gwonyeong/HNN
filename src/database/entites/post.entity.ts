@@ -1,4 +1,4 @@
-import { Auth } from 'src/database/entites/auth.entity';
+import { Auth } from '@database/entites/auth.entity';
 import {
   Column,
   Entity,

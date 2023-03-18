@@ -6,12 +6,12 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { AuthRepository } from './auth.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Auth } from '../database/entites/auth.entity';
+import { Auth } from '@database/entites/auth.entity';
 import { GoogleStrategy } from './google/google.strategy';
 import { NaverStrategy } from './naver/naver.strategy';
-import { UserRepository } from 'src/users/user.repository';
-import { UsersModule } from 'src/users/users.module';
-import { User } from 'src/database/entites/user.entity';
+import { UserRepository } from '@root/users/user.repository';
+import { UsersModule } from '@root/users/users.module';
+import { User } from '@database/entites/user.entity';
 
 @Module({
   imports: [

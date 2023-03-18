@@ -14,14 +14,14 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-import { Post } from 'src/database/entites/post.entity';
+import { Post } from '@database/entites/post.entity';
 
 class PostDto extends Post {
   postId?: number;
 
   youtubeVideoId;
 
-  youtubeVideoThumnail;
+  youtubeVideoThumbnail;
 
   @IsString()
   youtubeUri: string;
@@ -50,7 +50,7 @@ class PostDto extends Post {
 
 export class InsertPostDto {
   youtubeVideoId;
-  youtubeVideoThumnail: string;
+  youtubeVideoThumbnail: string;
   channelId;
   youtubeUri;
   youtubeTitle: string;

@@ -16,26 +16,33 @@ import {
   HttpException,
   HttpStatus,
   BadRequestException,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UpdateUserDto, FindUserDto } from './dto/user.dto';
+import { FindUserDto } from './dto/user.dto';
 import {
   ApiBearerAuth,
   ApiBody,
   ApiConsumes,
   ApiOkResponse,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ResponseDTO } from 'src/common/dtos/response.dto';
-import { HttpExceptionFilter } from 'src/common/middlewares/error/error.middleware';
+import { ResponseDTO } from '@common/dtos/response.dto';
+import { HttpExceptionFilter } from '@common/middlewares/error/error.middleware';
+import { UpdateRandomNickname, UpdateUserDto } from './dto/request.user.dto';
+import { randPrefix } from './dto/user.rnadom.nickname.object';
+import { ResponseInterceptor } from '@root/common/interceptor/response.interceptor';
+import { randomNicknameResponseDto } from './dto/response.user.dto';
 
 @Controller('users')
-@UseGuards(JwtAuthGuard)
 @ApiTags('02.Users(완)')
+@UseInterceptors(ResponseInterceptor)
 @UseFilters(new HttpExceptionFilter())
+@UseGuards(JwtAuthGuard)
 @ApiBearerAuth('access-token')
 export class UsersController {
   constructor(
@@ -43,11 +50,14 @@ export class UsersController {
     private readonly multerS3Service: MulterS3Service,
   ) {}
 
-  // @Post('/profile')
-  // async createUserProfile(@Req() req, @Body() createUserDto: CreateUserDto) {
-  //   const { userId } = req.user;
-  //   return await this.userService.createUser(userId, createUserDto);
-  // }
+  @ApiOperation({ summary: '랜덤 닉네임 가져오기(완)' })
+  @ApiQuery({ type: UpdateRandomNickname })
+  @ApiOkResponse({ type: randomNicknameResponseDto })
+  @Get('/nickname')
+  async findRandomNickname(@Query() query: UpdateRandomNickname) {
+    const { MBTI } = query;
+    return this.userService.findRandomNickname({ MBTI });
+  }
 
   @ApiOperation({ summary: '유저 정보 가져오기(완)' })
   @ApiOkResponse({ type: FindUserDto })
@@ -78,7 +88,6 @@ export class UsersController {
   @ApiOperation({ summary: '유저의 프로필 사진만 업데이트(완)' })
   @ApiBody({
     description: 'avatar에 multi-formdata 이미지 파일을 넣어주세요.',
-    type: 'multipart/form-data',
     schema: {
       properties: {
         avatar: {

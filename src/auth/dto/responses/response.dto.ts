@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ResponseDTO } from 'src/common/dtos/response.dto';
+import { ResponseDTO } from '@common/dtos/response.dto';
 
 export class responseAppTokenDTO extends ResponseDTO {
   @ApiProperty({

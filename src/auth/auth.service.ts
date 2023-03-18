@@ -10,7 +10,7 @@ import { InsertAuthDto } from './dto/auth.dto';
 import { Auth } from '../database/entites/auth.entity';
 import * as bcrypt from 'bcrypt';
 import { responseAppTokenDTO } from './dto/responses/response.dto';
-import { UserRepository } from 'src/users/user.repository';
+import { UserRepository } from '@root/users/user.repository';
 
 @Injectable()
 export class AuthService {
