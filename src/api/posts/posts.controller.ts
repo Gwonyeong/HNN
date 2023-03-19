@@ -91,7 +91,7 @@ export class notLoggedInPostsController {
   @Get('/')
   @UseGuards(CheckLoginAuthGuard)
   async findPostData(@Req() req, @Query() postFilterDto: FindPostFilterDto) {
-    const userId = req?.user.userId;
+    const userId = req?.user?.userId;
     const postListPageData = await this.postsService.find.findPostData(
       userId,
       postFilterDto,
