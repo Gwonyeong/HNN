@@ -87,7 +87,7 @@ jobs:
             IMAGE_ID=$(docker images -q)
             if [ ! -z "$IMAGE_ID" ]
             then
-              sudo docker rmi $IMAGE_ID
+              sudo docker rmi -f $IMAGE_ID
             fi
             sudo docker pull ${{env.ECR_REGISTRY}}/hnn:dev
 
