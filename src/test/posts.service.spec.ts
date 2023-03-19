@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PostsService } from '@root/posts/posts.service';
-import { PostsModule } from '@root/posts/posts.module';
+import { PostsService } from '@root/api/posts/posts.service';
+import { PostsModule } from '@root/api/posts/posts.module';
 
 import { Config } from '@root/app.module';
 import { BadRequestException } from '@nestjs/common';

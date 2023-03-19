@@ -58,10 +58,9 @@ export class AuthController {
   async createUser(
     @Body() createAuthDto: InsertAuthDto,
   ): Promise<responseAppTokenDTO> {
-    const { appToken } = await this.authService.GroupSignUp.signUp(
-      createAuthDto,
-    );
-    return { data: { appToken } };
+    const appToken: responseAppTokenDTO =
+      await this.authService.GroupSignUp.signUp(createAuthDto);
+    return appToken;
   }
 
   @ApiOperation({ summary: '로그인(완)' })
@@ -73,10 +72,8 @@ export class AuthController {
   async login(
     @Body() createAuthDto: InsertAuthDto,
   ): Promise<responseAppTokenDTO> {
-    const { appToken } = await this.authService.GroupLogin.login(createAuthDto);
-    return {
-      data: { appToken },
-    };
+    const appToken = await this.authService.GroupLogin.login(createAuthDto);
+    return appToken;
   }
 
   @UseGuards(GoogleAuthGuard)

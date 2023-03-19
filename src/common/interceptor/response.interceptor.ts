@@ -16,7 +16,6 @@ export class ResponseInterceptor implements NestInterceptor {
           ...data,
 
           success: true,
-          message: data?.msg,
         };
       }),
     );

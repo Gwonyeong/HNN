@@ -4,13 +4,15 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { MongooseModule } from '@nestjs/mongoose';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './api/users/users.module';
+import { AuthModule } from './api/auth/auth.module';
 import { Auth } from './database/entites/auth.entity';
 import { User } from './database/entites/user.entity';
 
-import { PostsModule } from '@root/posts/posts.module';
+import { PostsModule } from '@root/api/posts/posts.module';
 import { Post } from './database/entites/post.entity';
+import { LikesModule } from './api/likes/likes.module';
+import { Like } from './database/entites/like.entity';
 
 export class Config {
   static setENV = () => {
@@ -37,7 +39,7 @@ export class Config {
       username: process.env.MYSQL_USERNAME,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      entities: [Auth, User, Post],
+      entities: [Auth, User, Post, Like],
       synchronize,
     });
   }
@@ -55,6 +57,7 @@ export class Config {
     AuthModule,
     UsersModule,
     PostsModule,
+    LikesModule,
   ],
   controllers: [],
   providers: [],

@@ -1,6 +1,6 @@
 import { Injectable, UseFilters } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Auth } from '../database/entites/auth.entity';
+import { Auth } from '../../database/entites/auth.entity';
 import { InsertAuthDto } from './dto/auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import {

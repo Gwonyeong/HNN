@@ -9,8 +9,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Auth } from '@database/entites/auth.entity';
 import { GoogleStrategy } from './google/google.strategy';
 import { NaverStrategy } from './naver/naver.strategy';
-import { UserRepository } from '@root/users/user.repository';
-import { UsersModule } from '@root/users/users.module';
+import { UserRepository } from '@root/api/users/user.repository';
+import { UsersModule } from '@root/api/users/users.module';
 import { User } from '@database/entites/user.entity';
 
 @Module({

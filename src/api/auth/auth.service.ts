@@ -7,10 +7,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { InsertAuthDto } from './dto/auth.dto';
-import { Auth } from '../database/entites/auth.entity';
+import { Auth } from '../../database/entites/auth.entity';
 import * as bcrypt from 'bcrypt';
 import { responseAppTokenDTO } from './dto/responses/response.dto';
-import { UserRepository } from '@root/users/user.repository';
+import { UserRepository } from '@root/api/users/user.repository';
 
 @Injectable()
 export class AuthService {

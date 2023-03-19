@@ -11,7 +11,5 @@ export class responseAppTokenDTO extends ResponseDTO {
       },
     },
   })
-  data: {
-    appToken: string;
-  };
+  appToken: string;
 }

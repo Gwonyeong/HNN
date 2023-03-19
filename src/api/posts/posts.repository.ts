@@ -50,7 +50,7 @@ export class PostsRepository {
             `user.gender AS userGender`,
           ])
           .innerJoin('post.user', 'user')
-
+          .leftJoin('post.like', 'like')
           // .getMany();
           .getRawMany()
       );

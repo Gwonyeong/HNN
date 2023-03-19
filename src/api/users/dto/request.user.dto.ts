@@ -14,7 +14,7 @@ export class UpdateUserDto {
   @ApiProperty({ example: 'nickname' })
   @IsString()
   @Length(2, 12, { message: '닉네임은 2글자이상 12자 이하여야합니다.' })
-  @Matches(/^[a-zA-Z0-9]+$/, {
+  @Matches(/^[a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣\s]+$/, {
     message: '닉네임을 확인해주세요.',
   })
   nickname?;

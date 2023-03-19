@@ -1,5 +1,5 @@
-import { MulterS3Service } from './../common/util/aws';
-import { JwtAuthGuard } from './../auth/jwt/jwt.guard';
+import { MulterS3Service } from '../../common/util/aws';
+import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
 import {
   Controller,
   Get,
