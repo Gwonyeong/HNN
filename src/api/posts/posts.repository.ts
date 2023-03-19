@@ -26,34 +26,44 @@ export class PostsRepository {
   ) {}
 
   public Mysql = {
-    findPost: async (findPostFilterDto: FindPostFilterDto) => {
-      return (
-        this.postRepository
-          .createQueryBuilder('post')
-          .select([
-            'post.id AS postId',
-            'post.youtubeUri AS postYoutubeUri',
-            'post.youtubeTitle AS postYoutubeTitle',
-            'post.description AS postYoutubeDescription',
-            'post.publishedAt AS postPublishedAt',
-            `post.youtubeVideoThumbnail AS postYoutubeVideoThumbnail`,
-            `post.postTitle AS postPostTitle`,
-            `post.youtubeVideoId AS postYoutubeVideoId`,
+    findPost: async (userId, findPostFilterDto: FindPostFilterDto) => {
+      console.log(userId);
+      const findPostQuery = this.postRepository
+        .createQueryBuilder('post')
+        .select([
+          'post.id AS postId',
+          'post.youtubeUri AS postYoutubeUri',
+          'post.youtubeTitle AS postYoutubeTitle',
+          'post.description AS postYoutubeDescription',
+          'post.publishedAt AS postPublishedAt',
+          `post.youtubeVideoThumbnail AS postYoutubeVideoThumbnail`,
+          `post.postTitle AS postPostTitle`,
+          `post.youtubeVideoId AS postYoutubeVideoId`,
 
-            `user.id AS userId`,
-            `CASE WHEN LEFT(user.profilePicture, 4) = 'HTTP' 
+          `user.id AS userId`,
+          `CASE WHEN LEFT(user.profilePicture, 4) = 'HTTP' 
             THEN user.profilePicture 
             ELSE CONCAT('${process.env.AWS_S3_CLOUDFRONT_DOMAIN}${process.env.S3_AVATAR_PATH}', user.profilePicture)
             END AS userProfilePicture `,
-            `user.nickname AS userNickname`,
-            `user.MBTI AS userMBTI`,
-            `user.gender AS userGender`,
-          ])
-          .innerJoin('post.user', 'user')
-          .leftJoin('post.like', 'like')
-          // .getMany();
-          .getRawMany()
-      );
+          `user.nickname AS userNickname`,
+          `user.MBTI AS userMBTI`,
+          `user.gender AS userGender`,
+        ])
+        .innerJoin('post.user', 'user');
+
+      if (userId) {
+        findPostQuery
+          .addSelect(
+            `CASE WHEN like.id IS NULL THEN '0' ELSE '1' END AS isFollow `,
+          )
+          .leftJoin(
+            'like',
+            'like',
+            `like.post = post.id AND like.userId = ${userId}`,
+          );
+      }
+
+      return await findPostQuery.getRawMany();
     },
 
     insertPost: async (

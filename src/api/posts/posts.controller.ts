@@ -27,6 +27,7 @@ import { HttpExceptionFilter } from '@common/middlewares/error/error.middleware'
 import { FindPostFilterDto } from './dtos/posts.findFilter.dto';
 import { CreateRequestPostDto } from './dtos/posts.request.dto';
 import { ResponsePostDto } from './dtos/posts.response.dto';
+import { CheckLoginAuthGuard } from '@root/common/guard/isLoginCheck.guard';
 
 @Controller('posts')
 @ApiTags('03.LoggedInPosts(구현중)')
@@ -73,8 +74,8 @@ export class PostsController {
   }
 }
 
-@Controller('NotLoggedInposts')
-@ApiTags('04.Posts(구현중)')
+@Controller('posts')
+@ApiTags('04.NotLoggedInposts(구현중)')
 @UseFilters(new HttpExceptionFilter())
 @UseInterceptors(ResponseInterceptor)
 export class notLoggedInPostsController {
@@ -88,8 +89,11 @@ export class notLoggedInPostsController {
     type: ResponsePostDto,
   })
   @Get('/')
-  async findPostData(@Query() postFilterDto: FindPostFilterDto) {
+  @UseGuards(CheckLoginAuthGuard)
+  async findPostData(@Req() req, @Query() postFilterDto: FindPostFilterDto) {
+    const userId = req?.user.userId;
     const postListPageData = await this.postsService.find.findPostData(
+      userId,
       postFilterDto,
     );
     return postListPageData;

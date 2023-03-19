@@ -13,15 +13,21 @@ import {
   SearchPost,
   SearchPostSchema,
 } from '@database/schema/searchPosh.schema';
+import { JwtModule } from '@nestjs/jwt';
+import { UserRepository } from '../users/user.repository';
+import { User } from '@root/database/entites/user.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Post]),
+    TypeOrmModule.forFeature([User, Post]),
     MongooseModule.forFeature([
       { name: SearchPost.name, schema: SearchPostSchema },
     ]),
+    JwtModule.register({
+      secret: process.env.SECRET_KEY,
+    }),
   ],
   controllers: [PostsController, notLoggedInPostsController],
-  providers: [PostsService, PostsRepository, ProcessUriService],
+  providers: [PostsService, PostsRepository, UserRepository, ProcessUriService],
 })
 export class PostsModule {}

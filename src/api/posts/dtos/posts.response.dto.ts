@@ -44,4 +44,10 @@ export class ResponsePostDto {
   userMBTI: string;
   @ApiProperty({ example: 'user gender' })
   userGender: string;
+
+  @ApiProperty({
+    example:
+      '로그인한 유저인 경우에만 존재, 해당 게시물을 팔로우 했다면 1 아니라면 0',
+  })
+  isFollow: number;
 }

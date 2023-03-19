@@ -20,8 +20,8 @@ export class PostsService {
   });
 
   public find = {
-    findPostData: async (findPostFilterDto: FindPostFilterDto) => {
-      return this.postsRepository.Mysql.findPost(findPostFilterDto);
+    findPostData: async (userId, findPostFilterDto: FindPostFilterDto) => {
+      return this.postsRepository.Mysql.findPost(userId, findPostFilterDto);
     },
 
     findYoutubeData: async (uri: string) => {

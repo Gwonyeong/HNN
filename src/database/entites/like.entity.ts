@@ -2,6 +2,9 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -13,11 +16,11 @@ export class Like {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => Post, (post) => post.id, { cascade: true })
+  @ManyToOne(() => Post, (post) => post.id, { cascade: true })
   @JoinColumn()
   post: Post;
 
-  @OneToOne(() => User, (user) => user.id, { cascade: true })
+  @ManyToOne(() => User, (user) => user.id, { cascade: true })
   @JoinColumn()
   user: User;
 }
