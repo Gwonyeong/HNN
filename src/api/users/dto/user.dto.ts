@@ -27,7 +27,7 @@ class UserDto {
 
   @ApiProperty({
     description: 'man or women으로 보내야함 ',
-    example: 'man | women',
+    example: 'man | women | null',
   })
   @IsEnum(gender, { message: '성별 형식이 올바르지 않습니다. => man or women' })
   gender?: string;

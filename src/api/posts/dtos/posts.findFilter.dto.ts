@@ -16,20 +16,3 @@ import {
   MinLength,
 } from 'class-validator';
 import { MBTI } from '@database/entites/enum/user.enum';
-
-enum order {
-  id = 'recent',
-}
-
-class PostFilterDto {
-  @IsEnum(order)
-  order?: string = 'recent';
-
-  @IsEnum(MBTI)
-  MBTI?: string = '미정';
-}
-
-export class FindPostFilterDto extends PostFilterDto {
-  order?;
-  MBTI?;
-}

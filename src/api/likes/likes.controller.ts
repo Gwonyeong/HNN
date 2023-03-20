@@ -32,7 +32,6 @@ export class LikesController {
       userId,
       postId,
     });
-    console.log(likeData);
     likeData
       ? this.likesService.delete.deleteOne({ userId, postId })
       : this.likesService.create.create({ userId, postId });

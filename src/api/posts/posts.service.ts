@@ -1,4 +1,4 @@
-import { FindPostFilterDto } from './dtos/posts.findFilter.dto';
+import { FindPostFilterDto } from './dtos/posts.request.dto';
 import { PostsRepository } from './posts.repository';
 import { BadRequestException, Injectable } from '@nestjs/common';
 

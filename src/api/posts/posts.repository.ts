@@ -13,7 +13,7 @@ import {
   MongoExceptionFilter,
   TypeOrmExceptionFilter,
 } from '@common/middlewares/error/error.middleware';
-import { FindPostFilterDto } from './dtos/posts.findFilter.dto';
+import { FindPostFilterDto } from './dtos/posts.request.dto';
 
 @Injectable()
 @UseFilters(new TypeOrmExceptionFilter())
@@ -27,7 +27,6 @@ export class PostsRepository {
 
   public Mysql = {
     findPost: async (userId, findPostFilterDto: FindPostFilterDto) => {
-      console.log(userId);
       const findPostQuery = this.postRepository
         .createQueryBuilder('post')
         .select([
@@ -54,7 +53,7 @@ export class PostsRepository {
       if (userId) {
         findPostQuery
           .addSelect(
-            `CASE WHEN like.id IS NULL THEN '0' ELSE '1' END AS isFollow `,
+            `CASE WHEN like.id IS NULL THEN '0' ELSE '1' END AS isPostLike `,
           )
           .leftJoin(
             'like',
@@ -63,6 +62,13 @@ export class PostsRepository {
           );
       }
 
+      const offset = (findPostFilterDto.page - 1) * findPostFilterDto.limit;
+      findPostQuery.limit(findPostFilterDto.limit).offset(offset);
+      findPostQuery.orderBy(
+        findPostFilterDto.order == 'recent'
+          ? 'post.id'
+          : findPostFilterDto.order,
+      );
       return await findPostQuery.getRawMany();
     },
 

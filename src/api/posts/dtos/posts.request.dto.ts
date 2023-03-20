@@ -1,4 +1,6 @@
+import { ParseIntPipe } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
+import { MBTI } from '@root/database/entites/enum/user.enum';
 import {
   IsAlpha,
   IsAlphanumeric,
@@ -29,4 +31,21 @@ class RequestPostDto {
 export class CreateRequestPostDto extends RequestPostDto {
   uri;
   postTitle: string;
+}
+
+enum order {
+  'recent',
+}
+
+export class FindPostFilterDto {
+  @ApiProperty({ example: 'recent : 최신순 : ' })
+  @IsEnum(order)
+  order?: string = 'recent';
+
+  @IsString()
+  MBTI? = '';
+
+  page? = 1;
+
+  limit? = 10;
 }

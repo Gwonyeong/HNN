@@ -9,6 +9,8 @@ import {
   UseFilters,
   UseGuards,
   UseInterceptors,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { InsertPostDto } from './dtos/posts.dto';
@@ -24,8 +26,10 @@ import {
 } from '@nestjs/swagger';
 import { ResponseInterceptor } from '@common/interceptor/response.interceptor';
 import { HttpExceptionFilter } from '@common/middlewares/error/error.middleware';
-import { FindPostFilterDto } from './dtos/posts.findFilter.dto';
-import { CreateRequestPostDto } from './dtos/posts.request.dto';
+import {
+  CreateRequestPostDto,
+  FindPostFilterDto,
+} from './dtos/posts.request.dto';
 import { ResponsePostDto } from './dtos/posts.response.dto';
 import { CheckLoginAuthGuard } from '@root/common/guard/isLoginCheck.guard';
 
@@ -82,20 +86,56 @@ export class notLoggedInPostsController {
   constructor(private postsService: PostsService) {}
 
   @ApiOperation({
-    summary: '리스트 페이지 (테스트 가능)',
-    description: '필터기능은 아직 구현하지 않았습니다.',
+    summary: '리스트 페이지 (3월 20일 수정)',
+    description: '필터기능 구현',
   })
   @ApiOkResponse({
     type: ResponsePostDto,
   })
   @Get('/')
   @UseGuards(CheckLoginAuthGuard)
+  @UsePipes(new ValidationPipe())
   async findPostData(@Req() req, @Query() postFilterDto: FindPostFilterDto) {
     const userId = req?.user?.userId;
+    console.log(postFilterDto);
     const postListPageData = await this.postsService.find.findPostData(
       userId,
       postFilterDto,
     );
     return postListPageData;
   }
+
+  // @Post('/test')
+  // async find(@Body() body) {
+  //   const { message } = body;
+  //   const generatePrompt = (name) => {
+  //     return [
+  //       {
+  //         role: 'system',
+  //         content: '빨간색을 추천해줘',
+  //       },
+  //     ];
+  //   };
+
+  //   const config = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
+  //   const openai = new OpenAIApi(config);
+  //   const me = [{ role: 'system', content: 'dd' }];
+  //   const completion = await openai.createChatCompletion({
+  //     model: 'gpt-3.5-turbo',
+  //     messages: [
+  //       {
+  //         role: 'system',
+  //         content:
+  //           '이 사람은 백앤드 개발자로 1년을 근무했고 mysql에 강점이 있다고 이력서를 작성했어. 이 사람에게 면접에서 마주할 수 있는 면접문제를 내줘',
+  //       },
+  //       {
+  //         role: 'user',
+  //         content: '안녕하십니까! 백앤드 개발자 조권영입니다!',
+  //       },
+  //     ],
+  //     temperature: 1,
+  //   });
+  //   console.log(completion.data.choices);
+  //   return completion.data.choices;
+  // }
 }
