@@ -50,6 +50,11 @@ export class PostsRepository {
         ])
         .innerJoin('post.user', 'user');
 
+      if (findPostFilterDto.MBTI) {
+        findPostQuery.where('user.MBTI = :MBTI', {
+          MBTI: findPostFilterDto.MBTI,
+        });
+      }
       if (userId) {
         findPostQuery
           .addSelect(
@@ -74,13 +79,14 @@ export class PostsRepository {
 
     insertPost: async (
       userId: number,
-      postTitle: string,
+      postData: object,
       youtubeData: InsertPostDto,
     ): Promise<Post> => {
+      console.log(postData);
       return await this.postRepository.save(
         this.postRepository.create({
           ...youtubeData,
-          postTitle,
+          ...postData,
           user: { id: userId },
         }),
       );

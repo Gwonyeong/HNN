@@ -38,6 +38,9 @@ export class Post {
   @Column({ type: 'varchar', length: 256, nullable: false })
   postTitle: string;
 
+  @Column({ type: 'text', nullable: true })
+  postDescription: string;
+
   @Column({ type: 'varchar', length: 512, nullable: true })
   description?: string;
 

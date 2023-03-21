@@ -63,12 +63,12 @@ export class PostsService {
   public insert = {
     insertPost: async (
       userId: number,
-      postTitle: string,
+      postData: object,
       youtubeData: InsertPostDto,
     ): Promise<Post> => {
       return await this.postsRepository.Mysql.insertPost(
         userId,
-        postTitle,
+        postData,
         youtubeData,
       );
     },

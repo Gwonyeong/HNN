@@ -26,26 +26,37 @@ class RequestPostDto {
   @ApiProperty({ example: 'postTitle writed for user' })
   @IsString()
   postTitle: string;
+
+  @ApiProperty({ example: 'postDescription writed for user' })
+  @IsString()
+  postDescription: string;
 }
 
 export class CreateRequestPostDto extends RequestPostDto {
   uri;
   postTitle: string;
-}
-
-enum order {
-  'recent',
+  postDescription: string;
 }
 
 export class FindPostFilterDto {
-  @ApiProperty({ example: 'recent : 최신순 : ' })
-  @IsEnum(order)
+  @ApiProperty({
+    example: 'recent',
+    description: 'recent : 최신순',
+    required: false,
+  })
   order?: string = 'recent';
 
-  @IsString()
-  MBTI? = '';
+  @ApiProperty({
+    example: 'ENFJ',
+    description:
+      '해당하는 MBTI의 작성자가 작성한 게시물 필터링(아직은 하나만 가능)',
+    required: false,
+  })
+  MBTI?: string = '';
 
-  page? = 1;
+  @ApiProperty({ example: '1', description: 'default: 1', required: false })
+  page?: number = 1;
 
-  limit? = 10;
+  @ApiProperty({ example: '10', description: 'default: 10', required: false })
+  limit?: number = 10;
 }

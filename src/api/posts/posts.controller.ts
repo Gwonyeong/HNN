@@ -22,6 +22,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiProperty,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import { ResponseInterceptor } from '@common/interceptor/response.interceptor';
@@ -58,19 +59,23 @@ export class PostsController {
   @Post('/')
   async createYoutebeData(@Req() req, @Body() body: CreateRequestPostDto) {
     const { userId } = req.user;
-    const { uri, postTitle } = body;
+    const { uri, postTitle, postDescription } = body;
     const { youtubeData, tags } = await this.postsService.find.findYoutubeData(
       uri,
     );
-
+    const postData = {
+      postTitle,
+      postDescription,
+    };
     const createPostData = await this.postsService.insert.insertPost(
       userId,
-      postTitle,
+      postData,
       youtubeData,
     );
     this.postsService.insert.insertPostOfSearchData({
       postId: createPostData.id,
       title: postTitle,
+
       description: youtubeData.description,
       tags,
     });
@@ -79,14 +84,14 @@ export class PostsController {
 }
 
 @Controller('posts')
-@ApiTags('04.NotLoggedInposts(구현중)')
+@ApiTags('04.NotLoggedInposts(테스트 가능)')
 @UseFilters(new HttpExceptionFilter())
 @UseInterceptors(ResponseInterceptor)
 export class notLoggedInPostsController {
   constructor(private postsService: PostsService) {}
 
   @ApiOperation({
-    summary: '리스트 페이지 (3월 20일 수정)',
+    summary: '리스트 페이지 (3월 21일 수정)',
     description: '필터기능 구현',
   })
   @ApiOkResponse({
@@ -97,7 +102,6 @@ export class notLoggedInPostsController {
   @UsePipes(new ValidationPipe())
   async findPostData(@Req() req, @Query() postFilterDto: FindPostFilterDto) {
     const userId = req?.user?.userId;
-    console.log(postFilterDto);
     const postListPageData = await this.postsService.find.findPostData(
       userId,
       postFilterDto,
