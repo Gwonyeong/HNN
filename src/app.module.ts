@@ -13,6 +13,8 @@ import { PostsModule } from '@root/api/posts/posts.module';
 import { Post } from './database/entites/post.entity';
 import { LikesModule } from './api/likes/likes.module';
 import { Like } from './database/entites/like.entity';
+import { CommentsModule } from './api/comments/comments.module';
+import { Comment } from './database/entites/comments.entity';
 
 export class Config {
   static setENV = () => {
@@ -39,7 +41,7 @@ export class Config {
       username: process.env.MYSQL_USERNAME,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      entities: [Auth, User, Post, Like],
+      entities: [Auth, User, Post, Like, Comment],
       synchronize,
     });
   }
@@ -58,6 +60,7 @@ export class Config {
     UsersModule,
     PostsModule,
     LikesModule,
+    CommentsModule,
   ],
   controllers: [],
   providers: [],

@@ -56,8 +56,6 @@ export class PostsService {
       };
       return { youtubeData: result, tags: youtubeItemsSnippet.tags };
     },
-
-    findYoutubeChannelAuthorData: async (youtube_channel_id: string) => {},
   };
 
   public insert = {

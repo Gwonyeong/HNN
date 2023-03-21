@@ -82,7 +82,6 @@ export class PostsRepository {
       postData: object,
       youtubeData: InsertPostDto,
     ): Promise<Post> => {
-      console.log(postData);
       return await this.postRepository.save(
         this.postRepository.create({
           ...youtubeData,
