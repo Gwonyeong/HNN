@@ -15,8 +15,7 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-
-export class ResponsePostDto {
+export class ResponsePostListPageDto {
   @ApiProperty({ example: 1 })
   postId: number;
 
@@ -32,6 +31,9 @@ export class ResponsePostDto {
   postYoutubeVideoThumbnail: string;
   @ApiProperty({ example: 'postTitle writed for user' })
   postPostTitle: string;
+  @ApiProperty({ example: 'postDescription writed for user' })
+  postPostDescription?: string;
+
   @ApiProperty({ example: 'youtube original video id' })
   postYoutubeVideoId: string;
   @ApiProperty({ example: 'user id' })
@@ -41,7 +43,44 @@ export class ResponsePostDto {
   @ApiProperty({ example: 'user nickname' })
   userNickname: string;
   @ApiProperty({ example: 'user MBTI' })
-  userMBTI: string;
+  userMBTI?: string;
+  @ApiProperty({ example: 'user gender' })
+  userGender: string;
+
+  @ApiProperty({
+    example:
+      '로그인한 유저인 경우에만 존재, 해당 게시물을 팔로우 했다면 1 아니라면 0',
+  })
+  isPostLike: number;
+}
+
+export class ResponsePostDetailPageDataDto {
+  @ApiProperty({ example: 1 })
+  postId: number;
+
+  @ApiProperty({ example: 'youtube original title' })
+  postYoutubeTitle: string;
+  @ApiProperty({ example: 'youtube original title' })
+  postYoutubeDescription: string;
+  @ApiProperty({ example: 'youtube original created date(작성 날짜)' })
+  postPublishedAt: string;
+  @ApiProperty({ example: 'youtube original video Thumbnail' })
+  postYoutubeVideoThumbnail: string;
+  @ApiProperty({ example: 'postTitle writed for user' })
+  postPostTitle: string;
+  @ApiProperty({ example: 'postDescription writed for user' })
+  postPostDescription?: string;
+
+  @ApiProperty({ example: 'youtube original video id' })
+  postYoutubeVideoId: string;
+  @ApiProperty({ example: 'user id' })
+  userId: number;
+  @ApiProperty({ example: 'user profile picture' })
+  userProfilePicture: string;
+  @ApiProperty({ example: 'user nickname' })
+  userNickname: string;
+  @ApiProperty({ example: 'user MBTI' })
+  userMBTI?: string;
   @ApiProperty({ example: 'user gender' })
   userGender: string;
 

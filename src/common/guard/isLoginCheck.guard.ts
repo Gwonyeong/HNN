@@ -5,7 +5,6 @@ import {
   CanActivate,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { AuthService } from '@root/api/auth/auth.service';
 import { UserRepository } from '@root/api/users/user.repository';
 
 @Injectable()

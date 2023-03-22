@@ -2,6 +2,8 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -15,11 +17,9 @@ export class Comment {
   id: number;
 
   @ManyToOne(() => User, (user) => user.id, { cascade: true })
-  @JoinColumn()
   user;
 
   @ManyToOne(() => Post, (post) => post.id, { cascade: true })
-  @JoinColumn()
   post;
 
   @Column({ type: 'varchar', length: 255, nullable: false })

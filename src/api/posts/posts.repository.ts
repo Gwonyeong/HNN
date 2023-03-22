@@ -26,6 +26,34 @@ export class PostsRepository {
   ) {}
 
   public Mysql = {
+    findDetailPost: async (postId) => {
+      const findPostDetailDataQuery = this.postRepository
+        .createQueryBuilder('post')
+        .select([
+          'post.id AS postId',
+          'post.youtubeUri AS postYoutubeUri',
+          'post.youtubeTitle AS postYoutubeTitle',
+          'post.description AS postYoutubeDescription',
+          'post.publishedAt AS postPublishedAt',
+          `post.youtubeVideoThumbnail AS postYoutubeVideoThumbnail`,
+          `post.postTitle AS postPostTitle`,
+          `post.youtubeVideoId AS postYoutubeVideoId`,
+
+          `user.id AS userId`,
+          `CASE WHEN LEFT(user.profilePicture, 4) = 'HTTP' 
+            THEN user.profilePicture 
+            ELSE CONCAT('${process.env.AWS_S3_CLOUDFRONT_DOMAIN}${process.env.S3_AVATAR_PATH}', user.profilePicture)
+            END AS userProfilePicture `,
+          `user.nickname AS userNickname`,
+          `user.MBTI AS userMBTI`,
+          `user.gender AS userGender`,
+        ])
+        .leftJoin('post.user', 'user')
+        .where(`post.id = :postId`, { postId });
+
+      return await findPostDetailDataQuery.getRawMany();
+    },
+
     findPost: async (userId, findPostFilterDto: FindPostFilterDto) => {
       const findPostQuery = this.postRepository
         .createQueryBuilder('post')

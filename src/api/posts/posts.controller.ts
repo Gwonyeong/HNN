@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Query,
   Req,
@@ -21,6 +22,7 @@ import {
   ApiHeader,
   ApiOkResponse,
   ApiOperation,
+  ApiParam,
   ApiProperty,
   ApiQuery,
   ApiTags,
@@ -31,7 +33,10 @@ import {
   CreateRequestPostDto,
   FindPostFilterDto,
 } from './dtos/posts.request.dto';
-import { ResponsePostDto } from './dtos/posts.response.dto';
+import {
+  ResponsePostListPageDto,
+  ResponsePostDetailPageDataDto,
+} from './dtos/posts.response.dto';
 import { CheckLoginAuthGuard } from '@root/common/guard/isLoginCheck.guard';
 
 @Controller('posts')
@@ -95,7 +100,7 @@ export class notLoggedInPostsController {
     description: '필터기능 구현',
   })
   @ApiOkResponse({
-    type: ResponsePostDto,
+    type: ResponsePostListPageDto,
   })
   @Get('/')
   @UseGuards(CheckLoginAuthGuard)
@@ -109,37 +114,25 @@ export class notLoggedInPostsController {
     return postListPageData;
   }
 
-  // @Post('/test')
-  // async find(@Body() body) {
-  //   const { message } = body;
-  //   const generatePrompt = (name) => {
-  //     return [
-  //       {
-  //         role: 'system',
-  //         content: '빨간색을 추천해줘',
-  //       },
-  //     ];
-  //   };
-
-  //   const config = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
-  //   const openai = new OpenAIApi(config);
-  //   const me = [{ role: 'system', content: 'dd' }];
-  //   const completion = await openai.createChatCompletion({
-  //     model: 'gpt-3.5-turbo',
-  //     messages: [
-  //       {
-  //         role: 'system',
-  //         content:
-  //           '이 사람은 백앤드 개발자로 1년을 근무했고 mysql에 강점이 있다고 이력서를 작성했어. 이 사람에게 면접에서 마주할 수 있는 면접문제를 내줘',
-  //       },
-  //       {
-  //         role: 'user',
-  //         content: '안녕하십니까! 백앤드 개발자 조권영입니다!',
-  //       },
-  //     ],
-  //     temperature: 1,
-  //   });
-  //   console.log(completion.data.choices);
-  //   return completion.data.choices;
-  // }
+  @ApiOperation({
+    summary: '상세 페이지 (3월 22일 수정)',
+    description: '상세페이지(뭘 좋아하실지 몰라서 일단 다 넣었습니다.)',
+  })
+  @ApiParam({
+    name: 'postId',
+    type: 'string',
+  })
+  @ApiOkResponse({
+    type: ResponsePostDetailPageDataDto,
+  })
+  @Get('/:postId/detail')
+  @UseGuards(CheckLoginAuthGuard)
+  @UsePipes(new ValidationPipe())
+  async findPostDetailData(@Req() req, @Param() params: { postId }) {
+    const { postId } = params;
+    const postDetailPageData = await this.postsService.find.findDetailPostData(
+      postId,
+    );
+    return postDetailPageData;
+  }
 }

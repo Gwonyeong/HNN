@@ -1,3 +1,4 @@
+import { CommentsRepository } from './../comments/comments.repository';
 import { FindPostFilterDto } from './dtos/posts.request.dto';
 import { PostsRepository } from './posts.repository';
 import { BadRequestException, Injectable } from '@nestjs/common';
@@ -20,6 +21,10 @@ export class PostsService {
   });
 
   public find = {
+    findDetailPostData: async (postId) => {
+      return this.postsRepository.Mysql.findDetailPost(postId);
+    },
+
     findPostData: async (userId, findPostFilterDto: FindPostFilterDto) => {
       return this.postsRepository.Mysql.findPost(userId, findPostFilterDto);
     },

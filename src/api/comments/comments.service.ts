@@ -7,6 +7,12 @@ import { CreateCommentDto } from './dtos/comments.request.dto';
 export class CommentsService {
   constructor(private commentsRepository: CommentsRepository) {}
 
+  find = {
+    findCommentByPostId: async (postId) => {
+      return this.commentsRepository.mysql.findCommentByPostId(postId);
+    },
+  };
+
   create = {
     createComment: async (
       postId,

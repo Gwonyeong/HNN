@@ -1,13 +1,14 @@
 import {
   Body,
   Controller,
+  Param,
   Post,
   Req,
   UseFilters,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResponseInterceptor } from '@root/common/interceptor/response.interceptor';
 import { HttpExceptionFilter } from '@root/common/middlewares/error/error.middleware';
 import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
@@ -24,8 +25,12 @@ import { LikesService } from './likes.service';
 export class LikesController {
   constructor(private likesService: LikesService) {}
 
-  @Post()
-  async createLike(@Req() req, @Body() createLikeDto: CreateLikeDto) {
+  @ApiOperation({
+    summary: '좋아요 기능 (3월 22일 수정)',
+    description: '좋아요 등록 ,좋아요를 한 상태면 취소',
+  })
+  @Post('/:postId')
+  async createLike(@Req() req, @Param() createLikeDto: CreateLikeDto) {
     const { userId } = req.user;
     const { postId } = createLikeDto;
     const likeData = await this.likesService.find.findOneLike({
