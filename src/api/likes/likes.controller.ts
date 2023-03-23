@@ -17,7 +17,7 @@ import { UsersService } from '../users/users.service';
 import { LikesService } from './likes.service';
 
 @Controller('likes')
-@ApiTags('05.Likes(구현중)')
+@ApiTags('05.Likes(23/03/23)')
 @UseInterceptors(ResponseInterceptor)
 @UseFilters(new HttpExceptionFilter())
 @UseGuards(JwtAuthGuard)

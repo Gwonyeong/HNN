@@ -59,4 +59,9 @@ export class FindPostFilterDto {
 
   @ApiProperty({ example: '10', description: 'default: 10', required: false })
   limit?: number = 10;
+
+  @ApiProperty({ example: '', description: '검색 키워드', required: false })
+  keyword: string;
+
+  postIds: number[];
 }

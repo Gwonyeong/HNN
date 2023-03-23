@@ -3,7 +3,7 @@ import mongoose, { HydratedDocument } from 'mongoose';
 
 export type SearchPostDocument = HydratedDocument<SearchPost>;
 
-@Schema()
+@Schema({ collection: 'SearchPost' })
 export class SearchPost {
   @Prop()
   postId: number;

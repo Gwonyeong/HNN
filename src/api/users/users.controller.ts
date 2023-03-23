@@ -39,7 +39,7 @@ import { ResponseInterceptor } from '@root/common/interceptor/response.intercept
 import { randomNicknameResponseDto } from './dto/response.user.dto';
 
 @Controller('users')
-@ApiTags('02.Users(완)')
+@ApiTags('02.Users(23/03/23)')
 @UseInterceptors(ResponseInterceptor)
 @UseFilters(new HttpExceptionFilter())
 @UseGuards(JwtAuthGuard)

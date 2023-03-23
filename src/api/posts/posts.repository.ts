@@ -22,7 +22,7 @@ export class PostsRepository {
   constructor(
     @InjectRepository(Post) private postRepository: Repository<Post>,
     @InjectModel(SearchPost.name)
-    private searchPostModel: Model<SearchPostDocument>,
+    private searchPostModel: Model<SearchPost>,
   ) {}
 
   public Mysql = {
@@ -95,6 +95,12 @@ export class PostsRepository {
           );
       }
 
+      if (findPostFilterDto.postIds) {
+        findPostQuery.where(`post.id LIKE :postIds`, {
+          postIds: findPostFilterDto.postIds,
+        });
+      }
+
       const offset = (findPostFilterDto.page - 1) * findPostFilterDto.limit;
       findPostQuery.limit(findPostFilterDto.limit).offset(offset);
       findPostQuery.orderBy(
@@ -121,6 +127,23 @@ export class PostsRepository {
   };
 
   public Mongo = {
+    findBySearchKeyword: async (searchKeyword) => {
+      const postSearchMongoData = await this.searchPostModel
+        .find({
+          $or: [
+            { title: { $regex: searchKeyword } },
+            { description: { $regex: searchKeyword } },
+            { tags: { $regex: searchKeyword } },
+          ],
+        })
+        .select('postId')
+        .lean();
+      const postIds = Object.values(postSearchMongoData).map(
+        (item) => item.postId,
+      );
+      return postIds;
+    },
+
     insertPostOfSearc: async (SearchPostDto) => {
       const insertSearchPost = new this.searchPostModel(SearchPostDto);
       insertSearchPost.save();

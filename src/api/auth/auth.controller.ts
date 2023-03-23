@@ -34,7 +34,7 @@ import { NaverAuthGuard } from './naver/naver.guard';
 import { responseAppTokenDTO } from './dto/responses/response.dto';
 import { ResponseInterceptor } from '@common/interceptor/response.interceptor';
 
-@ApiTags('01.Auth(완)')
+@ApiTags('01.Auth(23/03/23)')
 @Controller('auth')
 @UseFilters(new HttpExceptionFilter())
 @UseInterceptors(ResponseInterceptor)

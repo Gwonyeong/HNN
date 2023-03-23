@@ -29,7 +29,7 @@ import { ResponseCommentDto } from './dtos/comments.response.dto';
 import { CheckLoginAuthGuard } from '@root/common/guard/isLoginCheck.guard';
 
 @Controller('comments')
-@ApiTags('06.Comments(테스트 가능) 3월 22일')
+@ApiTags('06.Comments(23/03/23)')
 @UseFilters(new HttpExceptionFilter())
 @UseInterceptors(ResponseInterceptor)
 @UseGuards(JwtAuthGuard)
@@ -58,7 +58,7 @@ export class CommentsController {
 }
 
 @Controller('comments')
-@ApiTags('07 .NotLoggedInComment(테스트 가능) 3월 22일')
+@ApiTags('07 .NotLoggedInComment(23/03/23)')
 @UseFilters(new HttpExceptionFilter())
 @UseInterceptors(ResponseInterceptor)
 @UseGuards(CheckLoginAuthGuard)

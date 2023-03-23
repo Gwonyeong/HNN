@@ -40,7 +40,7 @@ import {
 import { CheckLoginAuthGuard } from '@root/common/guard/isLoginCheck.guard';
 
 @Controller('posts')
-@ApiTags('03.LoggedInPosts(구현중)')
+@ApiTags('03.LoggedInPosts(23/03/23)')
 @UseFilters(new HttpExceptionFilter())
 @UseInterceptors(ResponseInterceptor)
 @UseGuards(JwtAuthGuard)
@@ -89,15 +89,16 @@ export class PostsController {
 }
 
 @Controller('posts')
-@ApiTags('04.NotLoggedInposts(테스트 가능)')
+@ApiTags('04.NotLoggedInposts(23/03/23)')
 @UseFilters(new HttpExceptionFilter())
 @UseInterceptors(ResponseInterceptor)
 export class notLoggedInPostsController {
   constructor(private postsService: PostsService) {}
 
   @ApiOperation({
-    summary: '리스트 페이지 (3월 21일 수정)',
-    description: '필터기능 구현',
+    summary: '리스트 페이지 (3월 23일 수정)',
+    description: `0321 필터기능 구현 
+    <br> 0323 검색기능 구현`,
   })
   @ApiOkResponse({
     type: ResponsePostListPageDto,
@@ -107,6 +108,7 @@ export class notLoggedInPostsController {
   @UsePipes(new ValidationPipe())
   async findPostData(@Req() req, @Query() postFilterDto: FindPostFilterDto) {
     const userId = req?.user?.userId;
+
     const postListPageData = await this.postsService.find.findPostData(
       userId,
       postFilterDto,

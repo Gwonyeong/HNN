@@ -47,7 +47,7 @@ export class Config {
   }
 
   static setMongo() {
-    return MongooseModule.forRoot(process.env.MONGO_URI);
+    return MongooseModule.forRoot(process.env.MONGO_URI, { dbName: 'hnn' });
   }
 }
 

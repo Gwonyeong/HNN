@@ -26,6 +26,14 @@ export class PostsService {
     },
 
     findPostData: async (userId, findPostFilterDto: FindPostFilterDto) => {
+      if (!findPostFilterDto.keyword) {
+        return this.postsRepository.Mysql.findPost(userId, findPostFilterDto);
+      }
+      findPostFilterDto.postIds =
+        await this.postsRepository.Mongo.findBySearchKeyword(
+          findPostFilterDto.keyword,
+        );
+      console.log(findPostFilterDto.postIds);
       return this.postsRepository.Mysql.findPost(userId, findPostFilterDto);
     },
 
