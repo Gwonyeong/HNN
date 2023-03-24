@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Req,
   UseFilters,
   UseGuards,
@@ -22,8 +23,9 @@ import {
 import { ResponseInterceptor } from '@root/common/interceptor/response.interceptor';
 import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
 import {
-  CreateCommentDto,
+  RequestCreateCommentDto,
   RequestCommentByPostIdDto,
+  RequestUpdateCommentDto,
 } from './dtos/comments.request.dto';
 import { ResponseCommentDto } from './dtos/comments.response.dto';
 import { CheckLoginAuthGuard } from '@root/common/guard/isLoginCheck.guard';
@@ -48,12 +50,30 @@ export class CommentsController {
   async createComment(
     @Req() req,
     @Param() param,
-    @Body() createCommentDto: CreateCommentDto,
+    @Body() createCommentDto: RequestCreateCommentDto,
   ) {
     const { postId } = param;
     const { userId } = req.user;
     this.commentService.create.createComment(postId, userId, createCommentDto);
     return {};
+  }
+
+  @ApiOperation({
+    summary: '해당 댓글 수정하기(0324)',
+  })
+  @ApiParam({
+    name: 'commentId',
+  })
+  @Put('/:commentId')
+  async updateComment(
+    @Req() req,
+    @Param() param,
+    @Body() updateCommentDto: RequestUpdateCommentDto,
+  ) {
+    const { userId } = req.user;
+    const { commentId } = param;
+    const { comment } = updateCommentDto;
+    await this.commentService.update.updateComment(userId, commentId, comment);
   }
 }
 

@@ -56,7 +56,13 @@ class Application {
         new DocumentBuilder()
           .setTitle('HNN - API')
           .setDescription(
-            '흔들리는 음악속에서 네 MBTI가 느껴진거야, 기본적으로 모든 response에는 success : boolean 값을 함께 보냅니다!',
+            `흔들리는 음악속에서 네 MBTI가 느껴진거야, 기본적으로 모든 response에는 success : boolean 값을 함께 보냅니다! <br>
+            3월 24일 추가 <br>
+             Respone규칙 : <br>
+             <b> 1. 기본적으로 테이블 이름 + 속성의 이름 예 : (commentComment => comment테이블의 comment속성), (postId => post테이블의 id속성)  <b><br>
+             <b> 2. 상태변화는 is로 시작 예 : (isPostLike => 해당 Post의 Like속성의 상태 , 기본적으로 true or false) <b> <br>
+             <b> 3. 속성의 수는 count로 시작 예 : (countPostView => 해당 Post의 view의 갯수, 반드시 숫자)
+            `,
           )
           .setVersion('0.0.2')
           .addBearerAuth(

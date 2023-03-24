@@ -1,7 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Comment } from '@root/database/entites/comments.entity';
 import { Repository } from 'typeorm';
-import { CreateCommentDto } from './dtos/comments.request.dto';
+import { RequestCreateCommentDto } from './dtos/comments.request.dto';
 import { Post } from '@root/database/entites/post.entity';
 import { ResponseCommentDto } from './dtos/comments.response.dto';
 
@@ -13,12 +13,19 @@ export class CommentsRepository {
   ) {}
 
   mysql = {
+    findCommentByCommentId: async (commentId) => {
+      return await this.commentRepository.findOne({
+        where: { id: commentId },
+        relations: ['user'],
+      });
+    },
+
     findCommentByPostId: async (postId): Promise<ResponseCommentDto[]> => {
       const findCommentDataQuery = this.postRepository
         .createQueryBuilder('post')
         .select([
           `comment.id AS commentId`,
-          `comment.comment AS comment`,
+          `comment.comment AS commentComment`,
           `user.id AS userId`,
           `user.nickname AS userNickname`,
           `user.MBTI AS userMBTI`,
@@ -34,7 +41,11 @@ export class CommentsRepository {
       return await findCommentDataQuery.getRawMany();
     },
 
-    create: async (postId, userId, createCommentDto: CreateCommentDto) => {
+    createComment: async (
+      postId,
+      userId,
+      createCommentDto: RequestCreateCommentDto,
+    ) => {
       await this.commentRepository.save(
         this.commentRepository.create({
           post: postId,
@@ -42,6 +53,10 @@ export class CommentsRepository {
           ...createCommentDto,
         }),
       );
+    },
+
+    updateComment: async (commentId, comment) => {
+      this.commentRepository.update({ id: commentId }, { comment });
     },
   };
 }

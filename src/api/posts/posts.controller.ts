@@ -2,9 +2,11 @@ import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
+  Put,
   Query,
   Req,
   UseFilters,
@@ -26,12 +28,14 @@ import {
   ApiProperty,
   ApiQuery,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { ResponseInterceptor } from '@common/interceptor/response.interceptor';
 import { HttpExceptionFilter } from '@common/middlewares/error/error.middleware';
 import {
   CreateRequestPostDto,
   FindPostFilterDto,
+  UpdatePostDto,
 } from './dtos/posts.request.dto';
 import {
   ResponsePostListPageDto,
@@ -85,6 +89,45 @@ export class PostsController {
       tags,
     });
     return { msg: '등록이 완료되었습니다.' };
+  }
+
+  @ApiOperation({
+    summary: '게시물 업데이트(0324)',
+    description: '게시물의 postTitle, postDescription을 수정합니다.',
+  })
+  @ApiParam({
+    name: 'postId',
+  })
+  @ApiUnauthorizedResponse({
+    description: '권한이 없습니다.(자신의 게시물이 아님)',
+  })
+  @Put('/:postId')
+  async updateYoutubePost(
+    @Req() req,
+    @Param() param,
+    @Body() updatePostDto: UpdatePostDto,
+  ) {
+    const { userId } = req.user;
+    const { postId } = param;
+    await this.postsService.update.updatePost(postId, userId, updatePostDto);
+    return {};
+  }
+
+  @ApiOperation({
+    summary: '게시물 삭제하기(0324)',
+    description: '해당 번호의 게시물을 삭제합니다.',
+  })
+  @ApiParam({
+    name: 'postId',
+  })
+  @ApiUnauthorizedResponse({
+    description: '권한이 없습니다.(자신의 게시물이 아님)',
+  })
+  @Delete('/:postId')
+  async deleteYotubePost(@Req() req, @Param() param) {
+    const { userId } = req.user;
+    const { postId } = param;
+    await this.postsService.delete.deletePost(postId, userId);
   }
 }
 

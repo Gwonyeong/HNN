@@ -5,7 +5,7 @@ export class ResponseCommentDto {
   commentId;
 
   @ApiProperty({ example: '' })
-  comment;
+  commentComment;
   @ApiProperty({ example: '' })
   userId;
   @ApiProperty({ example: '' })

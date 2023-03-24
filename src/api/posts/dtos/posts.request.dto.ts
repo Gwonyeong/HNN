@@ -18,10 +18,10 @@ import {
   MinLength,
 } from 'class-validator';
 
-class RequestPostDto {
+export class CreateRequestPostDto {
   @ApiProperty({ example: 'youtube uri' })
   @IsUrl()
-  uri: string;
+  uri;
 
   @ApiProperty({ example: 'postTitle writed for user' })
   @IsString()
@@ -29,12 +29,6 @@ class RequestPostDto {
 
   @ApiProperty({ example: 'postDescription writed for user' })
   @IsString()
-  postDescription: string;
-}
-
-export class CreateRequestPostDto extends RequestPostDto {
-  uri;
-  postTitle: string;
   postDescription: string;
 }
 
@@ -64,4 +58,14 @@ export class FindPostFilterDto {
   keyword: string;
 
   postIds: number[];
+}
+
+export class UpdatePostDto {
+  @ApiProperty({ example: 'postTitle writed for user' })
+  @IsString()
+  postTitle: string;
+
+  @ApiProperty({ example: 'postDescription writed for user' })
+  @IsString()
+  postDescription: string;
 }

@@ -13,7 +13,7 @@ import {
   MongoExceptionFilter,
   TypeOrmExceptionFilter,
 } from '@common/middlewares/error/error.middleware';
-import { FindPostFilterDto } from './dtos/posts.request.dto';
+import { FindPostFilterDto, UpdatePostDto } from './dtos/posts.request.dto';
 
 @Injectable()
 @UseFilters(new TypeOrmExceptionFilter())
@@ -26,6 +26,13 @@ export class PostsRepository {
   ) {}
 
   public Mysql = {
+    findById: async (postId) => {
+      return await this.postRepository.findOne({
+        where: { id: postId },
+        relations: ['user'],
+      });
+    },
+
     findDetailPost: async (postId) => {
       const findPostDetailDataQuery = this.postRepository
         .createQueryBuilder('post')
@@ -124,6 +131,14 @@ export class PostsRepository {
         }),
       );
     },
+
+    updatePost: async (postId: number, updatePostDto: UpdatePostDto) => {
+      await this.postRepository.update({ id: postId }, { ...updatePostDto });
+    },
+
+    deletePost: async (postId) => {
+      await this.postRepository.delete({ id: postId });
+    },
   };
 
   public Mongo = {
@@ -147,6 +162,12 @@ export class PostsRepository {
     insertPostOfSearc: async (SearchPostDto) => {
       const insertSearchPost = new this.searchPostModel(SearchPostDto);
       insertSearchPost.save();
+    },
+
+    deleteByPostId: async (postId) => {
+      await this.searchPostModel.deleteOne({
+        postId,
+      });
     },
   };
 }

@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { CommentsRepository } from './comments.repository';
 import { async } from 'rxjs';
-import { CreateCommentDto } from './dtos/comments.request.dto';
+import { RequestCreateCommentDto } from './dtos/comments.request.dto';
+import { User } from '@root/database/entites/user.entity';
 
 @Injectable()
 export class CommentsService {
   constructor(private commentsRepository: CommentsRepository) {}
+
+  public common = {
+    verifyCommentOwner: (userEntity: User, userId: number) => {
+      return userEntity.id == userId;
+    },
+  };
 
   find = {
     findCommentByPostId: async (postId) => {
@@ -17,13 +24,27 @@ export class CommentsService {
     createComment: async (
       postId,
       userId,
-      createCommentDto: CreateCommentDto,
+      createCommentDto: RequestCreateCommentDto,
     ) => {
       this.commentsRepository.mysql
-        .create(postId, userId, createCommentDto)
+        .createComment(postId, userId, createCommentDto)
         .catch((err) => {
           console.error(err);
         });
     },
+  };
+
+  update = {
+    updateComment: async (userId, commentId, comment) => {
+      const commentData =
+        await this.commentsRepository.mysql.findCommentByCommentId(commentId);
+      this.common.verifyCommentOwner(commentData.user, userId);
+
+      await this.commentsRepository.mysql.updateComment(commentId, comment);
+    },
+  };
+
+  delete = {
+    deleteComment: async (commentId) => {},
   };
 }

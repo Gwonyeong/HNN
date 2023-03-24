@@ -1,12 +1,17 @@
 import { CommentsRepository } from './../comments/comments.repository';
-import { FindPostFilterDto } from './dtos/posts.request.dto';
+import { FindPostFilterDto, UpdatePostDto } from './dtos/posts.request.dto';
 import { PostsRepository } from './posts.repository';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 import { google } from 'googleapis';
 import { ProcessUriService } from '@common/services/processUri.service';
 import { InsertPostDto, SearchPostDto } from './dtos/posts.dto';
 import { Post } from '@database/entites/post.entity';
+import { User } from '@root/database/entites/user.entity';
 
 @Injectable()
 export class PostsService {
@@ -19,6 +24,14 @@ export class PostsService {
     version: 'v3',
     auth: process.env.YOUTUBE_API_KEY,
   });
+
+  public common = {
+    verifyPostOwner: (userEntity: User, userId: number) => {
+      if (userEntity.id !== userId) {
+        throw new UnauthorizedException(`권한이 없습니다.`);
+      }
+    },
+  };
 
   public find = {
     findDetailPostData: async (postId) => {
@@ -33,7 +46,6 @@ export class PostsService {
         await this.postsRepository.Mongo.findBySearchKeyword(
           findPostFilterDto.keyword,
         );
-      console.log(findPostFilterDto.postIds);
       return this.postsRepository.Mysql.findPost(userId, findPostFilterDto);
     },
 
@@ -86,6 +98,28 @@ export class PostsService {
 
     insertPostOfSearchData: async (searchPostDto: SearchPostDto) => {
       await this.postsRepository.Mongo.insertPostOfSearc(searchPostDto);
+    },
+  };
+
+  public update = {
+    updatePost: async (
+      postId: number,
+      userId: number,
+      updatePostDto: UpdatePostDto,
+    ) => {
+      const postData = await this.postsRepository.Mysql.findById(postId);
+
+      this.common.verifyPostOwner(postData.user, userId);
+
+      await this.postsRepository.Mysql.updatePost(postId, updatePostDto);
+    },
+  };
+
+  public delete = {
+    deletePost: async (postId: number, userId: number) => {
+      const postData = await this.postsRepository.Mysql.findById(postId);
+      this.common.verifyPostOwner(postData.user, userId);
+      this.postsRepository.Mysql.deletePost(postId);
     },
   };
 }
