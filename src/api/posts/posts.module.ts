@@ -16,12 +16,17 @@ import {
 import { JwtModule } from '@nestjs/jwt';
 import { UserRepository } from '../users/user.repository';
 import { User } from '@root/database/entites/user.entity';
+import {
+  PostView,
+  PostViewSchema,
+} from '@root/database/schema/postView.schema';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Post]),
     MongooseModule.forFeature([
       { name: SearchPost.name, schema: SearchPostSchema },
+      { name: PostView.name, schema: PostViewSchema },
     ]),
     JwtModule.register({
       secret: process.env.SECRET_KEY,

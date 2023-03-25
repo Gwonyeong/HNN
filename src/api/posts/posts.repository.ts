@@ -14,6 +14,7 @@ import {
   TypeOrmExceptionFilter,
 } from '@common/middlewares/error/error.middleware';
 import { FindPostFilterDto, UpdatePostDto } from './dtos/posts.request.dto';
+import { PostView } from '@root/database/schema/postView.schema';
 
 @Injectable()
 @UseFilters(new TypeOrmExceptionFilter())
@@ -23,6 +24,8 @@ export class PostsRepository {
     @InjectRepository(Post) private postRepository: Repository<Post>,
     @InjectModel(SearchPost.name)
     private searchPostModel: Model<SearchPost>,
+    @InjectModel(PostView.name)
+    private postViewModel: Model<PostView>,
   ) {}
 
   public Mysql = {
@@ -169,12 +172,25 @@ export class PostsRepository {
       await this.postRepository.update({ id: postId }, { ...updatePostDto });
     },
 
+    updatePostCountView: async (postId, countView) => {
+      console.log(postId, countView);
+      await this.postRepository.update({ id: postId }, { countView });
+    },
+
     deletePost: async (postId) => {
       await this.postRepository.delete({ id: postId });
     },
   };
 
   public Mongo = {
+    findCountPostView: async (postId) => {
+      const postCountViewData = await this.postViewModel
+        .count({ postId })
+        .count()
+        .exec();
+      return postCountViewData;
+    },
+
     findBySearchKeyword: async (searchKeyword) => {
       const postSearchMongoData = await this.searchPostModel
         .find({
@@ -186,15 +202,21 @@ export class PostsRepository {
         })
         .select('postId')
         .lean();
+
       const postIds = Object.values(postSearchMongoData).map(
         (item) => item.postId,
       );
       return postIds;
     },
 
-    insertPostOfSearc: async (SearchPostDto) => {
-      const insertSearchPost = new this.searchPostModel(SearchPostDto);
-      insertSearchPost.save();
+    createPostOfSearch: async (SearchPostDto) => {
+      const createSearchPost = new this.searchPostModel(SearchPostDto);
+      createSearchPost.save();
+    },
+
+    createPostView: async (postId, userId) => {
+      const createPostView = new this.postViewModel({ postId, userId });
+      await createPostView.save();
     },
 
     deleteByPostId: async (postId) => {

@@ -56,4 +56,7 @@ export class Post {
 
   @Column({ type: 'varchar', length: 512 })
   channelThumbnail: string;
+
+  @Column({ type: 'int', default: 0 })
+  countView: number;
 }

@@ -34,8 +34,22 @@ export class PostsService {
   };
 
   public find = {
-    findDetailPostData: async (postId) => {
-      return this.postsRepository.Mysql.findDetailPost(postId);
+    findDetailPostData: async (postId, userId) => {
+      const findDetailPostData =
+        await this.postsRepository.Mysql.findDetailPost(postId);
+
+      if (!findDetailPostData) {
+        throw new BadRequestException('잘못된 접근입니다.');
+      }
+      this.postsRepository.Mongo.createPostView(
+        postId,
+        userId ? userId : 'notLoggedInUser',
+      );
+      const postViewData = await this.postsRepository.Mongo.findCountPostView(
+        postId,
+      );
+      this.postsRepository.Mysql.updatePostCountView(postId, postViewData);
+      return findDetailPostData;
     },
 
     findPostData: async (userId, findPostFilterDto: FindPostFilterDto) => {
@@ -83,8 +97,8 @@ export class PostsService {
     },
   };
 
-  public insert = {
-    insertPost: async (
+  public create = {
+    createPost: async (
       userId: number,
       postData: object,
       youtubeData: InsertPostDto,
@@ -96,8 +110,8 @@ export class PostsService {
       );
     },
 
-    insertPostOfSearchData: async (searchPostDto: SearchPostDto) => {
-      await this.postsRepository.Mongo.insertPostOfSearc(searchPostDto);
+    createPostOfSearchData: async (searchPostDto: SearchPostDto) => {
+      await this.postsRepository.Mongo.createPostOfSearch(searchPostDto);
     },
   };
 

@@ -76,12 +76,12 @@ export class PostsController {
       postTitle,
       postDescription,
     };
-    const createPostData = await this.postsService.insert.insertPost(
+    const createPostData = await this.postsService.create.createPost(
       userId,
       postData,
       youtubeData,
     );
-    this.postsService.insert.insertPostOfSearchData({
+    this.postsService.create.createPostOfSearchData({
       postId: createPostData.id,
       title: postTitle,
 
@@ -176,8 +176,10 @@ export class notLoggedInPostsController {
   @UsePipes(new ValidationPipe())
   async findPostDetailData(@Req() req, @Param() params: { postId }) {
     const { postId } = params;
+    const { userId } = req.user;
     const postDetailPageData = await this.postsService.find.findDetailPostData(
       postId,
+      userId,
     );
     return postDetailPageData;
   }
