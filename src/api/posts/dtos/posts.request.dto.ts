@@ -41,6 +41,13 @@ export class FindPostFilterDto {
   order?: string = 'recent';
 
   @ApiProperty({
+    example: 'DESC',
+    description: 'DESC : 내림차순 ASC : 오름차순',
+    required: false,
+  })
+  sort?;
+
+  @ApiProperty({
     example: 'ENFJ',
     description:
       '해당하는 MBTI의 작성자가 작성한 게시물 필터링(아직은 하나만 가능)',

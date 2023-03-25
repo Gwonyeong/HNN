@@ -90,6 +90,7 @@ export class PostsRepository {
           `post.youtubeVideoThumbnail AS postYoutubeVideoThumbnail`,
           `post.postTitle AS postPostTitle`,
           `post.youtubeVideoId AS postYoutubeVideoId`,
+          `post.countView AS countPostView`,
 
           `user.id AS userId`,
           `CASE WHEN LEFT(user.profilePicture, 4) = 'HTTP' 
@@ -146,11 +147,18 @@ export class PostsRepository {
 
       const offset = (findPostFilterDto.page - 1) * findPostFilterDto.limit;
       findPostQuery.limit(findPostFilterDto.limit).offset(offset);
-      findPostQuery.orderBy(
-        findPostFilterDto.order == 'recent'
-          ? 'post.id'
-          : findPostFilterDto.order,
-      );
+
+      switch (findPostFilterDto.order) {
+        case 'view': {
+          findPostQuery.orderBy(`post.countView`, findPostFilterDto.sort);
+          break;
+        }
+        default: {
+          findPostQuery.orderBy(`post.id`, findPostFilterDto.sort);
+          break;
+        }
+      }
+
       return await findPostQuery.getRawMany();
     },
 
