@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -19,6 +20,7 @@ import {
   ApiParam,
   ApiResponse,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { ResponseInterceptor } from '@root/common/interceptor/response.interceptor';
 import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
@@ -64,6 +66,9 @@ export class CommentsController {
   @ApiParam({
     name: 'commentId',
   })
+  @ApiUnauthorizedResponse({
+    description: '권한이 없습니다.(자신의 게시물이 아님)',
+  })
   @Put('/:commentId')
   async updateComment(
     @Req() req,
@@ -74,6 +79,22 @@ export class CommentsController {
     const { commentId } = param;
     const { comment } = updateCommentDto;
     await this.commentService.update.updateComment(userId, commentId, comment);
+  }
+
+  @ApiOperation({
+    summary: '해당 댓글 삭제하기(0325)',
+  })
+  @ApiParam({
+    name: 'commentId',
+  })
+  @ApiUnauthorizedResponse({
+    description: '권한이 없습니다.(자신의 게시물이 아님)',
+  })
+  @Delete('/:commentId')
+  async deleteComment(@Req() req, @Param() param) {
+    const { userId } = req.user;
+    const { commentId } = param;
+    await this.commentService.delete.deleteComment(commentId, userId);
   }
 }
 

@@ -58,5 +58,9 @@ export class CommentsRepository {
     updateComment: async (commentId, comment) => {
       this.commentRepository.update({ id: commentId }, { comment });
     },
+
+    deleteCommentByCommentId: async (commentId) => {
+      this.commentRepository.delete({ id: commentId });
+    },
   };
 }

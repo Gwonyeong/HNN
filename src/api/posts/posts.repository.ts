@@ -56,12 +56,19 @@ export class PostsRepository {
           `user.gender AS userGender`,
         ])
         .leftJoin('post.user', 'user')
+
         .where(`post.id = :postId`, { postId });
 
       return await findPostDetailDataQuery.getRawMany();
     },
 
     findPost: async (userId, findPostFilterDto: FindPostFilterDto) => {
+      const findCommentCountSubQuery = this.postRepository
+        .createQueryBuilder('post')
+        .select([`C10.postId AS postId`, `COUNT(C10.id) AS commentCount`])
+        .innerJoin('comment', 'C10', `post.id = C10.postId`)
+        .groupBy(`C10.postId`);
+
       const findPostQuery = this.postRepository
         .createQueryBuilder('post')
         .select([
@@ -82,8 +89,18 @@ export class PostsRepository {
           `user.nickname AS userNickname`,
           `user.MBTI AS userMBTI`,
           `user.gender AS userGender`,
+
+          `CASE WHEN commentCount.commentCount IS NULL 
+            THEN 0
+            ELSE commentCount.commentCount
+            END AS countComment`,
         ])
-        .innerJoin('post.user', 'user');
+        .innerJoin('post.user', 'user')
+        .leftJoin(
+          '(' + findCommentCountSubQuery.getQuery() + ')',
+          'commentCount',
+          `post.id = commentCount.postId`,
+        );
 
       if (findPostFilterDto.MBTI) {
         findPostQuery.where('user.MBTI = :MBTI', {

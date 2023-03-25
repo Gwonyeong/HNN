@@ -45,6 +45,11 @@ export class CommentsService {
   };
 
   delete = {
-    deleteComment: async (commentId) => {},
+    deleteComment: async (commentId, userId) => {
+      const commenData =
+        await this.commentsRepository.mysql.findCommentByCommentId(commentId);
+      this.common.verifyCommentOwner(commenData.user, userId);
+      await this.commentsRepository.mysql.deleteCommentByCommentId(commentId);
+    },
   };
 }
