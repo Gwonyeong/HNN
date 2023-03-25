@@ -64,6 +64,12 @@ export class ResponsePostListPageDto {
     description: '좋아요 갯수',
   })
   countLike: number;
+
+  @ApiProperty({
+    example: '1',
+    description: '조회수 (로그인을 한 유저, 안한 유저 모두 체크 ,중복 허용)',
+  })
+  postView: number;
 }
 
 export class ResponsePostDetailPageDataDto {
