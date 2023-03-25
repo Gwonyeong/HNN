@@ -17,10 +17,8 @@ export class Like {
   id: number;
 
   @ManyToOne(() => Post, (post) => post.id, { cascade: true })
-  @JoinColumn()
   post: Post;
 
   @ManyToOne(() => User, (user) => user.id, { cascade: true })
-  @JoinColumn()
   user: User;
 }

@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { User } from '@root/database/entites/user.entity';
 import {
   IsAlpha,
   IsAlphanumeric,
@@ -17,6 +18,6 @@ import {
 } from 'class-validator';
 
 export class UserIdAndPostIdDTO {
-  postId: number;
-  userId: number;
+  postId;
+  userId;
 }

@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Param,
+  ParseIntPipe,
   Post,
   Req,
   UseFilters,
@@ -30,9 +31,8 @@ export class LikesController {
     description: '좋아요 등록 ,좋아요를 한 상태면 취소',
   })
   @Post('/:postId')
-  async createLike(@Req() req, @Param() createLikeDto: CreateLikeDto) {
+  async createLike(@Req() req, @Param('postId', ParseIntPipe) postId) {
     const { userId } = req.user;
-    const { postId } = createLikeDto;
     const likeData = await this.likesService.find.findOneLike({
       userId,
       postId,

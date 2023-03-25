@@ -22,23 +22,25 @@ export class LikesRepository {
     ) => {
       return await this.likeRepository.findOne({
         where: {
-          user: { id: userIdAndPostIdDTO.userId },
-          post: { id: userIdAndPostIdDTO.postId },
+          // user: userIdAndPostIdDTO.userId,
+          post: userIdAndPostIdDTO.postId,
         },
       });
     },
 
     createLike: async (userIdAndPostIdDTO: UserIdAndPostIdDTO) => {
-      return await this.likeRepository.save({
-        user: { id: userIdAndPostIdDTO.userId },
-        post: { id: userIdAndPostIdDTO.postId },
-      });
+      return this.likeRepository.save(
+        this.likeRepository.create({
+          user: userIdAndPostIdDTO.userId,
+          post: userIdAndPostIdDTO.postId,
+        }),
+      );
     },
 
     deleteLike: async (userIdAndPostIdDTO: UserIdAndPostIdDTO) => {
       this.likeRepository.delete({
-        user: { id: userIdAndPostIdDTO.userId },
-        post: { id: userIdAndPostIdDTO.postId },
+        user: userIdAndPostIdDTO.userId,
+        post: userIdAndPostIdDTO.postId,
       });
     },
   };

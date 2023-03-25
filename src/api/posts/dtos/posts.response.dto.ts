@@ -52,6 +52,18 @@ export class ResponsePostListPageDto {
       '로그인한 유저인 경우에만 존재, 해당 게시물을 팔로우 했다면 1 아니라면 0',
   })
   isPostLike: number;
+
+  @ApiProperty({
+    example: '3',
+    description: '댓글 갯수',
+  })
+  countComment: number;
+
+  @ApiProperty({
+    example: '1',
+    description: '좋아요 갯수',
+  })
+  countLike: number;
 }
 
 export class ResponsePostDetailPageDataDto {

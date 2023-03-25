@@ -63,11 +63,18 @@ export class PostsRepository {
     },
 
     findPost: async (userId, findPostFilterDto: FindPostFilterDto) => {
+      // post테이블에 countComment와 countLike를 넣는게 더 효율적이겠지만 서브쿼리 연습을 위해 아래와 같이 구현
       const findCommentCountSubQuery = this.postRepository
         .createQueryBuilder('post')
         .select([`C10.postId AS postId`, `COUNT(C10.id) AS commentCount`])
         .innerJoin('comment', 'C10', `post.id = C10.postId`)
         .groupBy(`C10.postId`);
+
+      const findLikeCountSubQuery = this.postRepository
+        .createQueryBuilder('post')
+        .select([`L10.postId AS postId`, `COUNT(L10.id) AS likeCount`])
+        .innerJoin('like', 'L10', `post.id = L10.postId`)
+        .groupBy(`L10.postId`);
 
       const findPostQuery = this.postRepository
         .createQueryBuilder('post')
@@ -94,12 +101,21 @@ export class PostsRepository {
             THEN 0
             ELSE commentCount.commentCount
             END AS countComment`,
+          `CASE WHEN likeCount.likeCount IS NULL 
+            THEN 0
+            ELSE likeCount.likeCount
+            END AS countLike`,
         ])
         .innerJoin('post.user', 'user')
         .leftJoin(
           '(' + findCommentCountSubQuery.getQuery() + ')',
           'commentCount',
           `post.id = commentCount.postId`,
+        )
+        .leftJoin(
+          '(' + findLikeCountSubQuery.getQuery() + ')',
+          'likeCount',
+          `post.id = likeCount.postId`,
         );
 
       if (findPostFilterDto.MBTI) {
