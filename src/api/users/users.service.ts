@@ -5,9 +5,9 @@ import {
   UpdateprofileImageDto,
   UpdateRandomNickname,
   UpdateUserDto,
-} from './dto/request.user.dto';
+} from './dto/user.request.dto';
 import { randPrefix } from './dto/user.rnadom.nickname.object';
-import { FindUserResponseDto } from './dto/response.user.dto';
+import { FindUserResponseDto } from './dto/user.response.dto';
 
 @Injectable()
 export class UsersService {

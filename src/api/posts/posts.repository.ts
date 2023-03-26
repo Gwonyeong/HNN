@@ -127,6 +127,7 @@ export class PostsRepository {
           MBTI: findPostFilterDto.MBTI,
         });
       }
+      console.log(userId);
       if (userId) {
         findPostQuery
           .addSelect(

@@ -31,7 +31,7 @@ import {
 import { Response } from 'express';
 import { GoogleAuthGuard } from './google/google.guard';
 import { NaverAuthGuard } from './naver/naver.guard';
-import { responseAppTokenDTO } from './dto/responses/response.dto';
+import { responseAppTokenDTO } from './dto/response.dto';
 import { ResponseInterceptor } from '@common/interceptor/response.interceptor';
 
 @ApiTags('01.Auth(23/03/23)')

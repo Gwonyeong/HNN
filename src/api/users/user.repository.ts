@@ -7,7 +7,7 @@ import {
 } from '@common/middlewares/error/error.middleware';
 import { User } from '@database/entites/user.entity';
 import { Repository } from 'typeorm';
-import { UpdateprofileImageDto, UpdateUserDto } from './dto/request.user.dto';
+import { UpdateprofileImageDto, UpdateUserDto } from './dto/user.request.dto';
 
 @Injectable()
 @UseFilters(new TypeOrmExceptionFilter())

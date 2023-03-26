@@ -1,3 +1,4 @@
+import { User } from '@database/entites/user.entity';
 import { AuthRepository } from './auth.repository';
 import { JwtService } from '@nestjs/jwt';
 import {
@@ -9,7 +10,7 @@ import {
 import { InsertAuthDto } from './dto/auth.dto';
 import { Auth } from '../../database/entites/auth.entity';
 import * as bcrypt from 'bcrypt';
-import { responseAppTokenDTO } from './dto/responses/response.dto';
+import { responseAppTokenDTO } from './dto/response.dto';
 import { UserRepository } from '@root/api/users/user.repository';
 
 @Injectable()
@@ -23,7 +24,7 @@ export class AuthService {
   // jwt 관련
   public GroupJWT = {
     insertJwtToken: (authData: Auth) => {
-      const payload = { id: authData.id };
+      const payload = { id: authData.user.id };
       return {
         appToken: this.jwtService.sign(payload, {
           secret: process.env.SECRET_KEY,

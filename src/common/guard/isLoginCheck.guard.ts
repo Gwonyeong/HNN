@@ -18,7 +18,6 @@ export class CheckLoginAuthGuard implements CanActivate {
     // CanActivate를 implements 하였으므로, canActivate 함수를 구현해야 합니다.
     const request = context.switchToHttp().getRequest();
     // 클라이언트에서 보낸 request 정보를 읽어옵니다.
-
     const { authorization } = request.headers;
     if (!authorization) {
       return true;
@@ -34,11 +33,11 @@ export class CheckLoginAuthGuard implements CanActivate {
     });
     const userData = await this.userRepository.Mysql.findById(token.id);
     request.user = {
-      userId: userData.id,
-      nickname: userData.nickname,
-      role: userData.role,
-      gender: userData.gender,
-      MBTI: userData.MBTI,
+      userId: userData.userId,
+      nickname: userData.userNickname,
+      role: userData.userRole,
+      gender: userData.useGgender,
+      MBTI: userData.userMBTI,
     };
     return true;
   }

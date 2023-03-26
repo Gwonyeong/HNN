@@ -19,7 +19,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { FindUserResponseDto } from './dto/response.user.dto';
+import { FindUserResponseDto } from './dto/user.response.dto';
 import {
   ApiBearerAuth,
   ApiBody,
@@ -33,10 +33,10 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ResponseDTO } from '@common/dtos/response.dto';
 import { HttpExceptionFilter } from '@common/middlewares/error/error.middleware';
-import { UpdateRandomNickname, UpdateUserDto } from './dto/request.user.dto';
+import { UpdateRandomNickname, UpdateUserDto } from './dto/user.request.dto';
 import { randPrefix } from './dto/user.rnadom.nickname.object';
 import { ResponseInterceptor } from '@root/common/interceptor/response.interceptor';
-import { randomNicknameResponseDto } from './dto/response.user.dto';
+import { randomNicknameResponseDto } from './dto/user.response.dto';
 
 @Controller('users')
 @ApiTags('02.Users(23/03/23)')

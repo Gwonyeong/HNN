@@ -18,6 +18,10 @@ import {
   MinLength,
 } from 'class-validator';
 
+const postDocument = {
+  youtubeUri: 'youtubeUri',
+};
+
 export class CreateRequestPostDto {
   @ApiProperty({ example: 'youtube uri' })
   @IsUrl()
