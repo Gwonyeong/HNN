@@ -49,4 +49,5 @@ export class InsertAuthDto extends AuthDto {
   platform;
   socialLoginId?;
   role?;
+  user?;
 }

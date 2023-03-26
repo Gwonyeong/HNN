@@ -33,8 +33,4 @@ export class User {
 
   @Column({ type: 'enum', enum: role })
   role: string;
-
-  @OneToOne(() => Auth, (auth) => auth.id)
-  @JoinColumn()
-  auth: Auth;
 }

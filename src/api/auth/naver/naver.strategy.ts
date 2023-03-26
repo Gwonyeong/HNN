@@ -21,7 +21,6 @@ export class NaverStrategy extends PassportStrategy(Strategy, 'naver') {
     done: Function,
   ) {
     const { email, profile_image, id } = profile._json;
-
     const { appToken } = await this.authService.GroupLogin.socialLogin(
       email,
       profile_image,

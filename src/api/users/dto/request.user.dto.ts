@@ -34,7 +34,7 @@ export class UpdateUserDto {
   gender?;
 }
 
-export class UpdateProfilePictureDto {
+export class UpdateprofileImageDto {
   @ApiProperty({ description: '유저의 프로필 사진' })
   profileImage;
 }

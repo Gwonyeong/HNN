@@ -107,7 +107,7 @@ export class UsersController {
   })
   @Patch('picture')
   @UseInterceptors(FileInterceptor('avatar'))
-  async updateUserProfilePicture(
+  async updateUserprofileImage(
     @Req() req,
     @UploadedFile() avatar: Express.Multer.File,
   ) {

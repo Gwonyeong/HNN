@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { CreateUserDto } from './dto/user.dto';
 import {
-  UpdateProfilePictureDto,
+  UpdateprofileImageDto,
   UpdateRandomNickname,
   UpdateUserDto,
 } from './dto/request.user.dto';
@@ -38,8 +38,8 @@ export class UsersService {
 
   async updateUserProfile(
     userId: number,
-    profilePictureDto: UpdateProfilePictureDto,
+    profileImageDto: UpdateprofileImageDto,
   ) {
-    this.userRepository.Mysql.updateProfilePicture(userId, profilePictureDto);
+    this.userRepository.Mysql.updateprofileImage(userId, profileImageDto);
   }
 }

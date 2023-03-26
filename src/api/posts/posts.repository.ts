@@ -181,7 +181,6 @@ export class PostsRepository {
     },
 
     updatePostCountView: async (postId, countView) => {
-      console.log(postId, countView);
       await this.postRepository.update({ id: postId }, { countView });
     },
 

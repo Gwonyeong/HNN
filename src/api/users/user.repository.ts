@@ -7,7 +7,7 @@ import {
 } from '@common/middlewares/error/error.middleware';
 import { User } from '@database/entites/user.entity';
 import { Repository } from 'typeorm';
-import { UpdateProfilePictureDto, UpdateUserDto } from './dto/request.user.dto';
+import { UpdateprofileImageDto, UpdateUserDto } from './dto/request.user.dto';
 
 @Injectable()
 @UseFilters(new TypeOrmExceptionFilter())
@@ -42,12 +42,11 @@ export class UserRepository {
     },
 
     insertUser: async (createUserDto: CreateUserDto) => {
-      this.userRepository
-        .createQueryBuilder()
-        .insert()
-        .into(User)
-        .values({ ...createUserDto })
-        .execute();
+      return await this.userRepository.save(
+        this.userRepository.create({
+          ...createUserDto,
+        }),
+      );
     },
 
     updateUser: async (userId: number, updateUserDto: UpdateUserDto) => {
@@ -59,14 +58,14 @@ export class UserRepository {
         .execute();
     },
 
-    updateProfilePicture: async (
+    updateprofileImage: async (
       userId: number,
-      profilePictureDto: UpdateProfilePictureDto,
+      profileImageDto: UpdateprofileImageDto,
     ) => {
       await this.userRepository
         .createQueryBuilder()
         .update(User)
-        .set({ ...profilePictureDto })
+        .set({ ...profileImageDto })
         .where('id = :id', { id: userId })
         .execute();
     },

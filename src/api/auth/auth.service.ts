@@ -36,7 +36,7 @@ export class AuthService {
   public GroupLogin = {
     socialLogin: async (
       email: string,
-      profilePicture: string,
+      profileImage: string,
       socialLoginId: string,
       platform: string,
     ) => {
@@ -45,14 +45,14 @@ export class AuthService {
         const { appToken } = this.GroupJWT.insertJwtToken(authData);
         return { appToken };
       } else {
+        const userData = await this.userRepository.Mysql.insertUser({
+          profileImage: profileImage ? profileImage : 'default.png',
+        });
         const authData = await this.authRepository.insert({
           email,
           platform,
           socialLoginId,
-        });
-        await this.userRepository.Mysql.insertUser({
-          profilePicture: profilePicture ? profilePicture : 'default.png',
-          authId: authData.id,
+          user: userData.id,
         });
         const { appToken } = this.GroupJWT.insertJwtToken(authData);
         return { appToken };
@@ -90,14 +90,15 @@ export class AuthService {
       const salt = process.env.BCRYPT_SALT;
       const hashedPassword = await bcrypt.hash(password, parseInt(salt));
 
+      const userData = await this.userRepository.Mysql.insertUser({});
       // insert the user entity with the hashed password
       const authData = await this.authRepository.insert({
         email,
         password: hashedPassword,
         platform: 'local',
+        user: userData.id,
       });
       //일단 user데이터 만들어두기
-      await this.userRepository.Mysql.insertUser({ authId: authData.id });
       const { appToken } = this.GroupJWT.insertJwtToken(authData);
 
       return { appToken };

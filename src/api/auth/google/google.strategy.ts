@@ -27,7 +27,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   ): Promise<any> {
     const { emails, photos, id } = profile;
     const email = emails[0].value;
-    const profileImage = photos[0];
+    const profileImage = photos[0].value;
     const { appToken } = await this.authService.GroupLogin.socialLogin(
       email,
       profileImage,

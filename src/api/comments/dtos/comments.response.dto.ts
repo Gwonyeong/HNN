@@ -15,5 +15,5 @@ export class ResponseCommentDto {
   @ApiProperty({ example: '' })
   userGender;
   @ApiProperty({ example: '' })
-  userProfilePicture;
+  userprofileImage;
 }
