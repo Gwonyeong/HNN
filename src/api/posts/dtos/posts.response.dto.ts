@@ -38,8 +38,8 @@ export class ResponsePostListPageDto {
   postYoutubeVideoId: string;
   @ApiProperty({ example: 'user id' })
   userId: number;
-  @ApiProperty({ example: 'user profile picture' })
-  userProfilePicture: string;
+  @ApiProperty({ example: 'user profile image' })
+  userProfileImage: string;
   @ApiProperty({ example: 'user nickname' })
   userNickname: string;
   @ApiProperty({ example: 'user MBTI' })
@@ -93,8 +93,8 @@ export class ResponsePostDetailPageDataDto {
   postYoutubeVideoId: string;
   @ApiProperty({ example: 'user id' })
   userId: number;
-  @ApiProperty({ example: 'user profile picture' })
-  userProfilePicture: string;
+  @ApiProperty({ example: 'user profile image' })
+  userProfileImage: string;
   @ApiProperty({ example: 'user nickname' })
   userNickname: string;
   @ApiProperty({ example: 'user MBTI' })

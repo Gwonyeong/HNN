@@ -44,7 +44,7 @@ import {
 import { CheckLoginAuthGuard } from '@root/common/guard/isLoginCheck.guard';
 
 @Controller('posts')
-@ApiTags('03.LoggedInPosts(23/03/23)')
+@ApiTags('03.LoggedInPosts')
 @UseFilters(new HttpExceptionFilter())
 @UseInterceptors(ResponseInterceptor)
 @UseGuards(JwtAuthGuard)
@@ -139,11 +139,12 @@ export class notLoggedInPostsController {
   constructor(private postsService: PostsService) {}
 
   @ApiOperation({
-    summary: '리스트 페이지 (3월 25일 수정)',
+    summary: '리스트 페이지 (3월 26일 수정)',
     description: `0321 필터기능 구현 
     <br> 0323 검색기능 구현
     <br> 0325 댓글 갯수, 좋아요 갯수 구현
-    <br> 0325 query : sort 추가`,
+    <br> 0325 query : sort 추가
+    <br> 0326 0326 response userProfilePictre => userProfileImage`,
   })
   @ApiOkResponse({
     type: ResponsePostListPageDto,
@@ -162,8 +163,9 @@ export class notLoggedInPostsController {
   }
 
   @ApiOperation({
-    summary: '상세 페이지 (3월 22일 수정)',
-    description: '상세페이지(뭘 좋아하실지 몰라서 일단 다 넣었습니다.)',
+    summary: '상세 페이지 (3월 26일 수정)',
+    description: `상세페이지(뭘 좋아하실지 몰라서 일단 다 넣었습니다.
+      <br>0326 response userProfilePictre => userProfileImage `,
   })
   @ApiParam({
     name: 'postId',
