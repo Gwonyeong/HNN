@@ -23,5 +23,5 @@ export class Auth {
 
   @OneToOne(() => User, (user) => user.id, { cascade: true })
   @JoinColumn()
-  user: User;
+  user;
 }

@@ -23,8 +23,8 @@ export class AuthService {
 
   // jwt 관련
   public GroupJWT = {
-    insertJwtToken: (authData: Auth) => {
-      const payload = { id: authData.user.id };
+    insertJwtToken: (authData) => {
+      const payload = { id: authData.user_id };
       return {
         appToken: this.jwtService.sign(payload, {
           secret: process.env.SECRET_KEY,
@@ -55,6 +55,7 @@ export class AuthService {
           socialLoginId,
           user: userData.id,
         });
+
         const { appToken } = this.GroupJWT.insertJwtToken(authData);
         return { appToken };
       }
@@ -91,6 +92,7 @@ export class AuthService {
       const salt = process.env.BCRYPT_SALT;
       const hashedPassword = await bcrypt.hash(password, parseInt(salt));
 
+      //일단 user데이터 만들어두기
       const userData = await this.userRepository.Mysql.insertUser({});
       // insert the user entity with the hashed password
       const authData = await this.authRepository.insert({
@@ -99,7 +101,7 @@ export class AuthService {
         platform: 'local',
         user: userData.id,
       });
-      //일단 user데이터 만들어두기
+
       const { appToken } = this.GroupJWT.insertJwtToken(authData);
 
       return { appToken };

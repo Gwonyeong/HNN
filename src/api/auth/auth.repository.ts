@@ -16,7 +16,13 @@ export class AuthRepository {
     @InjectRepository(Auth) private authRepository: Repository<Auth>,
   ) {}
   async findByEmail(email: string): Promise<Auth> {
-    return await this.authRepository.findOne({ where: { email } });
+    const authData = await this.authRepository
+      .createQueryBuilder('auth')
+      .select()
+      .leftJoinAndSelect('user', 'user', `user.id = auth.userId`)
+      .where(`auth.email = :email`, { email });
+
+    return await authData.getRawOne();
   }
 
   async insert(insertAuthDto: InsertAuthDto) {
