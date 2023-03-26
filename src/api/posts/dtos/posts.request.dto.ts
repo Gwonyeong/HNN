@@ -18,14 +18,10 @@ import {
   MinLength,
 } from 'class-validator';
 
-const postDocument = {
-  youtubeUri: 'youtubeUri',
-};
-
 export class CreateRequestPostDto {
-  @ApiProperty({ example: 'youtube uri' })
+  @ApiProperty({ example: 'youtube uri', name: 'youtubeUri' })
   @IsUrl()
-  uri;
+  uri: string;
 
   @ApiProperty({ example: 'postTitle writed for user' })
   @IsString()
@@ -66,9 +62,9 @@ export class FindPostFilterDto {
   limit?: number = 10;
 
   @ApiProperty({ example: '', description: '검색 키워드', required: false })
-  keyword: string;
+  keyword?: string;
 
-  postIds: number[];
+  postIds?: number[];
 }
 
 export class UpdatePostDto {

@@ -22,6 +22,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       path: request.url,
       success: false,
       message: exceptionResponse.getResponse(),
+      error: process.env.NODE_ENV == 'dev' ? exception : '비공개',
     });
   }
 }

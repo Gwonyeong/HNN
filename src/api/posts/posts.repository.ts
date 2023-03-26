@@ -16,6 +16,29 @@ import {
 import { FindPostFilterDto, UpdatePostDto } from './dtos/posts.request.dto';
 import { PostView } from '@root/database/schema/postView.schema';
 
+const postRepositoryAlias = {
+  postId: 'post.id AS postId',
+  postYoutubeUri: 'post.youtubeUri AS postYoutubeUri',
+  postYoutubeTitle: 'post.youtubeTitle AS postYoutubeTitle',
+  postYoutubeDescription: 'post.description AS postYoutubeDescription',
+  postPublishedAt: 'post.publishedAt AS postPublishedAt',
+  postYoutubeVideoThumbnail:
+    'post.youtubeVideoThumbnail AS postYoutubeVideoThumbnail',
+  postPostTitle: 'post.postTitle AS postPostTitle',
+  postYoutubeVideoId: 'post.youtubeVideoId AS postYoutubeVideoId',
+
+  userId: 'user.id AS userId',
+  userProfileImage: `CASE WHEN LEFT(user.profileImage, 4) = 'HTTP' 
+      THEN user.profileImage 
+      ELSE CONCAT('${process.env.AWS_S3_CLOUDFRONT_DOMAIN}${process.env.S3_AVATAR_PATH}', user.profileImage)
+      END AS userProfileImage`,
+  userNickname: 'user.nickname AS userNickname',
+  userMBTI: 'user.MBTI AS userMBTI',
+  userGender: 'user.gender AS userGender',
+
+  countView: `post.countView AS countPostView`,
+};
+
 @Injectable()
 @UseFilters(new TypeOrmExceptionFilter())
 @UseFilters(new MongoExceptionFilter())
@@ -40,23 +63,20 @@ export class PostsRepository {
       const findPostDetailDataQuery = this.postRepository
         .createQueryBuilder('post')
         .select([
-          'post.id AS postId',
-          'post.youtubeUri AS postYoutubeUri',
-          'post.youtubeTitle AS postYoutubeTitle',
-          'post.description AS postYoutubeDescription',
-          'post.publishedAt AS postPublishedAt',
-          `post.youtubeVideoThumbnail AS postYoutubeVideoThumbnail`,
-          `post.postTitle AS postPostTitle`,
-          `post.youtubeVideoId AS postYoutubeVideoId`,
+          postRepositoryAlias.postId,
+          postRepositoryAlias.postYoutubeUri,
+          postRepositoryAlias.postYoutubeTitle,
+          postRepositoryAlias.postYoutubeDescription,
+          postRepositoryAlias.postPublishedAt,
+          postRepositoryAlias.postYoutubeVideoThumbnail,
+          postRepositoryAlias.postPostTitle,
+          postRepositoryAlias.postYoutubeVideoId,
 
-          `user.id AS userId`,
-          `CASE WHEN LEFT(user.profileImage, 4) = 'HTTP' 
-            THEN user.profileImage 
-            ELSE CONCAT('${process.env.AWS_S3_CLOUDFRONT_DOMAIN}${process.env.S3_AVATAR_PATH}', user.profileImage)
-            END AS userProfileImage `,
-          `user.nickname AS userNickname`,
-          `user.MBTI AS userMBTI`,
-          `user.gender AS userGender`,
+          postRepositoryAlias.userId,
+          postRepositoryAlias.userProfileImage,
+          postRepositoryAlias.userNickname,
+          postRepositoryAlias.userMBTI,
+          postRepositoryAlias.userGender,
         ])
         .leftJoin('post.user', 'user')
 
@@ -82,24 +102,21 @@ export class PostsRepository {
       const findPostQuery = this.postRepository
         .createQueryBuilder('post')
         .select([
-          'post.id AS postId',
-          'post.youtubeUri AS postYoutubeUri',
-          'post.youtubeTitle AS postYoutubeTitle',
-          'post.description AS postYoutubeDescription',
-          'post.publishedAt AS postPublishedAt',
-          `post.youtubeVideoThumbnail AS postYoutubeVideoThumbnail`,
-          `post.postTitle AS postPostTitle`,
-          `post.youtubeVideoId AS postYoutubeVideoId`,
-          `post.countView AS countPostView`,
+          postRepositoryAlias.postId,
+          postRepositoryAlias.postYoutubeUri,
+          postRepositoryAlias.postYoutubeTitle,
+          postRepositoryAlias.postYoutubeDescription,
+          postRepositoryAlias.postPublishedAt,
+          postRepositoryAlias.postYoutubeVideoThumbnail,
+          postRepositoryAlias.postPostTitle,
+          postRepositoryAlias.postYoutubeVideoId,
+          postRepositoryAlias.countView,
 
-          `user.id AS userId`,
-          `CASE WHEN LEFT(user.profileImage, 4) = 'HTTP' 
-            THEN user.profileImage 
-            ELSE CONCAT('${process.env.AWS_S3_CLOUDFRONT_DOMAIN}${process.env.S3_AVATAR_PATH}', user.profileImage)
-            END AS userProfileImage `,
-          `user.nickname AS userNickname`,
-          `user.MBTI AS userMBTI`,
-          `user.gender AS userGender`,
+          postRepositoryAlias.userId,
+          postRepositoryAlias.userProfileImage,
+          postRepositoryAlias.userNickname,
+          postRepositoryAlias.userMBTI,
+          postRepositoryAlias.userGender,
 
           `CASE WHEN commentCount.commentCount IS NULL 
             THEN 0
@@ -127,7 +144,6 @@ export class PostsRepository {
           MBTI: findPostFilterDto.MBTI,
         });
       }
-      console.log(userId);
       if (userId) {
         findPostQuery
           .addSelect(

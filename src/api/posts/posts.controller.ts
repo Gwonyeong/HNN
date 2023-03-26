@@ -154,7 +154,6 @@ export class notLoggedInPostsController {
   @UsePipes(new ValidationPipe())
   async findPostData(@Req() req, @Query() postFilterDto: FindPostFilterDto) {
     const userId = req?.user?.userId;
-    console.log(userId);
     const postListPageData = await this.postsService.find.findPostData(
       userId,
       postFilterDto,

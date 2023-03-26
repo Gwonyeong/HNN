@@ -53,6 +53,7 @@ export class PostsService {
     },
 
     findPostData: async (userId, findPostFilterDto: FindPostFilterDto) => {
+      console.log(findPostFilterDto);
       if (!findPostFilterDto.keyword) {
         return this.postsRepository.Mysql.findPost(userId, findPostFilterDto);
       }
@@ -80,7 +81,6 @@ export class PostsService {
         part: ['snippet'],
         id: [youtubeItemsSnippet.channelId],
       });
-      // console.log(youtubeItems);
       const result: InsertPostDto = {
         youtubeVideoId: youtubeItems.id,
         youtubeVideoThumbnail: youtubeItemsSnippet.thumbnails.standard.url,

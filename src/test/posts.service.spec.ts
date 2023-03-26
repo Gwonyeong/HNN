@@ -1,3 +1,4 @@
+import { FindPostFilterDto } from './../api/posts/dtos/posts.request.dto';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PostsService } from '@root/api/posts/posts.service';
 import { PostsModule } from '@root/api/posts/posts.module';
@@ -35,5 +36,15 @@ describe('findYoutubeData', () => {
         'https://kyung-a.tistory.com/category/Javascript',
       ),
     ).rejects.toThrow(BadRequestException);
+  });
+});
+
+describe('findPostData', () => {
+  it(`Should not exist Error, return object`, () => {
+    const userId = 1;
+    const findPostFilterDto: FindPostFilterDto = {};
+    expect(service.find.findPostData(userId, findPostFilterDto)).toBeInstanceOf(
+      FindPostFilterDto,
+    );
   });
 });

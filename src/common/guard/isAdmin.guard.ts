@@ -10,7 +10,6 @@ export class AdminAuthGuard extends AuthGuard('jwt') {
   canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
-    console.log(user);
     if (user.role == 'admin') {
       return true;
     }
