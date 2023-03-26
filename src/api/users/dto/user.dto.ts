@@ -15,4 +15,5 @@ export class CreateUserDto {
   MBTI?;
   gender?;
   profilePicture?: string;
+  authId;
 }

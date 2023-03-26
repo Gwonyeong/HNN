@@ -51,7 +51,6 @@ export class UsersController {
   ) {}
 
   @ApiOperation({ summary: '랜덤 닉네임 가져오기(완)' })
-  @ApiQuery({ type: UpdateRandomNickname })
   @ApiOkResponse({ type: randomNicknameResponseDto })
   @Get('/nickname')
   async findRandomNickname(@Query() query: UpdateRandomNickname) {

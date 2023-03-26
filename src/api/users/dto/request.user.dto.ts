@@ -45,5 +45,5 @@ export class UpdateRandomNickname {
   @IsEnum(MBTI, {
     message: 'MBTI형식이 올바르지 않습니다. => MBTI는 대문자로 입력해야합니다.',
   })
-  MBTI;
+  MBTI: string;
 }

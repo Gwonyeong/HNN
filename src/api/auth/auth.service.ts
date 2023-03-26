@@ -52,6 +52,7 @@ export class AuthService {
         });
         await this.userRepository.Mysql.insertUser({
           profilePicture: profilePicture ? profilePicture : 'default.png',
+          authId: authData.id,
         });
         const { appToken } = this.GroupJWT.insertJwtToken(authData);
         return { appToken };
@@ -96,7 +97,7 @@ export class AuthService {
         platform: 'local',
       });
       //일단 user데이터 만들어두기
-      await this.userRepository.Mysql.insertUser({});
+      await this.userRepository.Mysql.insertUser({ authId: authData.id });
       const { appToken } = this.GroupJWT.insertJwtToken(authData);
 
       return { appToken };

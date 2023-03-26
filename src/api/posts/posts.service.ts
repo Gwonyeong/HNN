@@ -43,7 +43,7 @@ export class PostsService {
       }
       await this.postsRepository.Mongo.createPostView(
         postId,
-        userId ? userId : 'notLoggedInUser',
+        userId ? userId : 0,
       );
       const postViewData = await this.postsRepository.Mongo.findCountPostView(
         postId,

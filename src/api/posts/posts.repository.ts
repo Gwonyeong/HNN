@@ -50,10 +50,10 @@ export class PostsRepository {
           `post.youtubeVideoId AS postYoutubeVideoId`,
 
           `user.id AS userId`,
-          `CASE WHEN LEFT(user.profilePicture, 4) = 'HTTP' 
-            THEN user.profilePicture 
-            ELSE CONCAT('${process.env.AWS_S3_CLOUDFRONT_DOMAIN}${process.env.S3_AVATAR_PATH}', user.profilePicture)
-            END AS userProfilePicture `,
+          `CASE WHEN LEFT(user.profileImage, 4) = 'HTTP' 
+            THEN user.profileImage 
+            ELSE CONCAT('${process.env.AWS_S3_CLOUDFRONT_DOMAIN}${process.env.S3_AVATAR_PATH}', user.profileImage)
+            END AS userProfileImage `,
           `user.nickname AS userNickname`,
           `user.MBTI AS userMBTI`,
           `user.gender AS userGender`,
@@ -93,10 +93,10 @@ export class PostsRepository {
           `post.countView AS countPostView`,
 
           `user.id AS userId`,
-          `CASE WHEN LEFT(user.profilePicture, 4) = 'HTTP' 
-            THEN user.profilePicture 
-            ELSE CONCAT('${process.env.AWS_S3_CLOUDFRONT_DOMAIN}${process.env.S3_AVATAR_PATH}', user.profilePicture)
-            END AS userProfilePicture `,
+          `CASE WHEN LEFT(user.profileImage, 4) = 'HTTP' 
+            THEN user.profileImage 
+            ELSE CONCAT('${process.env.AWS_S3_CLOUDFRONT_DOMAIN}${process.env.S3_AVATAR_PATH}', user.profileImage)
+            END AS userProfileImage `,
           `user.nickname AS userNickname`,
           `user.MBTI AS userMBTI`,
           `user.gender AS userGender`,
