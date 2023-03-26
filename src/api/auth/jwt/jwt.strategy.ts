@@ -20,11 +20,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: any) {
     const userData = await this.userRepository.Mysql.findById(payload.id);
     return {
-      userId: userData.id,
-      nickname: userData.nickname,
-      role: userData.role,
-      gender: userData.gender,
-      MBTI: userData.MBTI,
+      userId: userData.userId,
+      nickname: userData.userNickname,
+      role: userData.userRole,
+      gender: userData.userGender,
+      MBTI: userData.userMBTI,
     };
   }
 }

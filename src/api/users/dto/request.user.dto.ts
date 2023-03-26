@@ -36,7 +36,7 @@ export class UpdateUserDto {
 
 export class UpdateProfilePictureDto {
   @ApiProperty({ description: '유저의 프로필 사진' })
-  profilePicture;
+  profileImage;
 }
 
 export class UpdateRandomNickname {

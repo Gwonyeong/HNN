@@ -26,7 +26,7 @@ export class User {
     nullable: false,
     default: 'default.png',
   })
-  profilePicture: string;
+  profileImage: string;
 
   @Column({ type: 'enum', enum: gender, default: gender.null })
   gender: string;

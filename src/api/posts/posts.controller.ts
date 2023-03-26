@@ -173,7 +173,7 @@ export class notLoggedInPostsController {
     type: ResponsePostDetailPageDataDto,
   })
   @Get('/:postId/detail')
-  @UseGuards(CheckLoginAuthGuard)
+@UseGuards(CheckLoginAuthGuard)
   @UsePipes(new ValidationPipe())
   async findPostDetailData(@Req() req, @Param() params: { postId }) {
     const { postId } = params;

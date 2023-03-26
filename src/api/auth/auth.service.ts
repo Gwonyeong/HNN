@@ -51,7 +51,7 @@ export class AuthService {
           socialLoginId,
         });
         await this.userRepository.Mysql.insertUser({
-          profilePicture,
+          profilePicture: profilePicture ? profilePicture : 'default.png',
         });
         const { appToken } = this.GroupJWT.insertJwtToken(authData);
         return { appToken };

@@ -41,7 +41,7 @@ export class PostsService {
       if (!findDetailPostData) {
         throw new BadRequestException('잘못된 접근입니다.');
       }
-      this.postsRepository.Mongo.createPostView(
+      await this.postsRepository.Mongo.createPostView(
         postId,
         userId ? userId : 'notLoggedInUser',
       );

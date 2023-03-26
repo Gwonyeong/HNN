@@ -18,8 +18,27 @@ export class UserRepository {
   ) {}
 
   public Mysql = {
-    findById: async (userId: number): Promise<User> => {
-      return this.userRepository.findOne({ where: { id: userId } });
+    findById: async (userId: string): Promise<any> => {
+      const findUserQuery = this.userRepository
+        .createQueryBuilder('user')
+        .select([
+          `user.id AS userId`,
+
+          `user.nickname AS userNickname`,
+
+          `user.MBTI AS userMBTI`,
+
+          `CASE WHEN user.profileImage IS NULL 
+          THEN '${process.env.AWS_S3_CLOUDFRONT_DOMAIN}${process.env.S3_AVATAR_PATH}${process.env.S3_AVATAR_DEFAULT_IMAGE}'
+          ELSE CONCAT('${process.env.AWS_S3_CLOUDFRONT_DOMAIN}${process.env.S3_AVATAR_PATH}', user.profileImage) 
+          END AS userProfileImage`,
+
+          `user.gender AS userGender`,
+          `user.role AS userRole`,
+        ])
+        .where('user.id = :userId', { userId });
+
+      return await findUserQuery.getRawOne();
     },
 
     insertUser: async (createUserDto: CreateUserDto) => {

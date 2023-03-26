@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
-import { CreateUserDto, FindUserDto } from './dto/user.dto';
+import { CreateUserDto } from './dto/user.dto';
 import {
   UpdateProfilePictureDto,
   UpdateRandomNickname,
   UpdateUserDto,
 } from './dto/request.user.dto';
 import { randPrefix } from './dto/user.rnadom.nickname.object';
+import { FindUserResponseDto } from './dto/response.user.dto';
 
 @Injectable()
 export class UsersService {
@@ -23,7 +24,7 @@ export class UsersService {
     };
   }
 
-  async findUserByUserId(userId: number): Promise<FindUserDto> {
+  async findUserByUserId(userId: string): Promise<FindUserResponseDto> {
     return await this.userRepository.Mysql.findById(userId);
   }
 

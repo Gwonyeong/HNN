@@ -19,7 +19,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { FindUserDto } from './dto/user.dto';
+import { FindUserResponseDto } from './dto/response.user.dto';
 import {
   ApiBearerAuth,
   ApiBody,
@@ -59,11 +59,15 @@ export class UsersController {
     return this.userService.findRandomNickname({ MBTI });
   }
 
-  @ApiOperation({ summary: '유저 정보 가져오기(완)' })
-  @ApiOkResponse({ type: FindUserDto })
+  @ApiOperation({
+    summary: '유저 정보 가져오기(0326)',
+    description: `0326: 유저정보 가져오기 유저 이미지 이름 변경`,
+  })
+  @ApiOkResponse({ type: FindUserResponseDto })
   @Get('/')
-  async findUserByUserId(@Req() req): Promise<FindUserDto> {
+  async findUserByUserId(@Req() req): Promise<FindUserResponseDto> {
     const { userId } = req.user;
+
     const userData = await this.userService.findUserByUserId(userId);
     return userData;
   }
@@ -114,7 +118,7 @@ export class UsersController {
       process.env.S3_AVATAR_PATH,
     );
     this.userService.updateUserProfile(userId, {
-      profilePicture: fileSavePath,
+      profileImage: fileSavePath,
     });
     return { success: true };
   }
