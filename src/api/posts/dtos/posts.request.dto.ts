@@ -1,5 +1,5 @@
 import { ParseIntPipe } from '@nestjs/common';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import { MBTI } from '@root/database/entites/enum/user.enum';
 import {
   IsAlpha,
@@ -18,9 +18,9 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CreateRequestPostDto {
-  @ApiProperty({ example: 'youtube uri', name: 'youtubeUri' })
-  @IsUrl()
+class RequestPostDto {
+  @ApiProperty({ example: 'only youtube URI' })
+  @IsString()
   uri: string;
 
   @ApiProperty({ example: 'postTitle writed for user' })
@@ -29,23 +29,21 @@ export class CreateRequestPostDto {
 
   @ApiProperty({ example: 'postDescription writed for user' })
   @IsString()
-  postDescription: string;
-}
+  postDescription?: string;
 
-export class FindPostFilterDto {
   @ApiProperty({
     example: 'recent',
-    description: 'recent : 최신순',
+    description: 'recent : 최신순, view : 조회순',
     required: false,
   })
-  order?: string = 'recent';
+  order?: string;
 
   @ApiProperty({
     example: 'DESC',
     description: 'DESC : 내림차순 ASC : 오름차순',
     required: false,
   })
-  sort?;
+  sort?: 'DESC' | 'ASC';
 
   @ApiProperty({
     example: 'ENFJ',
@@ -67,12 +65,23 @@ export class FindPostFilterDto {
   postIds?: number[];
 }
 
-export class UpdatePostDto {
-  @ApiProperty({ example: 'postTitle writed for user' })
-  @IsString()
-  postTitle: string;
+export class CreateRequestPostDto extends PickType(RequestPostDto, [
+  'postTitle',
+  `uri`,
+  `postDescription`,
+] as const) {}
 
-  @ApiProperty({ example: 'postDescription writed for user' })
-  @IsString()
-  postDescription: string;
-}
+export class UpdateRequestPostDto extends PickType(RequestPostDto, [
+  'postTitle',
+  `postDescription`,
+] as const) {}
+
+export class FindPostFilterDto extends PickType(RequestPostDto, [
+  'order',
+  `sort`,
+  `MBTI`,
+  `page`,
+  `limit`,
+  `keyword`,
+  `postIds`,
+] as const) {}

@@ -32,6 +32,7 @@ export class CheckLoginAuthGuard implements CanActivate {
       secret: process.env.SECRET_KEY,
     });
     const userData = await this.userRepository.Mysql.findById(token.id);
+    console.log(userData);
     request.user = {
       userId: userData.userId,
       nickname: userData.userNickname,

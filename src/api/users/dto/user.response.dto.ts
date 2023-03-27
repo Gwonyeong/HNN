@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import {
   IsEnum,
   IsMultibyte,
@@ -10,18 +10,12 @@ import {
 } from 'class-validator';
 import { MBTI, gender } from '@database/entites/enum/user.enum';
 
-export class randomNicknameResponseDto {
-  @ApiProperty({ example: '자랑스러운 ENFJ' })
-  nickname;
-}
-
-export class FindUserResponseDto {
+class ResponseUserDto {
   @ApiProperty({ example: 1 })
   userId: number;
 
   @ApiProperty({ example: 'nickname' })
   @IsString()
-  @Length(2, 12, { message: '닉네임은 2글자이상 12자 이하여야합니다.' })
   userNickname?: string;
 
   @ApiProperty({ description: '모두 대문자로', example: 'INFP' })
@@ -44,3 +38,19 @@ export class FindUserResponseDto {
   @ApiProperty({ description: 'user role' })
   userRole: string;
 }
+
+export class randomNicknameResponseDto {
+  @ApiProperty({ example: '자랑스러운 ENFJ' })
+  nickname;
+}
+
+export class FindUserResponseDto extends PickType(ResponseUserDto, [
+  `userId`,
+  `userNickname`,
+  `userMBTI`,
+  `userGender`,
+  `authId`,
+  `userProfileImage`,
+  `userRole`,
+  `userId`,
+]) {}

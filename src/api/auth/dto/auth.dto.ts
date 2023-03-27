@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import {
   IsAlpha,
   IsAlphanumeric,
@@ -41,13 +41,16 @@ class AuthDto {
 
   @IsString()
   role?: string = 'common';
+
+  //userId
+  user: number;
 }
 
-export class InsertAuthDto extends AuthDto {
-  email;
-  password?;
-  platform;
-  socialLoginId?;
-  role?;
-  user?;
-}
+export class InsertAuthDto extends PickType(AuthDto, [
+  'email',
+  'password',
+  'platform',
+  'socialLoginId',
+  'role',
+  'user',
+]) {}

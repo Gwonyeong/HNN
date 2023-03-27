@@ -13,8 +13,12 @@ import {
   MongoExceptionFilter,
   TypeOrmExceptionFilter,
 } from '@common/middlewares/error/error.middleware';
-import { FindPostFilterDto, UpdatePostDto } from './dtos/posts.request.dto';
+import {
+  FindPostFilterDto,
+  UpdateRequestPostDto,
+} from './dtos/posts.request.dto';
 import { PostView } from '@root/database/schema/postView.schema';
+import { ResponsePostListPageDto } from './dtos/posts.response.dto';
 
 const postRepositoryAlias = {
   postId: 'post.id AS postId',
@@ -193,7 +197,7 @@ export class PostsRepository {
       );
     },
 
-    updatePost: async (postId: number, updatePostDto: UpdatePostDto) => {
+    updatePost: async (postId: number, updatePostDto: UpdateRequestPostDto) => {
       await this.postRepository.update({ id: postId }, { ...updatePostDto });
     },
 

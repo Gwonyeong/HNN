@@ -1,5 +1,8 @@
 import { CommentsRepository } from './../comments/comments.repository';
-import { FindPostFilterDto, UpdatePostDto } from './dtos/posts.request.dto';
+import {
+  FindPostFilterDto,
+  UpdateRequestPostDto,
+} from './dtos/posts.request.dto';
 import { PostsRepository } from './posts.repository';
 import {
   BadRequestException,
@@ -12,6 +15,7 @@ import { ProcessUriService } from '@common/services/processUri.service';
 import { InsertPostDto, SearchPostDto } from './dtos/posts.dto';
 import { Post } from '@database/entites/post.entity';
 import { User } from '@root/database/entites/user.entity';
+import { ResponsePostListPageDto } from './dtos/posts.response.dto';
 
 @Injectable()
 export class PostsService {
@@ -53,7 +57,6 @@ export class PostsService {
     },
 
     findPostData: async (userId, findPostFilterDto: FindPostFilterDto) => {
-      console.log(findPostFilterDto);
       if (!findPostFilterDto.keyword) {
         return this.postsRepository.Mysql.findPost(userId, findPostFilterDto);
       }
@@ -87,7 +90,7 @@ export class PostsService {
         youtubeUri,
         channelId: youtubeItemsSnippet.channelId,
         youtubeTitle: youtubeItemsSnippet.title,
-        description: youtubeItemsSnippet.description,
+        youtubeDescription: youtubeItemsSnippet.description,
         channelTitle: youtubeItemsSnippet.channelTitle,
         publishedAt: youtubeItemsSnippet.publishedAt,
         channelThumbnail:
@@ -119,7 +122,7 @@ export class PostsService {
     updatePost: async (
       postId: number,
       userId: number,
-      updatePostDto: UpdatePostDto,
+      updatePostDto: UpdateRequestPostDto,
     ) => {
       const postData = await this.postsRepository.Mysql.findById(postId);
 

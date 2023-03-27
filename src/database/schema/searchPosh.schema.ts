@@ -9,10 +9,10 @@ export class SearchPost {
   postId: number;
 
   @Prop()
-  title: string;
+  postTitle: string;
 
   @Prop()
-  description: string;
+  postDescription: string;
 
   @Prop()
   tags: string[];

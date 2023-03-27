@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import {
   IsAlpha,
   IsAlphanumeric,
@@ -16,53 +16,59 @@ import {
 } from 'class-validator';
 import { Post } from '@database/entites/post.entity';
 
-class PostDto extends Post {
+export class PostDto {
   postId?: number;
 
   youtubeVideoId;
 
   youtubeVideoThumbnail;
 
+  youtubeTitle;
+
+  @ApiProperty({ example: 'only youtube URI' })
   @IsString()
   youtubeUri: string;
 
   @IsString()
   channelId: string;
 
+  @ApiProperty({ example: 'postTitle writed for user' })
   @IsString()
   postTitle: string;
 
   @IsString()
-  description?: string;
+  postDescription?: string;
+
+  @IsString()
+  youtubeDescription?: string;
 
   @IsString()
   channelTitle: string;
 
-  @IsDate()
-  publishedAt: Date;
+  publishedAt: string;
 
   @IsArray()
-  tags?: Array<string>;
+  tags?: string[];
 
   @IsString()
   channelThumbnail: string;
 }
 
-export class InsertPostDto {
-  youtubeVideoId;
-  youtubeVideoThumbnail: string;
-  channelId;
-  youtubeUri;
-  youtubeTitle: string;
-  description?;
-  channelTitle;
-  publishedAt;
-  channelThumbnail;
-}
+export class InsertPostDto extends PickType(PostDto, [
+  'youtubeVideoId',
+  'youtubeVideoThumbnail',
+  'channelId',
+  'youtubeUri',
+  'youtubeTitle',
+  'youtubeDescription',
+  'channelTitle',
+  'publishedAt',
+  'channelThumbnail',
+] as const) {}
 
-export class SearchPostDto {
-  postId: number;
-  title: string;
-  description?: string;
-  tags?: string[];
-}
+export class SearchPostDto extends PickType(PostDto, [
+  'postId',
+  'postTitle',
+  'postDescription',
+  'tags',
+]) {}

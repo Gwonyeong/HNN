@@ -35,7 +35,7 @@ import { HttpExceptionFilter } from '@common/middlewares/error/error.middleware'
 import {
   CreateRequestPostDto,
   FindPostFilterDto,
-  UpdatePostDto,
+  UpdateRequestPostDto,
 } from './dtos/posts.request.dto';
 import {
   ResponsePostListPageDto,
@@ -83,9 +83,9 @@ export class PostsController {
     );
     this.postsService.create.createPostOfSearchData({
       postId: createPostData.id,
-      title: postTitle,
+      postTitle: postData.postTitle,
 
-      description: youtubeData.description,
+      postDescription: postData.postDescription,
       tags,
     });
     return { msg: '등록이 완료되었습니다.' };
@@ -105,7 +105,7 @@ export class PostsController {
   async updateYoutubePost(
     @Req() req,
     @Param() param,
-    @Body() updatePostDto: UpdatePostDto,
+    @Body() updatePostDto: UpdateRequestPostDto,
   ) {
     const { userId } = req.user;
     const { postId } = param;
