@@ -77,7 +77,10 @@ export class PostsRepository {
           postRepositoryAlias.postYoutubeVideoId,
 
           postRepositoryAlias.userId,
-          postRepositoryAlias.userProfileImage,
+          `CASE WHEN LEFT(user.profileImage, 4) = 'HTTP' 
+          THEN user.profileImage 
+          ELSE CONCAT('${process.env.AWS_S3_CLOUDFRONT_DOMAIN}${process.env.S3_AVATAR_PATH}', user.profileImage)
+          END AS userProfileImage`,
           postRepositoryAlias.userNickname,
           postRepositoryAlias.userMBTI,
           postRepositoryAlias.userGender,
@@ -117,7 +120,10 @@ export class PostsRepository {
           postRepositoryAlias.countView,
 
           postRepositoryAlias.userId,
-          postRepositoryAlias.userProfileImage,
+          `CASE WHEN LEFT(user.profileImage, 4) = 'HTTP' 
+      THEN user.profileImage 
+      ELSE CONCAT('${process.env.AWS_S3_CLOUDFRONT_DOMAIN}${process.env.S3_AVATAR_PATH}', user.profileImage)
+      END AS userProfileImage`,
           postRepositoryAlias.userNickname,
           postRepositoryAlias.userMBTI,
           postRepositoryAlias.userGender,
