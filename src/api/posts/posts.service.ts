@@ -38,6 +38,13 @@ export class PostsService {
   };
 
   public find = {
+    findPostMaxPage: async (userId, findPostFilterDto: FindPostFilterDto) => {
+      return await this.postsRepository.Mysql.findMaxPageNumber(
+        userId,
+        findPostFilterDto,
+      );
+    },
+
     findDetailPostData: async (postId, userId) => {
       const findDetailPostData =
         await this.postsRepository.Mysql.findDetailPost(postId);

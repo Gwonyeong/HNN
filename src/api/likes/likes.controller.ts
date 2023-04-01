@@ -27,7 +27,7 @@ export class LikesController {
   constructor(private likesService: LikesService) {}
 
   @ApiOperation({
-    summary: '좋아요 기능 (3월 22일 수정)',
+    summary: '좋아요 기능 (4월 1일 버그 수정)',
     description: '좋아요 등록 ,좋아요를 한 상태면 취소',
   })
   @Post('/:postId')

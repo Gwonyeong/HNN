@@ -23,7 +23,8 @@ export class LikesRepository {
       return await this.likeRepository.findOne({
         where: {
           // user: userIdAndPostIdDTO.userId,
-          post: userIdAndPostIdDTO.postId,
+          post: { id: userIdAndPostIdDTO.postId },
+          user: { id: userIdAndPostIdDTO.userId },
         },
       });
     },

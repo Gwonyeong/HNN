@@ -92,6 +92,25 @@ export class PostsRepository {
       return await findPostDetailDataQuery.getRawMany();
     },
 
+    findMaxPageNumber: async (userId, findPostFilterDto: FindPostFilterDto) => {
+      const findPostMaxPageQuery = this.postRepository
+        .createQueryBuilder('post')
+        .select(['COUNT ( post.id) AS maxPageNumber'])
+        .innerJoin('post.user', 'user');
+
+      if (findPostFilterDto.MBTI) {
+        findPostMaxPageQuery.where('user.MBTI = :MBTI', {
+          MBTI: findPostFilterDto.MBTI,
+        });
+      }
+      if (findPostFilterDto.postIds) {
+        findPostMaxPageQuery.where(`post.id LIKE :postIds`, {
+          postIds: findPostFilterDto.postIds,
+        });
+      }
+      return await findPostMaxPageQuery.getRawMany();
+    },
+
     findPost: async (userId, findPostFilterDto: FindPostFilterDto) => {
       // post테이블에 countComment와 countLike를 넣는게 더 효율적이겠지만 서브쿼리 연습을 위해 아래와 같이 구현
       const findCommentCountSubQuery = this.postRepository

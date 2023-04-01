@@ -139,6 +139,23 @@ export class notLoggedInPostsController {
   constructor(private postsService: PostsService) {}
 
   @ApiOperation({
+    summary: '맥스 페이지 넘버(4월 1일)',
+    description: `총 페이지의 갯수`,
+  })
+  @Get('/page')
+  async findMaxPageNumber(
+    @Req() req,
+    @Query() postFilterDto: FindPostFilterDto,
+  ) {
+    const userId = req?.user?.userId;
+    const postMaxPageNumberData = await this.postsService.find.findPostMaxPage(
+      userId,
+      postFilterDto,
+    );
+    return postMaxPageNumberData;
+  }
+
+  @ApiOperation({
     summary: '리스트 페이지 (3월 26일 수정)',
     description: `0321 필터기능 구현 
     <br> 0323 검색기능 구현

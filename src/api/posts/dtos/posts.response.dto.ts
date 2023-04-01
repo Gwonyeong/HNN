@@ -71,6 +71,12 @@ class ResponsePostDto {
     description: '조회수 (로그인을 한 유저, 안한 유저 모두 체크 ,중복 허용)',
   })
   postView: number;
+
+  @ApiProperty({
+    example: '4',
+    description: '필터를 거친 총 페이지 갯수',
+  })
+  maxPageNumber: number;
 }
 
 export class ResponsePostListPageDto extends PickType(ResponsePostDto, [
