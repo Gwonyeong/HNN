@@ -6,9 +6,10 @@
 - [TypeORM docs](https://typeorm.biunav.com/en/)
 
 - [구현 방안](https://olive-barber-595.notion.site/5ef7010df1b84cabb312ea8738dff0da)
-- 
+- [Jest docs](https://jestjs.io/docs/using-matchers)
 -
-- 
+-
+
 ## 목표
 
 - DB 설계
