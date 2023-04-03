@@ -62,3 +62,27 @@ describe('findPostData', () => {
     ).toBeInstanceOf(Array);
   });
 });
+
+describe('findDetailPostData', () => {
+  it(`Should not exist Error, Login user`, async () => {
+    const userId = 1;
+    const findPostFilterDto: FindPostFilterDto = {
+      page: 1,
+      limit: 20,
+    };
+    expect(
+      await service.find.findPostData(userId, findPostFilterDto),
+    ).toBeInstanceOf(Array);
+  });
+
+  it(`Should not exist Error, not LoggedIn user`, async () => {
+    const userId = undefined;
+    const findPostFilterDto: FindPostFilterDto = {
+      page: 1,
+      limit: 20,
+    };
+    expect(
+      await service.find.findPostData(userId, findPostFilterDto),
+    ).toBeInstanceOf(Array);
+  });
+});
